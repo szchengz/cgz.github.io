@@ -43,7 +43,7 @@
 <div class="intrude-less">
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
-			<img src="/images/logo.jpg" class="js-avatar">
+			<img src="/assets/images/logo.jpg" class="js-avatar">
 		</a>
 		<hgroup>
 		  <h1 class="header-author"><a href="/">陈国中</a></h1>
@@ -103,7 +103,7 @@
 	<div class="intrude-less">
 		<header id="header" class="inner">
 			<div class="profilepic">
-				<img src="/images/logo.jpg" class="js-avatar">
+				<img src="/assets/images/logo.jpg" class="js-avatar">
 			</div>
 			<hgroup>
 			  <h1 class="header-author js-header-author">陈国中</h1>
@@ -264,6 +264,113 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/07/28/hello-world/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-hexo-use" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/31/hexo-use/">&#39;在Github上搭建Hexo博客的简要教程&#39;</a>
+    </h1>
+  
+
+        
+        <a href="/2017/07/31/hexo-use/" class="archive-article-date">
+  	<time datetime="2017-07-31T14:18:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-31</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="1-前言"><a href="#1-前言" class="headerlink" title="1.前言"></a>1.前言</h1><p>前提环境</p>
+<blockquote>
+<p>安装 NodeJs （安装过程略，注意版本不要太低，我开始的时候弄了半天没成功，后面升级了NodeJs的版本就搞定了）</p>
+<p>安装 Git</p>
+</blockquote>
+<p>将操作分成两部分来做。1）、Github的配置；2）Hexo搭建博客系统</p>
+<h1 id="2-Github的配置"><a href="#2-Github的配置" class="headerlink" title="2.Github的配置"></a>2.Github的配置</h1><h1 id="3-Hexo描建博客系统"><a href="#3-Hexo描建博客系统" class="headerlink" title="3.Hexo描建博客系统"></a>3.Hexo描建博客系统</h1><h2 id="3-1-安装Hexo"><a href="#3-1-安装Hexo" class="headerlink" title="3.1 安装Hexo"></a>3.1 安装Hexo</h2><pre><code>$ cd d:/hexo
+$ npm install hexo-cli -g
+$ hexo init blog
+$ cd blog
+$ npm install
+$ hexo g # 或者hexo generate
+$ hexo s # 或者hexo server，可以在http://localhost:4000/ 查看
+</code></pre><p>到这里Hexo的安装已经完成。打开浏览器访问<a href="http://localhost:4000即可看到效果。" target="_blank" rel="noopener">http://localhost:4000即可看到效果。</a></p>
+<p>不过这个主题的效果实在不怎么好看。所以我们要给他换一个主题。</p>
+<h2 id="3-2-安装Hexo的主题"><a href="#3-2-安装Hexo的主题" class="headerlink" title="3.2 安装Hexo的主题"></a>3.2 安装Hexo的主题</h2><h3 id="下载主题"><a href="#下载主题" class="headerlink" title="下载主题"></a>下载主题</h3><pre><code>git clone https://github.com/litten/hexo-theme-yilia.git themes/yilia
+</code></pre><p>这里用到的主题是yilia，还有另外两个很不错的主题</p>
+<pre><code>git clone https://github.com/iTimeTraveler/hexo-theme-hiker.git themes/hiker
+
+git clone https://github.com/Haojen/hexo-theme-Anisina.git themes/anisina
+</code></pre><p>修改_config.yml文件中的配置，把主题修改为刚刚下载的主题名称</p>
+<pre><code>theme: yilia
+</code></pre><p>使用yilia主题还需要另外安装两个模块(不然浏览所有文章时会报错）</p>
+<pre><code>npm i hexo-generator-json-content --save
+
+npm install hexo-deployer-git --save
+</code></pre><p>修改_config.yml文件增加以下内容（yilia主题的所有文章需要用到）</p>
+<p><code>jsonContent: 
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: false
+    tags: true</code></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/07/31/hexo-use/">展开全文 >></a>
         </p>
       
 
