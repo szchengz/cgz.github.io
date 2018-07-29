@@ -156,72 +156,6 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-my-first-blog" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/28/my-first-blog/">&#39;my-first-blog&#39;</a>
-    </h1>
-  
-
-        
-        <a href="/2018/07/28/my-first-blog/" class="archive-article-date">
-  	<time datetime="2018-07-28T06:59:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="1-架构"><a href="#1-架构" class="headerlink" title="1.架构"></a>1.架构</h1><h2 id="1-1-设备"><a href="#1-1-设备" class="headerlink" title="1.1 设备"></a>1.1 设备</h2><p><a href="http://www.jianshu.com" target="_blank" rel="noopener">简书</a></p>
-<blockquote>
-<p>一盏灯， 一片昏黄； 一简书， 一杯淡茶。 守着那</p>
-</blockquote>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/07/28/my-first-blog/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -300,7 +234,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/31/hexo-use/">&#39;在Github上搭建Hexo博客的简要教程&#39;</a>
+      <a class="article-title" href="/2017/07/31/hexo-use/">在Github上搭建Hexo博客的简要教程</a>
     </h1>
   
 
@@ -340,24 +274,11 @@ git clone https://github.com/Haojen/hexo-theme-Anisina.git themes/anisina
 
 npm install hexo-deployer-git --save
 </code></pre><p>修改_config.yml文件增加以下内容（yilia主题的所有文章需要用到）</p>
-<p><code>jsonContent: 
-  meta: false
-  pages: false
-  posts:
-    title: true
-    date: true
-    path: true
-    text: false
-    raw: false
-    content: false
-    slug: false
-    updated: false
-    comments: false
-    link: false
-    permalink: false
-    excerpt: false
-    categories: false
-    tags: true</code></p>
+<p>jsonContent:<br>  meta: false<br>  pages: false<br>  posts:<br>title: true<br>date: true<br>path: true<br>text: false<br>raw: false<br>content: false<br>slug: false<br>updated: false<br>comments: false<br>link: false<br>permalink: false<br>excerpt: false<br>categories: false<br>tags: true  </p>
+<p>修改_config.yml文件，将Github的地址绑定在这里，可通过 hexo d命令将文章发布到Github上面<br><code>deploy:
+  type: git
+  repository: git@github.com:szchengz/szchengz.github.io.git
+  branch: master</code></p>
 
       
 
@@ -366,6 +287,25 @@ npm install hexo-deployer-git --save
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">github</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">yilia</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -491,6 +431,22 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">github,hexo,yilia</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">github</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">yilia</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>
