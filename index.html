@@ -156,6 +156,53 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-boostnote" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        {"folders":[{"key":"1b7f11376790236eb960","color":"#1278BD","name":"Default"}],"version":"1.0"}
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/08/04/boostnote/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -274,11 +321,8 @@ git clone https://github.com/Haojen/hexo-theme-Anisina.git themes/anisina
 
 npm install hexo-deployer-git --save
 </code></pre><p>修改_config.yml文件增加以下内容（yilia主题的所有文章需要用到）</p>
-<p>jsonContent:<br>  meta: false<br>  pages: false<br>  posts:<br>title: true<br>date: true<br>path: true<br>text: false<br>raw: false<br>content: false<br>slug: false<br>updated: false<br>comments: false<br>link: false<br>permalink: false<br>excerpt: false<br>categories: false<br>tags: true  </p>
-<p>修改_config.yml文件，将Github的地址绑定在这里，可通过 hexo d命令将文章发布到Github上面<br><code>deploy:
-  type: git
-  repository: git@github.com:szchengz/szchengz.github.io.git
-  branch: master</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">jsonContent:</span><br><span class="line">  meta: false</span><br><span class="line">  pages: false</span><br><span class="line">  posts:</span><br><span class="line">		title: true</span><br><span class="line">		date: true</span><br><span class="line">		path: true</span><br><span class="line">		text: false</span><br><span class="line">		raw: false</span><br><span class="line">		content: false</span><br><span class="line">		slug: false</span><br><span class="line">		updated: false</span><br><span class="line">		comments: false</span><br><span class="line">		link: false</span><br><span class="line">		permalink: false</span><br><span class="line">		excerpt: false</span><br><span class="line">		categories: false</span><br><span class="line">		tags: true</span><br></pre></td></tr></table></figure>
+<p>修改_config.yml文件，将Github的地址绑定在这里，可通过 hexo d命令将文章发布到Github上面<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repository: git@github.com:szchengz/szchengz.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure></p>
 
       
 
@@ -431,10 +475,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">github,hexo,yilia</a>
-              </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">github</a>
