@@ -6,16 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://szchengz.github.io">
-  <title>&#39;spark-fun-01&#39; | 陈国中的博客空间</title>
+  <title>spark的RDD的转换操作 | 陈国中的博客空间</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="article">
-<meta property="og:title" content="&#39;spark-fun-01&#39;">
+  <meta name="description" content="1. mapmap是对RDD中的每个元素都执行一个指定的函数来产生一个新的RDD； RDD之间的元素是一对一关系；1234val rdd1 = sc.parallelize(1 to 9, 3)val rdd2 = rdd1.map(x =&amp;gt; x*2)rdd2.collectres3: Array[Int] = Array(2, 4, 6, 8, 10, 12, 14, 16, 18) 2.">
+<meta name="keywords" content="Spark,算子">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spark的RDD的转换操作">
 <meta property="og:url" content="https://szchengz.github.io/2018/08/07/spark-fun-01/index.html">
 <meta property="og:site_name" content="陈国中的博客空间">
+<meta property="og:description" content="1. mapmap是对RDD中的每个元素都执行一个指定的函数来产生一个新的RDD； RDD之间的元素是一对一关系；1234val rdd1 = sc.parallelize(1 to 9, 3)val rdd2 = rdd1.map(x =&amp;gt; x*2)rdd2.collectres3: Array[Int] = Array(2, 4, 6, 8, 10, 12, 14, 16, 18) 2.">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-07T04:30:42.938Z">
+<meta property="og:updated_time" content="2018-08-07T05:22:24.769Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="&#39;spark-fun-01&#39;">
+<meta name="twitter:title" content="spark的RDD的转换操作">
+<meta name="twitter:description" content="1. mapmap是对RDD中的每个元素都执行一个指定的函数来产生一个新的RDD； RDD之间的元素是一对一关系；1234val rdd1 = sc.parallelize(1 to 9, 3)val rdd2 = rdd1.map(x =&amp;gt; x*2)rdd2.collectres3: Array[Int] = Array(2, 4, 6, 8, 10, 12, 14, 16, 18) 2.">
   
     <link rel="alternative" href="/atom.xml" title="陈国中的博客空间" type="application/atom+xml">
   
@@ -162,7 +166,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      &#39;spark-fun-01&#39;
+      spark的RDD的转换操作
     </h1>
   
 
@@ -175,7 +179,29 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h2 id="1-map"><a href="#1-map" class="headerlink" title="1. map"></a>1. map</h2><p>map是对RDD中的每个元素都执行一个指定的函数来产生一个新的RDD； RDD之间的元素是一对一关系；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">val rdd1 = sc.parallelize(1 to 9, 3)</span><br><span class="line">val rdd2 = rdd1.map(x =&gt; x*2)</span><br><span class="line">rdd2.collect</span><br><span class="line">res3: Array[Int] = Array(2, 4, 6, 8, 10, 12, 14, 16, 18)</span><br></pre></td></tr></table></figure></p>
+<h2 id="2-filter"><a href="#2-filter" class="headerlink" title="2. filter"></a>2. filter</h2><p>Filter是对RDD元素进行过滤；返回一个新的数据集，是经过func函数后返回值为true的原元素组成；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">val rdd3 = rdd2. filter (x =&gt; x&gt; 10)</span><br><span class="line">rdd3.collect</span><br><span class="line">res4: Array[Int] = Array(12, 14, 16, 18)</span><br></pre></td></tr></table></figure></p>
+<h2 id="3-flatMap"><a href="#3-flatMap" class="headerlink" title="3.flatMap"></a>3.flatMap</h2><p>flatMap类似于map，但是每一个输入元素，会被映射为0到多个输出元素（因此， func函数的返回值是一个Seq，而不是单一元素），<br>RDD之间的元素是一对多关系；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val rdd4 = rdd3. flatMap (x =&gt; x to 20)</span><br><span class="line">res5: Array[Int] = Array(12, 13, 14, 15, 16, 17, 18, 19, 20, 14, 15, 16, 17, 18, 19, 20, 16, 17, 18, 19, 20, 18, 19, 20)</span><br></pre></td></tr></table></figure>
+<h2 id="4-mapPartitions"><a href="#4-mapPartitions" class="headerlink" title="4. mapPartitions"></a>4. mapPartitions</h2><p>mapPartitions是map的一个变种。 map的输入函数是应用于RDD中每个元素，而mapPartitions的输入函数是每个分区的数据，也就是<br>把每个分区中的内容作为整体来处理的。</p>
+<h2 id="5-mapPartitionsWithIndex"><a href="#5-mapPartitionsWithIndex" class="headerlink" title="5.mapPartitionsWithIndex"></a>5.mapPartitionsWithIndex</h2><p>mapPartitionsWithSplit与mapPartitions的功能类似， 只是多传入split index而已，所有func 函数必需是 (Int, Iterator<t>) =&gt;<br>Iterator<u> 类型。</u></t></p>
+<h2 id="6-sample"><a href="#6-sample" class="headerlink" title="6.sample"></a>6.sample</h2><p>sample(withReplacement,fraction,seed)是根据给定的随机种子seed，随机抽样出数量为frac的数据。 withReplacement：是否放回抽<br>样； fraction：比例， 0.1表示10% ；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">val a = sc.parallelize(1 to 10000, 3)</span><br><span class="line">a.sample(false, 0.1, 0).count</span><br><span class="line">res24: Long = 960</span><br></pre></td></tr></table></figure></p>
+<h2 id="7-union"><a href="#7-union" class="headerlink" title="7.union"></a>7.union</h2><p>union(otherDataset)是数据合并，返回一个新的数据集，由原数据集和otherDataset联合而成。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">val rdd8 = rdd1.union(rdd3)</span><br><span class="line">rdd8.collect</span><br><span class="line">res14: Array[Int] = Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 14, 16, 18)</span><br></pre></td></tr></table></figure></p>
+<h3 id="8-intersection"><a href="#8-intersection" class="headerlink" title="8.intersection"></a>8.intersection</h3><p>intersection(otherDataset)是数据交集，返回一个新的数据集，包含两个数据集的交集数据；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">val rdd9 = rdd8.intersection(rdd1)</span><br><span class="line">rdd9.collect</span><br><span class="line">res16: Array[Int] = Array(6, 1, 7, 8, 2, 3, 9, 4, 5)</span><br></pre></td></tr></table></figure></p>
+<h3 id="9-distinct"><a href="#9-distinct" class="headerlink" title="9.distinct"></a>9.distinct</h3><p>distinct([numTasks]))是数据去重，返回一个数据集，是对两个数据集去除重复数据， numTasks参数是设置任务并行数量。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">val rdd10 = rdd8.union(rdd9).distinct</span><br><span class="line">rdd10.collect</span><br><span class="line">res19: Array[Int] = Array(12, 1, 14, 2, 3, 4, 16, 5, 6, 18, 7, 8, 9)</span><br></pre></td></tr></table></figure></p>
+<h3 id="10-groupByKey"><a href="#10-groupByKey" class="headerlink" title="10.groupByKey"></a>10.groupByKey</h3><p>groupByKey([numTasks])是数据分组操作，在一个由（ K,V）对组成的数据集上调用，返回一个（ K,Seq[V])对的数据集。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">val rdd0 = sc.parallelize(Array((1,1), (1,2) , (1,3) , (2,1) , (2,2) , (2,3)), 3)</span><br><span class="line">val rdd11 = rdd0.groupByKey()</span><br><span class="line">rdd11.collect</span><br><span class="line">res33: Array[(Int, Iterable[Int])] = Array((1,ArrayBuffer(1, 2, 3)), (2,ArrayBuffer(1, 2, 3)))</span><br></pre></td></tr></table></figure>
+<h3 id="11-reduceByKey"><a href="#11-reduceByKey" class="headerlink" title="11.reduceByKey"></a>11.reduceByKey</h3><p>reduceByKey(func, [numTasks])是数据分组聚合操作，在一个（ K,V)对的数据集上使用，返回一个（ K,V）对的数据集， key相同的值，<br>都被使用指定的reduce函数聚合到一起。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">val rdd12 = rdd0.reduceByKey((x,y) =&gt; x + y)</span><br><span class="line">rdd12.collect</span><br><span class="line">res34: Array[(Int, Int)] = Array((1,6), (2,6))</span><br></pre></td></tr></table></figure></p>
+<h3 id="12-aggregateByKey"><a href="#12-aggregateByKey" class="headerlink" title="12 aggregateByKey"></a>12 aggregateByKey</h3><p>aggreateByKey(zeroValue: U)(seqOp: (U, T)=&gt; U, combOp: (U, U) =&gt;U) 和reduceByKey的不同在于， reduceByKey输入输出都是(K,<br>V)，而aggreateByKey输出是(K,U)，可以不同于输入(K, V) ， aggreateByKey的三个参数：<br>zeroValue: U，初始值，比如空列表{} ；<br>seqOp: (U,T)=&gt; U， seq操作符，描述如何将T合并入U，比如如何将item合并到列表 ；<br>combOp: (U,U) =&gt;U， comb操作符，描述如果合并两个U，比如合并两个列表 ；<br>所以aggreateByKey可以看成更高抽象的，更灵活的reduce或group 。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">val z = sc.parallelize(List(1,2,3,4,5,6), 2)</span><br><span class="line">z.aggreate(0)(math.max(_, _), _ + _)</span><br><span class="line">res40: Int = 9</span><br><span class="line">val z = sc.parallelize(List((1, 3), (1, 2), (1, 4), (2, 3)))</span><br><span class="line">z.aggregateByKey(0)(math.max(_, _), _ + _)</span><br><span class="line">res2: Array[(Int, Int)] = Array((2,3), (1,9))</span><br></pre></td></tr></table></figure>
+<h3 id="13-combineByKey"><a href="#13-combineByKey" class="headerlink" title="13.combineByKey"></a>13.combineByKey</h3><p>combineByKey是对RDD中的数据集按照Key进行聚合操作。聚合操作的逻辑是通过自定义函数提供给combineByKey。<br>combineByKey<a href="createCombiner: (V" target="_blank" rel="noopener">C</a> ⇒ C, mergeValue: (C, V) ⇒ C, mergeCombiners: (C, C)<br>⇒ C, numPartitions: Int):RDD[(K, C)]把(K,V) 类型的RDD转换为(K,C)类型的RDD， C和V可以不一样。 combineByKey三个参数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">val data = Array((1, 1.0), (1, 2.0), (1, 3.0), (2, 4.0), (2, 5.0), (2, 6.0))</span><br><span class="line">val rdd = sc.parallelize(data, 2)</span><br><span class="line">val combine1 = rdd.combineByKey(createCombiner = (v:Double) =&gt; (v:Double, 1),</span><br><span class="line">mergeValue = (c:(Double, Int), v:Double) =&gt; (c._1 + v, c._2 + 1),</span><br><span class="line">mergeCombiners = (c1:(Double, Int), c2:(Double, Int)) =&gt; (c1._1 + c2._1, c1._2 + c2._2),</span><br><span class="line">numPartitions = 2 )</span><br><span class="line">combine1.collect</span><br><span class="line">res0: Array[(Int, (Double, Int))] = Array((2,(15.0,3)), (1,(6.0,3)))</span><br></pre></td></tr></table></figure></p>
+<h3 id="14-sortByKey"><a href="#14-sortByKey" class="headerlink" title="14.sortByKey"></a>14.sortByKey</h3><p>sortByKey([ascending],[numTasks])是排序操作，对(K,V)类型的数据按照K进行排序，其中K需要实现Ordered方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">val rdd14 = rdd0.sortByKey()</span><br><span class="line">rdd14.collect</span><br><span class="line">res36: Array[(Int, Int)] = Array((1,1), (1,2), (1,3), (2,1), (2,2), (2,3))</span><br></pre></td></tr></table></figure>
+<h3 id="15-join"><a href="#15-join" class="headerlink" title="15.join"></a>15.join</h3><p>join(otherDataset, [numTasks])是连接操作，将输入数据集(K,V)和另外一个数据集(K,W)进行Join， 得到(K, (V,W))；该操作是对于相同K<br>的V和W集合进行笛卡尔积 操作，也即V和W的所有组合；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">val rdd15 = rdd0.join(rdd0)</span><br><span class="line">rdd15.collect</span><br><span class="line">res37: Array[(Int, (Int, Int))] = Array((1,(1,1)), (1,(1,2)), (1,(1,3)), (1,(2,1)), (1,(2,2)), (1,(2,3)), (1,(3,1)), (1,(3,2)), (1,(3,3)), (2,(1,1)),</span><br><span class="line">(2,(1,2)), (2,(1,3)), (2,(2,1)), (2,(2,2)), (2,(2,3)), (2,(3,1)), (2,(3,2)), (2,(3,3)))</span><br></pre></td></tr></table></figure></p>
+<p>连接操作除join 外，还有左连接、右连接、全连接操作函数： leftOuterJoin、 rightOuterJoin、 fullOuterJoin。</p>
+<h3 id="16-cogroup"><a href="#16-cogroup" class="headerlink" title="16.cogroup"></a>16.cogroup</h3><p>cogroup(otherDataset, [numTasks])是将输入数据集(K, V)和另外一个数据集(K, W)进行cogroup，得到一个格式为(K, Seq[V], Seq[W])<br>的数据集。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">val rdd16 = rdd0.cogroup(rdd0)</span><br><span class="line">rdd16.collect</span><br><span class="line">res38: Array[(Int, (Iterable[Int], Iterable[Int]))] = Array((1,(ArrayBuffer(1, 2, 3),ArrayBuffer(1, 2, 3))), (2,(ArrayBuffer(1, 2,</span><br><span class="line">3),ArrayBuffer(1, 2, 3))))</span><br></pre></td></tr></table></figure></p>
+<h3 id="17-cartesian"><a href="#17-cartesian" class="headerlink" title="17.cartesian"></a>17.cartesian</h3><p>cartesian(otherDataset)是做笛卡尔积：对于数据集T和U 进行笛卡尔积操作， 得到(T, U)格式的数据集。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">val rdd17 = rdd1.cartesian(rdd3)</span><br><span class="line">rdd17.collect</span><br><span class="line">res39: Array[(Int, Int)] = Array((1,12), (2,12), (3,12), (1,14), (1,16), (1,18), (2,14), (2,16), (2,18), (3,14), (3,16), (3,18), (4,12), (5,12),</span><br><span class="line">(6,12), (4,14), (4,16), (4,18), (5,14), (5,16), (5,18), (6,14), (6,16), (6,18), (7,12), (8,12), (9,12), (7,14), (7,16), (7,18), (8,14), (8,16),</span><br><span class="line">(8,18), (9,14), (9,16), (9,18))</span><br></pre></td></tr></table></figure></p>
+
       
 
       
@@ -204,6 +230,21 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算子</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -267,6 +308,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2018/08/07/spark-fun-02/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          spark RDD的行动操作
+        
+      </div>
+    </a>
   
   
     <a href="/2018/08/07/jvm-01/" id="article-nav-older" class="article-nav-link-wrap">
@@ -405,6 +455,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">yilia</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Spark</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算子</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Spark Action</a>
               </li>
             
             <div class="clearfix"></div>
