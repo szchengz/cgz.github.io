@@ -6,15 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://szchengz.github.io">
-  <title>陈国中的博客空间</title>
+  <title>分布式消息系统Kafka简介 | 陈国中的博客空间</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="陈国中的博客空间">
-<meta property="og:url" content="https://szchengz.github.io/index.html">
+  <meta name="description" content="Kafka简介Kafka是分布式发布-订阅消息系统。它最初由LinkedIn公司开发，之后成为Apache项目的一部分。Kafka是一个分布式的，可划分的，冗余备份的持久性的日志服务。它主要用于处理活跃的流式数据。 在大数据系统中，常常会碰到一个问题，整个大数据是由各个子系统组成，数据需要在各个子系统中高性能，低延迟的不停流转。传统的企业消息系统并不是非常适合大规模的数据处理。为了已在同时搞定在线">
+<meta name="keywords" content="Kafka">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分布式消息系统Kafka简介">
+<meta property="og:url" content="https://szchengz.github.io/2017/08/09/bigdata-kafka-base03/index.html">
 <meta property="og:site_name" content="陈国中的博客空间">
+<meta property="og:description" content="Kafka简介Kafka是分布式发布-订阅消息系统。它最初由LinkedIn公司开发，之后成为Apache项目的一部分。Kafka是一个分布式的，可划分的，冗余备份的持久性的日志服务。它主要用于处理活跃的流式数据。 在大数据系统中，常常会碰到一个问题，整个大数据是由各个子系统组成，数据需要在各个子系统中高性能，低延迟的不停流转。传统的企业消息系统并不是非常适合大规模的数据处理。为了已在同时搞定在线">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="https://szchengz.github.io/assets/img/bigdata-kafka-a01.png">
+<meta property="og:image" content="https://szchengz.github.io/assets/img/bigdata-kafka-a02.png">
+<meta property="og:updated_time" content="2018-08-09T03:17:54.126Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="陈国中的博客空间">
+<meta name="twitter:title" content="分布式消息系统Kafka简介">
+<meta name="twitter:description" content="Kafka简介Kafka是分布式发布-订阅消息系统。它最初由LinkedIn公司开发，之后成为Apache项目的一部分。Kafka是一个分布式的，可划分的，冗余备份的持久性的日志服务。它主要用于处理活跃的流式数据。 在大数据系统中，常常会碰到一个问题，整个大数据是由各个子系统组成，数据需要在各个子系统中高性能，低延迟的不停流转。传统的企业消息系统并不是非常适合大规模的数据处理。为了已在同时搞定在线">
+<meta name="twitter:image" content="https://szchengz.github.io/assets/img/bigdata-kafka-a01.png">
   
     <link rel="alternative" href="/atom.xml" title="陈国中的博客空间" type="application/atom+xml">
   
@@ -132,535 +140,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-tools-atom-01" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-bigdata-kafka-base03" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/08/tools-atom-01/">ATOM常用插件推荐</a>
-    </h1>
-  
-
-        
-        <a href="/2018/08/08/tools-atom-01/" class="archive-article-date">
-  	<time datetime="2018-08-08T00:46:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="simplified-chinese-menu"><a href="#simplified-chinese-menu" class="headerlink" title="simplified-chinese-menu"></a>simplified-chinese-menu</h1><p>ATOM的汉化插件</p>
-<h1 id="file-icons"><a href="#file-icons" class="headerlink" title="file-icons"></a>file-icons</h1><p>文件图标美化</p>
-<h1 id="atom-beautify"><a href="#atom-beautify" class="headerlink" title="atom-beautify"></a>atom-beautify</h1><p>代码格式一键美化</p>
-<h1 id="last-cursor-position"><a href="#last-cursor-position" class="headerlink" title="last-cursor-position"></a>last-cursor-position</h1><p>光标自由切换到上一次/下一次编辑位置</p>
-<h1 id="minimap"><a href="#minimap" class="headerlink" title="minimap"></a>minimap</h1><p>代码小地图</p>
-<h1 id="sync-settings"><a href="#sync-settings" class="headerlink" title="sync-settings"></a>sync-settings</h1><p>插件备份、按键绑定备份</p>
-<h1 id="activate-power-mode"><a href="#activate-power-mode" class="headerlink" title="activate-power-mode"></a>activate-power-mode</h1><p>输入时有震撼效果</p>
-<h1 id="tortoise-svn"><a href="#tortoise-svn" class="headerlink" title="tortoise-svn"></a>tortoise-svn</h1><p>svn插件</p>
-<h1 id="atom-terminal-panel"><a href="#atom-terminal-panel" class="headerlink" title="atom-terminal-panel"></a>atom-terminal-panel</h1><p>atom内置命令行工具</p>
-<h1 id="Git-github"><a href="#Git-github" class="headerlink" title="Git/github"></a>Git/github</h1><p>　　　git-plus—在 Atom 里面执行 Git 命令，不用来回切换终端和编辑器<br>　　　git-control—git面板<br>　　　tree-view-git-status—文件夹git状态<br>　　　gist-it—快速分享代码到gist.github.com<br>　　　这里写图片描述<br>　　git-log<br>　　图形化git提交记录<br>这里写图片描述</p>
-<h1 id="markdown"><a href="#markdown" class="headerlink" title="markdown"></a>markdown</h1><p>markdown-preview-plus markdown预览</p>
-<h1 id="vim-mode"><a href="#vim-mode" class="headerlink" title="vim-mode"></a>vim-mode</h1><p>支持vim模式</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Atom</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/工具//" class="article-tag-list-link color3">工具</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/08/tools-atom-01/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-skill-communication" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/07/skill-communication/">有效沟通笔记</a>
-    </h1>
-  
-
-        
-        <a href="/2018/08/07/skill-communication/" class="archive-article-date">
-  	<time datetime="2018-08-07T07:48:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="0-概述"><a href="#0-概述" class="headerlink" title="0.概述"></a>0.概述</h1><h1 id="1-为何我们不会好好沟通"><a href="#1-为何我们不会好好沟通" class="headerlink" title="1.为何我们不会好好沟通"></a>1.为何我们不会好好沟通</h1><h2 id="三种常见认知偏差"><a href="#三种常见认知偏差" class="headerlink" title="三种常见认知偏差"></a>三种常见认知偏差</h2><h3 id="1）基本归因错误"><a href="#1）基本归因错误" class="headerlink" title="1）基本归因错误"></a>1）基本归因错误</h3><p>我们往往将行为归因于人的性格和态度，而忽视、或者不去了解外部的环境因素。</p>
-<h3 id="2）行动者-观察者偏差"><a href="#2）行动者-观察者偏差" class="headerlink" title="2）行动者-观察者偏差"></a>2）行动者-观察者偏差</h3><blockquote>
-<p>举个例子，你上班迟到是因为懒，我上班迟到是因为压力大；你忘了订机票是因为不负责任，我忘了订机票是工作太忙。典型的双重标准。</p>
-<p>如果我们是行动者，我们倾向于把自己的行为归因于外部环境；如果我们是观察者，则会将其他人（行动者）的行为归因于性格和态度。</p>
-</blockquote>
-<h3 id="3-自利偏差"><a href="#3-自利偏差" class="headerlink" title="3.自利偏差"></a>3.自利偏差</h3><blockquote>
-<p>以和朋友打羽毛球为例，如果你赢了，你会觉得是自己水平比较高；如果你输了，你会觉得是状态不好或者运气不佳。</p>
-<p>在进行归因时，人们尽量使自己处于有利的地位，将积极的结果归因于自己，将消极的结果归因于环境。</p>
-</blockquote>
-<blockquote>
-<p>归因偏差是人之常情，但在了解之后，我们就可以尽量避免认知偏差对我们造成负面影响。</p>
-</blockquote>
-<p><img src="/assets/img/skill-bz01.png" alt="沟通本质"></p>
-<h2 id="沟通陷阱"><a href="#沟通陷阱" class="headerlink" title="沟通陷阱"></a>沟通陷阱</h2><p><img src="/assets/img/skill-xj01.png" alt="锦囊"></p>
-<h2 id="三个锦囊"><a href="#三个锦囊" class="headerlink" title="三个锦囊"></a>三个锦囊</h2><p><img src="/assets/img/skill-jn1.jpg" alt="锦囊一"><br><img src="/assets/img/skill-jn2.jpg" alt="锦囊二"><br><img src="/assets/img/skill-jn3.jpg" alt="锦囊三"></p>
-<h1 id="2-让坏情绪不再影响沟通"><a href="#2-让坏情绪不再影响沟通" class="headerlink" title="2.让坏情绪不再影响沟通"></a>2.让坏情绪不再影响沟通</h1><h1 id="3-开口前，先弄清你的对话目的"><a href="#3-开口前，先弄清你的对话目的" class="headerlink" title="3.开口前，先弄清你的对话目的"></a>3.开口前，先弄清你的对话目的</h1><h1 id="4-对话中，建立双方的共同目的"><a href="#4-对话中，建立双方的共同目的" class="headerlink" title="4.对话中，建立双方的共同目的"></a>4.对话中，建立双方的共同目的</h1><h1 id="5-表达三步走"><a href="#5-表达三步走" class="headerlink" title="5.表达三步走"></a>5.表达三步走</h1><h1 id="6-倾听四部曲"><a href="#6-倾听四部曲" class="headerlink" title="6.倾听四部曲"></a>6.倾听四部曲</h1><h1 id="7-让对话推动决策"><a href="#7-让对话推动决策" class="headerlink" title="7.让对话推动决策"></a>7.让对话推动决策</h1>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">沟通</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/技能//" class="article-tag-list-link color3">技能</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/技能/沟通//" class="article-tag-list-link color3">沟通</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/07/skill-communication/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-bigdata-spark-fun-02" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/07/bigdata-spark-fun-02/">spark RDD的action操作</a>
-    </h1>
-  
-
-        
-        <a href="/2018/08/07/bigdata-spark-fun-02/" class="archive-article-date">
-  	<time datetime="2018-08-07T05:14:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="1-reduce"><a href="#1-reduce" class="headerlink" title="1.reduce"></a>1.reduce</h1><p>reduce(func)是对数据集的所有元素执行聚集(func)函数，该函数必须是可交换的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">val rdd1 = sc.parallelize(1 to 9, 3)</span><br><span class="line">val rdd2 = rdd1.reduce(_ + _)</span><br><span class="line">rdd2: Int = 45</span><br></pre></td></tr></table></figure></p>
-<h1 id="2-collect"><a href="#2-collect" class="headerlink" title="2.collect"></a>2.collect</h1><p>collect是将数据集中的所有元素以一个array的形式返回。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rdd1.collect()</span><br><span class="line">res8: Array[Int] = Array(1, 2, 3, 4, 5, 6, 7, 8, 9)</span><br></pre></td></tr></table></figure></p>
-<h1 id="3-count"><a href="#3-count" class="headerlink" title="3.count"></a>3.count</h1><p>返回数据集中元素的个数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rdd1.count()</span><br><span class="line">res9: Long = 9</span><br></pre></td></tr></table></figure></p>
-        
-          <a class="article-more-a" href="/2018/08/07/bigdata-spark-fun-02/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Spark算子</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/大数据/Spark//" class="article-tag-list-link color1">Spark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/07/bigdata-spark-fun-02/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-bigdata-spark-fun-01" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/07/bigdata-spark-fun-01/">spark的RDD的转换操作</a>
-    </h1>
-  
-
-        
-        <a href="/2018/08/07/bigdata-spark-fun-01/" class="archive-article-date">
-  	<time datetime="2018-08-07T04:30:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="1-map"><a href="#1-map" class="headerlink" title="1. map"></a>1. map</h2><p>map是对RDD中的每个元素都执行一个指定的函数来产生一个新的RDD； RDD之间的元素是一对一关系；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">val rdd1 = sc.parallelize(1 to 9, 3)</span><br><span class="line">val rdd2 = rdd1.map(x =&gt; x*2)</span><br><span class="line">rdd2.collect</span><br><span class="line">res3: Array[Int] = Array(2, 4, 6, 8, 10, 12, 14, 16, 18)</span><br></pre></td></tr></table></figure></p>
-<h2 id="2-filter"><a href="#2-filter" class="headerlink" title="2. filter"></a>2. filter</h2><p>Filter是对RDD元素进行过滤；返回一个新的数据集，是经过func函数后返回值为true的原元素组成；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">val rdd3 = rdd2. filter (x =&gt; x&gt; 10)</span><br><span class="line">rdd3.collect</span><br><span class="line">res4: Array[Int] = Array(12, 14, 16, 18)</span><br></pre></td></tr></table></figure></p>
-<h2 id="3-flatMap"><a href="#3-flatMap" class="headerlink" title="3.flatMap"></a>3.flatMap</h2><p>flatMap类似于map，但是每一个输入元素，会被映射为0到多个输出元素（因此， func函数的返回值是一个Seq，而不是单一元素），<br>RDD之间的元素是一对多关系；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val rdd4 = rdd3. flatMap (x =&gt; x to 20)</span><br><span class="line">res5: Array[Int] = Array(12, 13, 14, 15, 16, 17, 18, 19, 20, 14, 15, 16, 17, 18, 19, 20, 16, 17, 18, 19, 20, 18, 19, 20)</span><br></pre></td></tr></table></figure>
-        
-          <a class="article-more-a" href="/2018/08/07/bigdata-spark-fun-01/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Spark算子</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/大数据/Spark//" class="article-tag-list-link color1">Spark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/07/bigdata-spark-fun-01/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java-jvm-01" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/07/java-jvm-01/">&#39;jvm-01&#39;</a>
-    </h1>
-  
-
-        
-        <a href="/2018/08/07/java-jvm-01/" class="archive-article-date">
-  	<time datetime="2018-08-07T03:23:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/07/java-jvm-01/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/28/hello-world/">Hello World</a>
-    </h1>
-  
-
-        
-        <a href="/2018/07/28/hello-world/" class="archive-article-date">
-  	<time datetime="2018-07-28T06:16:41.623Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/07/28/hello-world/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-bigdata-kafka-base03" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/09/bigdata-kafka-base03/">分布式消息系统Kafka简介</a>
+    <h1 class="article-title" itemprop="name">
+      分布式消息系统Kafka简介
     </h1>
   
 
@@ -778,16 +265,33 @@
 
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/09/bigdata-kafka-base03/">展开全文 >></a>
-        </p>
-      
 
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2018/07/28/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Hello World
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/08/08/bigdata-kafka-base02/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Kafka 高吞吐率的实现</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -807,331 +311,14 @@
 
 
 
-
   
-    <article id="post-bigdata-kafka-base02" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/08/bigdata-kafka-base02/">Kafka 高吞吐率的实现</a>
-    </h1>
   
 
-        
-        <a href="/2017/08/08/bigdata-kafka-base02/" class="archive-article-date">
-  	<time datetime="2017-08-08T01:06:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Kafka是分布式消息系统，需要处理海量的消息，Kafka的设计是把所有的消息都写入速度低容量大的硬盘，以此来换取更强的存储能力，但实际上，使用硬盘并没有带来过多的性能损失。kafka主要使用了以下几个方式实现了超高的吞吐率</p>
-<h2 id="顺序读写"><a href="#顺序读写" class="headerlink" title="顺序读写"></a>顺序读写</h2><p>kafka的消息是不断追加到文件中的，这个特性使kafka可以充分利用磁盘的顺序读写性能顺序读写不需要硬盘磁头的寻道时间，只需很少的扇区旋转时间，所以速度远快于随机读写</p>
-<h2 id="零拷贝"><a href="#零拷贝" class="headerlink" title="零拷贝"></a>零拷贝</h2><p>先简单了解下文件系统的操作流程，例如一个程序要把文件内容发送到网络,这个程序是工作在用户空间，文件和网络socket属于硬件资源，两者之间有一个内核空间在操作系统内部，整个过程为：</p>
-<p><img src="/assets/img/bigdata-kafka-01.png" alt="操作流程"></p>
-<p>在Linux kernel2.2 之后出现了一种叫做”零拷贝(zero-copy)”系统调用机制，就是跳过“用户缓冲区”的拷贝，建立一个磁盘空间和内存的直接映射，数据不再复制到“用户态缓冲区”系统上下文切换减少为2次，可以提升一倍的性能<br><img src="/assets/img/bigdata-kafka-02.png" alt="零拷贝操作流程"></p>
-<h2 id="文件分段"><a href="#文件分段" class="headerlink" title="文件分段"></a>文件分段</h2><p>kafka的队列topic被分为了多个区partition，每个partition又分为多个段segment，所以一个队列中的消息实际上是保存在N多个片段文件中通过分段的方式，每次文件操作都是对一个小文件的操作，非常轻便，同时也增加了并行处理能力</p>
-<p><img src="/assets/img/bigdata-kafka-03.png" alt="Topic结构"></p>
-<h2 id="批量发送"><a href="#批量发送" class="headerlink" title="批量发送"></a>批量发送</h2><p>Kafka允许进行批量发送消息，先将消息缓存在内存中，然后一次请求批量发送出去比如可以指定缓存的消息达到某个量的时候就发出去，或者缓存了固定的时间后就发送出去如100条消息就发送，或者每5秒发送一次这种策略将大大减少服务端的I/O次数</p>
-<h2 id="数据压缩"><a href="#数据压缩" class="headerlink" title="数据压缩"></a>数据压缩</h2><p>Kafka还支持对消息集合进行压缩，Producer可以通过GZIP或Snappy格式对消息集合进行压缩压缩的好处就是减少传输的数据量，减轻对网络传输的压力Producer压缩之后，在Consumer需进行解压，虽然增加了CPU的工作，但在对大数据处理上，瓶颈在网络上而不是CPU，所以这个成本很值得</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Kafka</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/大数据/Kafka//" class="article-tag-list-link color1">Kafka</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/08/bigdata-kafka-base02/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-hexo-use" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/31/hexo-use/">在Github上搭建Hexo博客的简要教程</a>
-    </h1>
   
 
-        
-        <a href="/2017/07/31/hexo-use/" class="archive-article-date">
-  	<time datetime="2017-07-31T14:18:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-31</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="1-前言"><a href="#1-前言" class="headerlink" title="1.前言"></a>1.前言</h1><p>前提环境</p>
-<blockquote>
-<p>安装 NodeJs （安装过程略，注意版本不要太低，我开始的时候弄了半天没成功，后面升级了NodeJs的版本就搞定了）</p>
-<p>安装 Git</p>
-</blockquote>
-<p>将操作分成两部分来做。1）、Github的配置；2）Hexo搭建博客系统</p>
-<h1 id="2-Github的配置"><a href="#2-Github的配置" class="headerlink" title="2.Github的配置"></a>2.Github的配置</h1><h1 id="3-Hexo描建博客系统"><a href="#3-Hexo描建博客系统" class="headerlink" title="3.Hexo描建博客系统"></a>3.Hexo描建博客系统</h1><h2 id="3-1-安装Hexo"><a href="#3-1-安装Hexo" class="headerlink" title="3.1 安装Hexo"></a>3.1 安装Hexo</h2><pre><code>$ cd d:/hexo
-$ npm install hexo-cli -g
-$ hexo init blog
-$ cd blog
-$ npm install
-$ hexo g # 或者hexo generate
-$ hexo s # 或者hexo server，可以在http://localhost:4000/ 查看
-</code></pre><p>到这里Hexo的安装已经完成。打开浏览器访问<a href="http://localhost:4000即可看到效果。" target="_blank" rel="noopener">http://localhost:4000即可看到效果。</a></p>
-<p>不过这个主题的效果实在不怎么好看。所以我们要给他换一个主题。</p>
-<h2 id="3-2-安装Hexo的主题"><a href="#3-2-安装Hexo的主题" class="headerlink" title="3.2 安装Hexo的主题"></a>3.2 安装Hexo的主题</h2><h3 id="下载主题"><a href="#下载主题" class="headerlink" title="下载主题"></a>下载主题</h3><pre><code>git clone https://github.com/litten/hexo-theme-yilia.git themes/yilia
-</code></pre><p>这里用到的主题是yilia，还有另外两个很不错的主题</p>
-<pre><code>git clone https://github.com/iTimeTraveler/hexo-theme-hiker.git themes/hiker
-
-git clone https://github.com/Haojen/hexo-theme-Anisina.git themes/anisina
-</code></pre><p>修改_config.yml文件中的配置，把主题修改为刚刚下载的主题名称</p>
-<pre><code>theme: yilia
-</code></pre><p>使用yilia主题还需要另外安装两个模块(不然浏览所有文章时会报错）</p>
-<pre><code>npm i hexo-generator-json-content --save
-
-npm install hexo-deployer-git --save
-</code></pre><p>修改_config.yml文件增加以下内容（yilia主题的所有文章需要用到）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">jsonContent:</span><br><span class="line">  meta: false</span><br><span class="line">  pages: false</span><br><span class="line">  posts:</span><br><span class="line">		title: true</span><br><span class="line">		date: true</span><br><span class="line">		path: true</span><br><span class="line">		text: false</span><br><span class="line">		raw: false</span><br><span class="line">		content: false</span><br><span class="line">		slug: false</span><br><span class="line">		updated: false</span><br><span class="line">		comments: false</span><br><span class="line">		link: false</span><br><span class="line">		permalink: false</span><br><span class="line">		excerpt: false</span><br><span class="line">		categories: false</span><br><span class="line">		tags: true</span><br></pre></td></tr></table></figure>
-<p>修改_config.yml文件，将Github的地址绑定在这里，可通过 hexo d命令将文章发布到Github上面<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repository: git@github.com:szchengz/szchengz.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">github</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">yilia</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/07/31/hexo-use/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-bigdata-kafka-base01" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/08/bigdata-kafka-base01/">Kafka的架构涉及到的名词</a>
-    </h1>
   
 
-        
-        <a href="/2016/03/08/bigdata-kafka-base01/" class="archive-article-date">
-  	<time datetime="2016-03-08T00:57:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-03-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ol>
-<li>Topic：用于划分Message的逻辑概念，一个Topic可以分布在多个Broker上。</li>
-</ol>
-<ol start="2">
-<li>Partition：是Kafka中横向扩展和一切并行化的基础，每个Topic都至少被切分为1个Partition。</li>
-</ol>
-<ol start="3">
-<li>Offset：消息在Partition中的编号，编号顺序不跨Partition。</li>
-</ol>
-<ol start="4">
-<li>Consumer：用于从Broker中取出/消费Message。</li>
-</ol>
-<ol start="5">
-<li>Producer：用于往Broker中发送/生产Message。</li>
-</ol>
-<ol start="6">
-<li>Replication：Kafka支持以Partition为单位对Message进行冗余备份，每个Partition都可以配置至少1个Replication(当仅1个Replication时即仅该Partition本身)。</li>
-</ol>
-<ol start="7">
-<li>Leader：每个Replication集合中的Partition都会选出一个唯一的Leader，所有的读写请求都由Leader处理。其他Replicas从Leader处把数据更新同步到本地，过程类似大家熟悉的MySQL中的Binlog同步。</li>
-</ol>
-<ol start="8">
-<li>Broker：Kafka中使用Broker来接受Producer和Consumer的请求，并把Message持久化到本地磁盘。每个Cluster当中会选举出一个Broker来担任Controller，负责处理Partition的Leader选举，协调Partition迁移等工作。</li>
-</ol>
-<ol start="9">
-<li>ISR(In-Sync Replica)：是Replicas的一个子集，表示目前Alive且与Leader能够“Catch-up”的Replicas集合。由于读写都是首先落到Leader上，所以一般来说通过同步机制从Leader上拉取数据的Replica都会和Leader有一些延迟(包括了延迟时间和延迟条数两个维度)，任意一个超过阈值都会把该Replica踢出ISR。每个Partition都有它自己独立的ISR。</li>
-</ol>
-<p>以上几乎是我们在使用Kafka的过程中可能遇到的所有名词，同时也无一不是最核心的概念或组件，感觉到从设计本身来说，Kafka还是足够简洁的。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Kafka</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/大数据/Kafka//" class="article-tag-list-link color1">Kafka</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2016/03/08/bigdata-kafka-base01/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
 
 
@@ -1154,8 +341,8 @@ npm install hexo-deployer-git --save
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
