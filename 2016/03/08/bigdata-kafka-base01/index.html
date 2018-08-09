@@ -6,19 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://szchengz.github.io">
-  <title>Hello World | 陈国中的博客空间</title>
+  <title>Kafka的架构涉及到的名词 | 陈国中的博客空间</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+  <meta name="description" content="Topic：用于划分Message的逻辑概念，一个Topic可以分布在多个Broker上。   Partition：是Kafka中横向扩展和一切并行化的基础，每个Topic都至少被切分为1个Partition。   Offset：消息在Partition中的编号，编号顺序不跨Partition。   Consumer：用于从Broker中取出/消费Message。   Producer：用于往B">
+<meta name="keywords" content="Kafka">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="https://szchengz.github.io/2018/07/28/hello-world/index.html">
+<meta property="og:title" content="Kafka的架构涉及到的名词">
+<meta property="og:url" content="https://szchengz.github.io/2016/03/08/bigdata-kafka-base01/index.html">
 <meta property="og:site_name" content="陈国中的博客空间">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="Topic：用于划分Message的逻辑概念，一个Topic可以分布在多个Broker上。   Partition：是Kafka中横向扩展和一切并行化的基础，每个Topic都至少被切分为1个Partition。   Offset：消息在Partition中的编号，编号顺序不跨Partition。   Consumer：用于从Broker中取出/消费Message。   Producer：用于往B">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-07-28T06:16:41.623Z">
+<meta property="og:updated_time" content="2018-08-08T01:03:59.796Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="twitter:title" content="Kafka的架构涉及到的名词">
+<meta name="twitter:description" content="Topic：用于划分Message的逻辑概念，一个Topic可以分布在多个Broker上。   Partition：是Kafka中横向扩展和一切并行化的基础，每个Topic都至少被切分为1个Partition。   Offset：消息在Partition中的编号，编号顺序不跨Partition。   Consumer：用于从Broker中取出/消费Message。   Producer：用于往B">
   
     <link rel="alternative" href="/atom.xml" title="陈国中的博客空间" type="application/atom+xml">
   
@@ -136,35 +137,54 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-hello-world" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-bigdata-kafka-base01" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Hello World
+      Kafka的架构涉及到的名词
     </h1>
   
 
         
-        <a href="/2018/07/28/hello-world/" class="archive-article-date">
-  	<time datetime="2018-07-28T06:16:41.623Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-28</time>
+        <a href="/2016/03/08/bigdata-kafka-base01/" class="archive-article-date">
+  	<time datetime="2016-03-08T00:57:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-03-08</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+        <ol>
+<li>Topic：用于划分Message的逻辑概念，一个Topic可以分布在多个Broker上。</li>
+</ol>
+<ol start="2">
+<li>Partition：是Kafka中横向扩展和一切并行化的基础，每个Topic都至少被切分为1个Partition。</li>
+</ol>
+<ol start="3">
+<li>Offset：消息在Partition中的编号，编号顺序不跨Partition。</li>
+</ol>
+<ol start="4">
+<li>Consumer：用于从Broker中取出/消费Message。</li>
+</ol>
+<ol start="5">
+<li>Producer：用于往Broker中发送/生产Message。</li>
+</ol>
+<ol start="6">
+<li>Replication：Kafka支持以Partition为单位对Message进行冗余备份，每个Partition都可以配置至少1个Replication(当仅1个Replication时即仅该Partition本身)。</li>
+</ol>
+<ol start="7">
+<li>Leader：每个Replication集合中的Partition都会选出一个唯一的Leader，所有的读写请求都由Leader处理。其他Replicas从Leader处把数据更新同步到本地，过程类似大家熟悉的MySQL中的Binlog同步。</li>
+</ol>
+<ol start="8">
+<li>Broker：Kafka中使用Broker来接受Producer和Consumer的请求，并把Message持久化到本地磁盘。每个Cluster当中会选举出一个Broker来担任Controller，负责处理Partition的Leader选举，协调Partition迁移等工作。</li>
+</ol>
+<ol start="9">
+<li>ISR(In-Sync Replica)：是Replicas的一个子集，表示目前Alive且与Leader能够“Catch-up”的Replicas集合。由于读写都是首先落到Leader上，所以一般来说通过同步机制从Leader上拉取数据的Replica都会和Leader有一些延迟(包括了延迟时间和延迟条数两个维度)，任意一个超过阈值都会把该Replica踢出ISR。每个Partition都有它自己独立的ISR。</li>
+</ol>
+<p>以上几乎是我们在使用Kafka的过程中可能遇到的所有名词，同时也无一不是最核心的概念或组件，感觉到从设计本身来说，Kafka还是足够简洁的。</p>
 
       
 
@@ -173,7 +193,33 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Kafka</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/大数据/Kafka//" class="article-tag-list-link color1">Kafka</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
 
       
 
@@ -186,20 +232,15 @@
   
 <nav id="article-nav">
   
-    <a href="/2018/08/07/java-jvm-01/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2017/07/31/hexo-use/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          &#39;jvm-01&#39;
+          在Github上搭建Hexo博客的简要教程
         
       </div>
     </a>
   
-  
-    <a href="/2017/08/08/bigdata-kafka-base02/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Kafka 高吞吐率的实现</div>
-      <i class="icon-circle-right"></i>
-    </a>
   
 </nav>
 
