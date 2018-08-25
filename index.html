@@ -134,38 +134,119 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-tools-atom-01" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-bigdata-evn-spark_hive01" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/08/tools-atom-01/">ATOM常用插件推荐</a>
+      <a class="article-title" href="/2018/08/18/bigdata-evn-spark_hive01/">spark与hive的集成</a>
     </h1>
   
 
         
-        <a href="/2018/08/08/tools-atom-01/" class="archive-article-date">
-  	<time datetime="2018-08-08T00:46:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-08</time>
+        <a href="/2018/08/18/bigdata-evn-spark_hive01/" class="archive-article-date">
+  	<time datetime="2018-08-18T11:54:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-18</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="simplified-chinese-menu"><a href="#simplified-chinese-menu" class="headerlink" title="simplified-chinese-menu"></a>simplified-chinese-menu</h1><p>ATOM的汉化插件</p>
-<h1 id="file-icons"><a href="#file-icons" class="headerlink" title="file-icons"></a>file-icons</h1><p>文件图标美化</p>
-<h1 id="atom-beautify"><a href="#atom-beautify" class="headerlink" title="atom-beautify"></a>atom-beautify</h1><p>代码格式一键美化</p>
-<h1 id="last-cursor-position"><a href="#last-cursor-position" class="headerlink" title="last-cursor-position"></a>last-cursor-position</h1><p>光标自由切换到上一次/下一次编辑位置</p>
-<h1 id="minimap"><a href="#minimap" class="headerlink" title="minimap"></a>minimap</h1><p>代码小地图</p>
-<h1 id="sync-settings"><a href="#sync-settings" class="headerlink" title="sync-settings"></a>sync-settings</h1><p>插件备份、按键绑定备份</p>
-<h1 id="activate-power-mode"><a href="#activate-power-mode" class="headerlink" title="activate-power-mode"></a>activate-power-mode</h1><p>输入时有震撼效果</p>
-<h1 id="tortoise-svn"><a href="#tortoise-svn" class="headerlink" title="tortoise-svn"></a>tortoise-svn</h1><p>svn插件</p>
-<h1 id="atom-terminal-panel"><a href="#atom-terminal-panel" class="headerlink" title="atom-terminal-panel"></a>atom-terminal-panel</h1><p>atom内置命令行工具</p>
-<h1 id="Git-github"><a href="#Git-github" class="headerlink" title="Git/github"></a>Git/github</h1><p>　　　git-plus—在 Atom 里面执行 Git 命令，不用来回切换终端和编辑器<br>　　　git-control—git面板<br>　　　tree-view-git-status—文件夹git状态<br>　　　gist-it—快速分享代码到gist.github.com<br>　　　这里写图片描述<br>　　git-log<br>　　图形化git提交记录<br>这里写图片描述</p>
-<h1 id="markdown"><a href="#markdown" class="headerlink" title="markdown"></a>markdown</h1><p>markdown-preview-plus markdown预览</p>
-<h1 id="vim-mode"><a href="#vim-mode" class="headerlink" title="vim-mode"></a>vim-mode</h1><p>支持vim模式</p>
+        <h1 id="1-前提"><a href="#1-前提" class="headerlink" title="1.前提"></a>1.前提</h1><p>安装MySql<br>安装Hive<br>安装Spark</p>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="拷贝hive-site-xml文件"><a href="#拷贝hive-site-xml文件" class="headerlink" title="拷贝hive-site.xml文件"></a>拷贝hive-site.xml文件</h2><p>启动hive service metastore服务</p>
+<blockquote>
+<p>bin/hive –service metastore &amp;</p>
+</blockquote>
+<p>启动spark-sql </p>
+<blockquote>
+<p>./spark-sql –master://spark:7077</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">create table if not exists student(</span><br><span class="line"> id int,</span><br><span class="line"> name string,</span><br><span class="line"> gender string,</span><br><span class="line"> age int);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">insert into student values(1,&apos;Xueqian&apos;,&apos;F&apos;,23); //插入一条记录</span><br><span class="line">insert into student values(2,&apos;Weiliang&apos;,&apos;M&apos;,24); //再插入一条记录</span><br><span class="line">select * from student; //显示student表中的记录</span><br></pre></td></tr></table></figure>
+<p>启动Spark-shell </p>
+<blockquote>
+<p>./spark-shell –master://spark:7077</p>
+</blockquote>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/08/18/bigdata-evn-spark_hive01/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-bigdata-hive-q1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/16/bigdata-hive-q1/">Hive常见问题</a>
+    </h1>
+  
+
+        
+        <a href="/2018/08/16/bigdata-hive-q1/" class="archive-article-date">
+  	<time datetime="2018-08-16T09:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="1、message-For-direct-MetaStore-DB-connections-we-don’t-support-retries-at-the-client-level"><a href="#1、message-For-direct-MetaStore-DB-connections-we-don’t-support-retries-at-the-client-level" class="headerlink" title="1、message:For direct MetaStore DB connections, we don’t support retries at the client level."></a>1、message:For direct MetaStore DB connections, we don’t support retries at the client level.</h1><p>当在Hive中创建表的时候报错：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hive&gt; create table test(id string,name string) row format delimited fields terminated by &apos;,&apos; stored as textfile;</span><br><span class="line">FAILED: Execution Error, return code 1 from org.apache.hadoop.hive.ql.exec.DDLTask. MetaException(message:For direct MetaStore DB connections, we don&apos;t support retries at the client level.)</span><br></pre></td></tr></table></figure></p>
+<p>这是由于字符集的问题，需要配置MySQL的字符集：</p>
+<blockquote>
+<p>mysql&gt; alter database hive character set latin1;</p>
+</blockquote>
+<h1 id="2-初次启动hive找不到Spark的Jar包"><a href="#2-初次启动hive找不到Spark的Jar包" class="headerlink" title="2.初次启动hive找不到Spark的Jar包"></a>2.初次启动hive找不到Spark的Jar包</h1><p>hadoop@master:/usr/soft/hadoop-2.6.0/sbin$ hive –service metastore<br>ls: cannot access /usr/soft/spark-2.1.0-bin-hadoop2.6/lib/spark-assembly-*.jar: No such file or directory<br>Starting Hive Metastore Server</p>
+<p>解决方法：修改hive文件</p>
+<p>步骤1：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd $HIVE_HOME/bin</span><br><span class="line">vi hive</span><br></pre></td></tr></table></figure></p>
+<p>步骤2：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if [[ -n &quot;$SPARK_HOME&quot; ]]</span><br><span class="line">then</span><br><span class="line">  sparkAssemblyPath=`ls $&#123;SPARK_HOME&#125;/lib/spark-assembly-*.jar`</span><br><span class="line">  CLASSPATH=&quot;$&#123;CLASSPATH&#125;:$&#123;sparkAssemblyPath&#125;&quot;</span><br><span class="line">fi</span><br></pre></td></tr></table></figure></p>
+<h1 id="3-搭建环境启动Hive时报错Terminal-initialization-failed-falling-back-to-unsupported"><a href="#3-搭建环境启动Hive时报错Terminal-initialization-failed-falling-back-to-unsupported" class="headerlink" title="3.搭建环境启动Hive时报错Terminal initialization failed; falling back to unsupported"></a>3.搭建环境启动Hive时报错Terminal initialization failed; falling back to unsupported</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">[ERROR] Terminal initialization failed; falling back to unsupported</span><br><span class="line">java.lang.IncompatibleClassChangeError: Found class jline.Terminal, but interface was expected</span><br><span class="line">	at jline.TerminalFactory.create(TerminalFactory.java:101)</span><br><span class="line">	at jline.TerminalFactory.get(TerminalFactory.java:158)</span><br><span class="line">	at jline.console.ConsoleReader.&lt;init&gt;(ConsoleReader.java:229)</span><br><span class="line">	at jline.console.ConsoleReader.&lt;init&gt;(ConsoleReader.java:221)</span><br><span class="line">	at jline.console.ConsoleReader.&lt;init&gt;(ConsoleReader.java:209)</span><br><span class="line">	at org.apache.hadoop.hive.cli.CliDriver.setupConsoleReader(CliDriver.java:787)</span><br><span class="line">	at org.apache.hadoop.hive.cli.CliDriver.executeDriver(CliDriver.java:721)</span><br><span class="line">	at org.apache.hadoop.hive.cli.CliDriver.run(CliDriver.java:681)</span><br><span class="line">	at org.apache.hadoop.hive.cli.CliDriver.main(CliDriver.java:621)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</span><br><span class="line">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</span><br><span class="line">	at java.lang.reflect.Method.invoke(Method.java:497)</span><br><span class="line">	at org.apache.hadoop.util.RunJar.run(RunJar.java:221)</span><br><span class="line">	at org.apache.hadoop.util.RunJar.main(RunJar.java:136)</span><br><span class="line"></span><br><span class="line">Exception in thread &quot;main&quot; java.lang.IncompatibleClassChangeError: Found class jline.Terminal, but interface was expected</span><br><span class="line">	at jline.console.ConsoleReader.&lt;init&gt;(ConsoleReader.java:230)</span><br><span class="line">	at jline.console.ConsoleReader.&lt;init&gt;(ConsoleReader.java:221)</span><br><span class="line">	at jline.console.ConsoleReader.&lt;init&gt;(ConsoleReader.java:209)</span><br><span class="line">	at org.apache.hadoop.hive.cli.CliDriver.setupConsoleReader(CliDriver.java:787)</span><br><span class="line">	at org.apache.hadoop.hive.cli.CliDriver.executeDriver(CliDriver.java:721)</span><br><span class="line">	at org.apache.hadoop.hive.cli.CliDriver.run(CliDriver.java:681)</span><br><span class="line">	at org.apache.hadoop.hive.cli.CliDriver.main(CliDriver.java:621)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</span><br><span class="line">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</span><br><span class="line">	at java.lang.reflect.Method.invoke(Method.java:497)</span><br><span class="line">	at org.apache.hadoop.util.RunJar.run(RunJar.java:221)</span><br><span class="line">	at org.apache.hadoop.util.RunJar.main(RunJar.java:136)</span><br></pre></td></tr></table></figure>
+<p>解决方法：将Hive新版本的jline的包拷贝到Hadoop下面（原来的没有删除）<br>cp /usr/soft/hive1.2.1/lib/jline-2.12.jar ./usr/soft/hadoop-2.6.0/share/hadoop/yarn/lib</p>
+<h1 id="执行插入操作时异常"><a href="#执行插入操作时异常" class="headerlink" title="执行插入操作时异常"></a>执行插入操作时异常</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">hive&gt;   insert into table words select explode(split(line, &quot; &quot;)) as word from word_data;</span><br><span class="line">Query ID = hadoop_20180823200522_7a53339e-6923-4bfe-b5cf-25ac172ddcc2</span><br><span class="line">Total jobs = 3</span><br><span class="line">Launching Job 1 out of 3</span><br><span class="line">Number of reduce tasks is set to 0 since there&apos;s no reduce operator</span><br><span class="line">java.net.ConnectException: Call From master/192.168.52.128 to master:8032 failed on connection exception: java.net.ConnectException: Connection refused; F</span><br><span class="line">or more details see:  http://wiki.apache.org/hadoop/ConnectionRefused	at sun.reflect.GeneratedConstructorAccessor36.newInstance(Unknown Source)</span><br><span class="line">	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)</span><br><span class="line">	at java.lang.reflect.Constructor.newInstance(Constructor.java:422)</span><br><span class="line">	at org.apache.hadoop.net.NetUtils.wrapWithMessage(NetUtils.java:791)</span><br><span class="line">	at org.apache.hadoop.net.NetUtils.wrapException(NetUtils.java:731)</span><br><span class="line">	at org.apache.hadoop.ipc.Client.call(Client.java:1472)</span><br><span class="line">	at org.apache.hadoop.ipc.Client.call(Client.java:1399)</span><br><span class="line">	at org.apache.hadoop.ipc.ProtobufRpcEngine$Invoker.invoke(ProtobufRpcEngine.java:232)</span><br><span class="line">	at com.sun.proxy.$Proxy25.getNewApplication(Unknown Source)</span><br><span class="line">	at org.apache.hadoop.yarn.api.impl.pb.client.ApplicationClientProtocolPBClientImpl.getNewApplication(ApplicationClientProtocolPBClientImpl.java:21</span><br><span class="line">7)	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)</span><br><span class="line">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</span><br><span class="line">	at java.lang.reflect.Method.invoke(Method.java:497)</span><br><span class="line">	at org.apache.hadoop.io.retry.RetryInvocationHandler.invokeMethod(RetryInvocationHandler.java:187)</span><br><span class="line">	at org.apache.hadoop.io.retry.RetryInvocationHandler.invoke(RetryInvocationHandler.java:102)</span><br><span class="line">	at com.sun.proxy.$Proxy26.getNewApplication(Unknown Source)</span><br><span class="line">	at org.apache.hadoop.yarn.client.api.impl.YarnClientImpl.getNewApplication(YarnClientImpl.java:206)</span><br><span class="line">	at org.apache.hadoop.yarn.client.api.impl.YarnClientImpl.createApplication(YarnClientImpl.java:214)</span><br><span class="line">	at org.apache.hadoop.mapred.ResourceMgrDelegate.getNewJobID(ResourceMgrDelegate.java:187)</span><br><span class="line">	at org.apache.hadoop.mapred.YARNRunner.getNewJobID(YARNRunner.java:231)</span><br><span class="line">	at org.apache.hadoop.mapreduce.JobSubmitter.submitJobInternal(JobSubmitter.java:446)</span><br><span class="line">	at org.apache.hadoop.mapreduce.Job$10.run(Job.java:1296)</span><br><span class="line">	at org.apache.hadoop.mapreduce.Job$10.run(Job.java:1293)</span><br><span class="line">	at java.security.AccessController.doPrivileged(Native Method)</span><br><span class="line">	at javax.security.auth.Subject.doAs(Subject.java:422)</span><br><span class="line">	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1628)</span><br><span class="line">	at org.apache.hadoop.mapreduce.Job.submit(Job.java:1293)</span><br><span class="line">	at org.apache.hadoop.mapred.JobClient$1.run(JobClient.java:562)</span><br><span class="line">	at org.apache.hadoop.mapred.JobClient$1.run(JobClient.java:557)</span><br><span class="line">	at java.security.AccessController.doPrivileged(Native Method)</span><br><span class="line">	at javax.security.auth.Subject.doAs(Subject.java:422)</span><br><span class="line">	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1628)</span><br><span class="line">	at org.apache.hadoop.mapred.JobClient.submitJobInternal(JobClient.java:557)</span><br><span class="line">	at org.apache.hadoop.mapred.JobClient.submitJob(JobClient.java:548)</span><br><span class="line">	at org.apache.hadoop.hive.ql.exec.mr.ExecDriver.execute(ExecDriver.java:431)</span><br><span class="line">	at org.apache.hadoop.hive.ql.exec.mr.MapRedTask.execute(MapRedTask.java:137)</span><br><span class="line">	at org.apache.hadoop.hive.ql.exec.Task.executeTask(Task.java:160)</span><br><span class="line">	at org.apache.hadoop.hive.ql.exec.TaskRunner.runSequential(TaskRunner.java:88)</span><br><span class="line">	at org.apache.hadoop.hive.ql.Driver.launchTask(Driver.java:1653)</span><br><span class="line">	at org.apache.hadoop.hive.ql.Driver.execute(Driver.java:1412)</span><br><span class="line">	at org.apache.hadoop.hive.ql.Driver.runInternal(Driver.java:1195)</span><br><span class="line">	at org.apache.hadoop.hive.ql.Driver.run(Driver.java:1059)</span><br><span class="line">	at org.apache.hadoop.hive.ql.Driver.run(Driver.java:1049)</span><br><span class="line">	at org.apache.hadoop.hive.cli.CliDriver.processLocalCmd(CliDriver.java:213)</span><br><span class="line">	at org.apache.hadoop.hive.cli.CliDriver.processCmd(CliDriver.java:165)</span><br><span class="line">	at org.apache.hadoop.hive.cli.CliDriver.processLine(CliDriver.java:376)</span><br><span class="line">	at org.apache.hadoop.hive.cli.CliDriver.executeDriver(CliDriver.java:736)</span><br><span class="line">	at org.apache.hadoop.hive.cli.CliDriver.run(CliDriver.java:681)</span><br><span class="line">	at org.apache.hadoop.hive.cli.CliDriver.main(CliDriver.java:621)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</span><br><span class="line">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</span><br><span class="line">	at java.lang.reflect.Method.invoke(Method.java:497)</span><br><span class="line">	at org.apache.hadoop.util.RunJar.run(RunJar.java:221)</span><br><span class="line">	at org.apache.hadoop.util.RunJar.main(RunJar.java:136)</span><br><span class="line">Caused by: java.net.ConnectException: Connection refused</span><br><span class="line">	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)</span><br><span class="line">	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:717)</span><br><span class="line">	at org.apache.hadoop.net.SocketIOWithTimeout.connect(SocketIOWithTimeout.java:206)</span><br><span class="line">	at org.apache.hadoop.net.NetUtils.connect(NetUtils.java:530)</span><br><span class="line">	at org.apache.hadoop.net.NetUtils.connect(NetUtils.java:494)</span><br><span class="line">	at org.apache.hadoop.ipc.Client$Connection.setupConnection(Client.java:607)</span><br><span class="line">	at org.apache.hadoop.ipc.Client$Connection.setupIOstreams(Client.java:705)</span><br><span class="line">	at org.apache.hadoop.ipc.Client$Connection.access$2800(Client.java:368)</span><br><span class="line">	at org.apache.hadoop.ipc.Client.getConnection(Client.java:1521)</span><br><span class="line">	at org.apache.hadoop.ipc.Client.call(Client.java:1438)</span><br><span class="line">	... 49 more</span><br></pre></td></tr></table></figure>
+<p>解决方法：启动yarn</p>
+<blockquote>
+<p>start-yarn.sh </p>
+</blockquote>
 
       
 
@@ -179,7 +260,949 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Atom</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Hive</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/08/16/bigdata-hive-q1/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-bigdata-evn-sparkAndHive" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/16/bigdata-evn-sparkAndHive/">Spark与Hive集成</a>
+    </h1>
+  
+
+        
+        <a href="/2018/08/16/bigdata-evn-sparkAndHive/" class="archive-article-date">
+  	<time datetime="2018-08-16T09:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在Spark的conf目录中那建hive-site.xml文件，内容如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;</span><br><span class="line">&lt;?xml-stylesheet type="text/xsl" href="configuration.xsl"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.metastore.uris<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>thrift://master:9083<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>启动Hive元数据服务</p>
+<blockquote>
+<p>./bin/hive –service metastore &amp;</p>
+</blockquote>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hive</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/08/16/bigdata-evn-sparkAndHive/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-bigdata-hive-01" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/16/bigdata-hive-01/">Hive实现WordCount</a>
+    </h1>
+  
+
+        
+        <a href="/2018/08/16/bigdata-hive-01/" class="archive-article-date">
+  	<time datetime="2018-08-16T09:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="1、常用命令"><a href="#1、常用命令" class="headerlink" title="1、常用命令"></a>1、常用命令</h1><h2 id="1-1-建表"><a href="#1-1-建表" class="headerlink" title="1.1 建表"></a>1.1 建表</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">#建表(默认是内部表)</span><br><span class="line">create table trade_detail(id bigint, account string, income double, expenses double, time string)</span><br><span class="line">row format delimited fields terminated by &apos;\t&apos;;</span><br><span class="line"></span><br><span class="line">create table test(id string,name string) row format delimited fields terminated by &apos;,&apos; stored as textfile;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#建分区表</span><br><span class="line">#普通表和分区表区别：有大量数据增加的需要建分区表</span><br><span class="line">create table td_part(id bigint, account string, income double, expenses double, time string)</span><br><span class="line">partitioned by (logdate string)</span><br><span class="line">row format delimited fields terminated by &apos;\t&apos;;</span><br><span class="line"></span><br><span class="line">#建外部表</span><br><span class="line">create external table td_ext(id bigint, account string, income double, expenses double, time string)</span><br><span class="line">row format delimited fields terminated by &apos;\t&apos; location &apos;/td_ext&apos;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#创建分区表（table中的列不能和partition中的列重合了）</span><br><span class="line">create table ptest(ename string) partitioned by (deptno int) row format delimited fields terminated by &apos;\t&apos;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#显示有多少数据库</span><br><span class="line">show databases;</span><br><span class="line"></span><br><span class="line">#查看有多少表</span><br><span class="line">show tables;</span><br><span class="line"></span><br><span class="line">#查看表信息</span><br><span class="line">describe tablename;</span><br><span class="line">desc tablename</span><br><span class="line"></span><br><span class="line">#创建数据库</span><br><span class="line">create database wordcount;</span><br></pre></td></tr></table></figure>
+<h2 id="1-2-加载数据到表"><a href="#1-2-加载数据到表" class="headerlink" title="1.2 加载数据到表"></a>1.2 加载数据到表</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#把本地数据装载到数据表，也就是在metastore上创建信息</span><br><span class="line">load data local inpath &apos;/testdata/sogouq1&apos; into table sogouq1_1;</span><br><span class="line">load data local inpath &apos;/root/employees.txt&apos; into table employee;</span><br><span class="line"></span><br><span class="line">#把HDFS上的数据装载到数据表</span><br><span class="line">load data inpath &apos;/testdata/SogouQ1/SogouQ1.txt&apos; into table sogouq1_1;</span><br><span class="line">load data inpath &apos;/test/employees.txt&apos; OVERWRITE into table employee;</span><br><span class="line"></span><br><span class="line">#加载数据到分区表必须指明所属分区</span><br><span class="line">load data local inpath &apos;./book.txt&apos; overwrite into table book</span><br><span class="line">partition (pubdate=&apos;2010-08-22&apos;);</span><br><span class="line"></span><br><span class="line">//导数据到分区表</span><br><span class="line">load Data Local inpath &apos;/home/licz/data/ptest20&apos; overwrite Into Table ptest Partition(deptno=20);</span><br><span class="line">load Data Local inpath &apos;/home/licz/data/ptest30&apos; Into Table ptest Partition(deptno=30);</span><br><span class="line"></span><br><span class="line">#从原有的表employee中追加数据到表copy_employee：</span><br><span class="line">insert INTO table copy_employee select * from employee</span><br><span class="line"></span><br><span class="line">#从原有的表employee中加载数据到表copy_employee，并替换掉原来的数据</span><br><span class="line">insert OVERWRITE table copy_employee select * from employee;</span><br><span class="line"></span><br><span class="line">#创建表的时候通过select加载数据：</span><br><span class="line">create table cr_employee as SELECT * from employee;</span><br><span class="line"></span><br><span class="line">#创建表的时候通过select 指定建立的字段并加载指定字段的数据</span><br><span class="line">create table cr_employee1 as SELECT name from employee;</span><br><span class="line"></span><br><span class="line">#直接把与表结构相符的数据文件复制到表指定的存储位置</span><br><span class="line">dfs -put /root/employees.txt /user/hive/warehouse/employee;</span><br></pre></td></tr></table></figure>
+<p>查看表结构：describe employee;<br>SHOW TABLES; # 查看所有的表<br>SHOW TABLES ‘TMP’; #支持模糊查询<br>SHOW PARTITIONS TMP_TABLE; #查看表有哪些分区<br>DESCRIBE TMP_TABLE; #查看表结构</p>
+<h1 id="2-Hive实现WordCount"><a href="#2-Hive实现WordCount" class="headerlink" title="2 Hive实现WordCount"></a>2 Hive实现WordCount</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">  // 创建一个数据库</span><br><span class="line">  <span class="keyword">create</span> <span class="keyword">database</span> wordcount;</span><br><span class="line">  //选择这个数据库</span><br><span class="line">  <span class="keyword">use</span> wordcount;</span><br><span class="line"></span><br><span class="line">  //创建一个外部表，数据存在HDFS下的worddata目录</span><br><span class="line">  <span class="keyword">create</span> <span class="keyword">external</span> <span class="keyword">table</span> word_data(line <span class="keyword">string</span>) <span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">'\n'</span> <span class="keyword">stored</span> <span class="keyword">as</span> textfile location <span class="string">'/worddata'</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">create</span> <span class="keyword">table</span> words(word <span class="keyword">string</span>);</span><br><span class="line"></span><br><span class="line">    //根据MapReduce的规则，我们需要进行拆分，把每行数据拆分成单词，这里需要用到一个hive的内置表生成函数（UDTF）：explode(array)，参数是array，其实就是行变多列：</span><br><span class="line">    //split是拆分函数，跟java的split功能一样，这里是按照空格拆分，所以执行完hql语句，words表里面就全部保存的单个单词</span><br><span class="line">    这样基本实现了，因为hql可以group by，所以最后统计语句为：</span><br><span class="line"></span><br><span class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> <span class="keyword">table</span> words <span class="keyword">select</span> explode(<span class="keyword">split</span>(line, <span class="string">" "</span>)) <span class="keyword">as</span> word <span class="keyword">from</span> word_data;</span><br><span class="line"></span><br><span class="line">//wordcount.words 库名称.表名称，group by word这个word是<span class="keyword">create</span> <span class="keyword">table</span> words(word <span class="keyword">string</span>) 命令创建的word <span class="keyword">string</span></span><br><span class="line">    <span class="keyword">select</span> word, <span class="keyword">count</span>(*) <span class="keyword">from</span> wordcount.words <span class="keyword">group</span> <span class="keyword">by</span> word;</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Hive</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/08/16/bigdata-hive-01/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-bigdata-dw-01" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/16/bigdata-dw-01/">Kimball VS Inmon</a>
+    </h1>
+  
+
+        
+        <a href="/2018/08/16/bigdata-dw-01/" class="archive-article-date">
+  	<time datetime="2018-08-16T09:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="数据仓库与数据集市"><a href="#数据仓库与数据集市" class="headerlink" title="数据仓库与数据集市"></a>数据仓库与数据集市</h1><h1 id="自上而下与自下而上"><a href="#自上而下与自下而上" class="headerlink" title="自上而下与自下而上"></a>自上而下与自下而上</h1><h1 id="数据处理两大类OLAP、OLTP的区别"><a href="#数据处理两大类OLAP、OLTP的区别" class="headerlink" title="数据处理两大类OLAP、OLTP的区别"></a>数据处理两大类OLAP、OLTP的区别</h1><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>OLTP</th>
+<th>OLAP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>用户</td>
+<td>操作人员，低层管理人员</td>
+<td>决策人员，高级管理人员</td>
+</tr>
+<tr>
+<td>功能</td>
+<td>日常操作处理</td>
+<td>分析决策</td>
+</tr>
+<tr>
+<td>DB设计</td>
+<td>面向应用</td>
+<td>面向主题</td>
+</tr>
+<tr>
+<td>数据</td>
+<td>当前的，最新的细节，二维的分立的</td>
+<td>历史的，聚集的，多维的集成的，统一的</td>
+</tr>
+<tr>
+<td>存取</td>
+<td>读写数十条记录</td>
+<td>读上百万条记录</td>
+</tr>
+<tr>
+<td>工作单位</td>
+<td>简单事务</td>
+<td>复杂的查询</td>
+</tr>
+<tr>
+<td>用户数</td>
+<td>上千个</td>
+<td>上百万个</td>
+</tr>
+<tr>
+<td>DB大小</td>
+<td>100MB-GB</td>
+<td>100GB-TB</td>
+</tr>
+<tr>
+<td>时间要求</td>
+<td>具有实时性</td>
+<td>对时间的要求不严格</td>
+</tr>
+<tr>
+<td>主要应用</td>
+<td>数据仓库</td>
+<td>数据仓库</td>
+</tr>
+</tbody>
+</table>
+<p>OLTP，也叫联机事务处理（Online Transaction Processing），表示事务性非常高的系统，一般都是高可用的在线系统，以小的事务以及小的查询为主，评估其系统的时候，一般看其每秒执行的Transaction以及Execute SQL的数量。在这样的系统中，单个数据库每秒处理的Transaction往往超过几百个，或者是几千个，Select 语句的执行量每秒几千甚至几万个。典型的OLTP系统有电子商务系统、银行、证券等，如美国eBay的业务数据库，就是很典型的OLTP数据库。</p>
+<p>OLAP，也叫联机分析处理（Online Analytical Processing）系统，有的时候也叫DSS决策支持系统，就是我们说的数据仓库。在这样的系统中，语句的执行量不是考核标准，因为一条语句的执行时间可能会非常长，读取的数据也非常多。所以，在这样的系统中，考核的标准往往是磁盘子系统的吞吐量（带宽），如能达到多少MB/s的流量。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据仓库</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/08/16/bigdata-dw-01/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-bigdata-evn-spark" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/16/bigdata-evn-spark/">Spark环境集群环境配置</a>
+    </h1>
+  
+
+        
+        <a href="/2018/08/16/bigdata-evn-spark/" class="archive-article-date">
+  	<time datetime="2018-08-16T09:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>八、安装Spark环境</p>
+<h1 id="1-解压Spark，配置环境变量"><a href="#1-解压Spark，配置环境变量" class="headerlink" title="1.解压Spark，配置环境变量"></a>1.解压Spark，配置环境变量</h1><p>export SPARK_HOME=/usr/soft/spark2.1<br>export PATH=$PATH:${SPARK_HOME}/bin:</p>
+<h1 id="2-配置-slaves-conf目录下）"><a href="#2-配置-slaves-conf目录下）" class="headerlink" title="2.配置 slaves(conf目录下）"></a>2.配置 slaves(conf目录下）</h1><p>cp slaves.template slaves<br>vim slaves</p>
+<p>node1<br>node2</p>
+<h1 id="3-配置-spark-defaults-conf（配置historyServer必须配置这个，如果无须配置这个可以不用配置）"><a href="#3-配置-spark-defaults-conf（配置historyServer必须配置这个，如果无须配置这个可以不用配置）" class="headerlink" title="3.配置 spark-defaults.conf（配置historyServer必须配置这个，如果无须配置这个可以不用配置）"></a>3.配置 spark-defaults.conf（配置historyServer必须配置这个，如果无须配置这个可以不用配置）</h1><p>cp spark-defaults.conf.template spark-defaults.conf</p>
+<p>spark.executor.extraJavaOptions  -XX:+PrintGCDetails -Dkey=value -Dnumbers=”one two three”<br>spark.eventLog.enabled           true<br>spark.eventLog.dir               hdfs://master:9000/historyServerforSpark<br>spark.yarn.historyServer.address work1:18080<br>spark.history.fs.logDirectory    hdfs://master:9000/historyServerforSpark</p>
+<h1 id="4-配置-spark-env-sh"><a href="#4-配置-spark-env-sh" class="headerlink" title="4.配置  spark-env.sh"></a>4.配置  spark-env.sh</h1><p>export SCALA_HOME=/usr/soft/scala-2.11.8<br>export JAVA_HOME=/usr/soft/jdk1.8<br>export SPARK_MASTER_IP=master<br>export SPARK_WORKER_MEMORY=1g<br>export HADOOP_HOME=/usr/soft/hadoop2.6<br>export HADOOP_CONF_DIR=/usr/soft/hadoop2.6/etc/hadoop</p>
+<h1 id="5-拷贝文件"><a href="#5-拷贝文件" class="headerlink" title="5.拷贝文件"></a>5.拷贝文件</h1><p>scp /usr/soft/spark2.1/conf/spark-env.sh root@node1:/usr/soft/spark2.1/conf/<br>scp /usr/soft/spark2.1/conf/spark-env.sh root@node2:/usr/soft/spark2.1/conf/</p>
+<p>scp /usr/soft/spark2.1/conf/slaves root@node1:/usr/soft/spark2.1/conf/<br>scp /usr/soft/spark2.1/conf/slaves root@node2:/usr/soft/spark2.1/conf/</p>
+<h1 id="6-启动"><a href="#6-启动" class="headerlink" title="6.启动"></a>6.启动</h1><p>/usr/soft/spark2.1/sbin/start-master.sh<br>/usr/soft/spark2.1/sbin/start-slaves.sh</p>
+<p>/usr/soft/spark2.1/sbin/stop-all.sh</p>
+<h1 id="创建历史记录目录"><a href="#创建历史记录目录" class="headerlink" title="创建历史记录目录"></a>创建历史记录目录</h1><blockquote>
+<p>hadoop fs -mkdir /historyServerforSpark</p>
+</blockquote>
+<p>　　hadoop fs -mkdir -p /Hadoop/Input（在HDFS创建目录）<br>　　hadoop fs -put hello.txt /Hadoop/Input（将hello.txt文件上传到HDFS）<br>　　hadoop fs -ls /Hadoop/Input （查看上传的文件）<br>　　hadoop fs -text /Hadoop/Input/hello.txt （查看文件内容）</p>
+<h1 id="启动spark-shell测试"><a href="#启动spark-shell测试" class="headerlink" title="启动spark-shell测试"></a>启动spark-shell测试</h1><p>创建测试数据</p>
+<blockquote>
+<p>hadoop fs -mkdir /testdata<br>hadoop fs -put $SPARK_HOME/LICENSE /testdata</p>
+</blockquote>
+<p>启动spark-shell</p>
+<blockquote>
+<p>/usr/soft/spark2.1/bin/spark-shell –master spark://master:7077</p>
+</blockquote>
+<p>spark wordcount<br>注意：如果是读本地文件，集群中的各节点都需要有这个文件，不然会提示找不到文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">val file=sc.textFile(&quot;file:/usr/soft/spark-2.1.0-bin-hadoop2.6/README.md&quot;)</span><br><span class="line">val file=sc.textFile(&quot;/usr/soft/spark-2.1.0-bin-hadoop2.6/README.md&quot;)</span><br><span class="line">val file=sc.textFile(&quot;hdsf://master:9000/testdata/README.md&quot;)</span><br><span class="line"></span><br><span class="line">//val rdd = file.flatMap(line =&gt; line.split(&quot; &quot;)).map(word =&gt; (word,1)).reduceByKey(_+_)</span><br><span class="line"></span><br><span class="line">val words = file.flatMap(line =&gt; line.split(&quot; &quot;))</span><br><span class="line">val pairs = words.map(word =&gt; (words,1))</span><br><span class="line"></span><br><span class="line">//val wordcount = pairs.reduceByKey((v1,v2) =&gt; v1+v2)</span><br><span class="line">val wordcount = pairs.reduceByKey(_+_)</span><br><span class="line"></span><br><span class="line">wordcount.collect().foreach(println)</span><br><span class="line"></span><br><span class="line">val rddTotal = rdd.collect()</span><br><span class="line">rddTotal.foreach(println)</span><br></pre></td></tr></table></figure>
+<p>wordcount升级版，增加排序<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">val file=sc.textFile(&quot;hdfs://master:9000/testdata/LICENSE&quot;)</span><br><span class="line">val rdd = file.flatMap(line=&gt;line.split(&quot; &quot;)).map(word =&gt; (word,1)).reduceByKey(_+_).map(tp=&gt;(tp._2,tp._1)).sortByKey(false).map(item=&gt;(item._2,item._1)).collect</span><br><span class="line">rdd.foreach(println)</span><br></pre></td></tr></table></figure></p>
+<p>val textFile = spark.read.textFile(“/testdata/LICENSE”)</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Hadoop</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">集群</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/08/16/bigdata-evn-spark/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-bigdata-evn-hive" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/16/bigdata-evn-hive/">Hive集群环境配置</a>
+    </h1>
+  
+
+        
+        <a href="/2018/08/16/bigdata-evn-hive/" class="archive-article-date">
+  	<time datetime="2018-08-16T09:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="1-解压Hive，配置环境变量"><a href="#1-解压Hive，配置环境变量" class="headerlink" title="1.解压Hive，配置环境变量"></a>1.解压Hive，配置环境变量</h1><blockquote>
+<p>export HIVE_HOME=/usr/soft/hive2.1<br>export PATH=.:$PATH:${HIVE_HOME}/bin:</p>
+</blockquote>
+<h1 id="2-配置Hive"><a href="#2-配置Hive" class="headerlink" title="2.配置Hive"></a>2.配置Hive</h1><blockquote>
+<p>cd $HIVE_HOME/conf<br>cp hive-default.xml.template hive-site.xml</p>
+</blockquote>
+<p>修改hive-site.xml内容如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;</span><br><span class="line">&lt;?xml-stylesheet type="text/xsl" href="configuration.xsl"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionURL<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>jdbc:mysql://192.168.2.102:3306/hive?createDatabaseIfNotExsit=true; characterEncoding=UTFq8<span class="tag">&lt;/<span class="name">va</span></span></span><br><span class="line"><span class="tag"><span class="attr">lue</span>&gt;</span>    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionDriverName<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>com.mysql.jdbc.Driver<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionUserName<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>root<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionPassword<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>123456<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>datanucleus.readOnlyDatastore<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>false<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>datanucleus.fixedDatastore<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>false<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>datanucleus.autoCreateSchema<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>datanucleus.autoCreateTables<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>datanucleus.autoCreateColumns<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h1 id="把MySql的驱动jar包复制到lib目录下面"><a href="#把MySql的驱动jar包复制到lib目录下面" class="headerlink" title="把MySql的驱动jar包复制到lib目录下面"></a>把MySql的驱动jar包复制到lib目录下面</h1><h1 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h1><p>./bin/hive –service metastore &amp;</p>
+<p>nohup hive –service metastore &amp;<br>nohup hive –service metastore &gt; metastore.log 2&gt;&amp;1 &amp;</p>
+<p>查看服务<br>ps -aux|grep metastore<br>ps -ef |grep metastore</p>
+<h1 id="启动Hive"><a href="#启动Hive" class="headerlink" title="启动Hive"></a>启动Hive</h1><p>./bin/hive</p>
+<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> tbDate(dateID <span class="keyword">string</span>,theyearmonth <span class="keyword">string</span>,theyear <span class="keyword">string</span>,themonth <span class="keyword">string</span>,thedate <span class="keyword">string</span>,theweek <span class="keyword">string</span>,theweeks <span class="keyword">string</span>,thequot <span class="keyword">string</span>,thetenday <span class="keyword">string</span>,thehalfmonth <span class="keyword">string</span>) <span class="keyword">ROW</span> <span class="keyword">FORMAT</span> <span class="keyword">DELIMITED</span> <span class="keyword">FIELDS</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">','</span> <span class="keyword">LINES</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\n'</span> ;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> tbStock(ordernumber <span class="keyword">STRING</span>,locationid <span class="keyword">string</span>,dateID <span class="keyword">string</span>) <span class="keyword">ROW</span> <span class="keyword">FORMAT</span> <span class="keyword">DELIMITED</span> <span class="keyword">FIELDS</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">','</span> <span class="keyword">LINES</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\n'</span> ;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> tbStockDetail(ordernumber <span class="keyword">STRING</span>,<span class="keyword">rownum</span> <span class="built_in">int</span>,itemid <span class="keyword">string</span>,qty <span class="built_in">int</span>,price <span class="built_in">int</span> ,amount <span class="built_in">int</span>) <span class="keyword">ROW</span> <span class="keyword">FORMAT</span> <span class="keyword">DELIMITED</span> <span class="keyword">FIELDS</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">','</span> <span class="keyword">LINES</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\n'</span> ;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> SOGOUQ2(DT <span class="keyword">STRING</span>,WEBSESSION <span class="keyword">STRING</span>,WORD <span class="keyword">STRING</span>,S_SEQ <span class="built_in">INT</span>,C_SEQ <span class="built_in">INT</span>,WEBSITE <span class="keyword">STRING</span>) <span class="keyword">ROW</span> <span class="keyword">FORMAT</span> <span class="keyword">DELIMITED</span> <span class="keyword">FIELDS</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\t'</span> <span class="keyword">LINES</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\n'</span> ;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">EXTERNAL</span> <span class="keyword">TABLE</span> SOGOUQ1(DT <span class="keyword">STRING</span>,WEBSESSION <span class="keyword">STRING</span>,WORD <span class="keyword">STRING</span>,S_SEQ <span class="built_in">INT</span>,C_SEQ <span class="built_in">INT</span>,WEBSITE <span class="keyword">STRING</span>) <span class="keyword">ROW</span> <span class="keyword">FORMAT</span> <span class="keyword">DELIMITED</span> <span class="keyword">FIELDS</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\t'</span> <span class="keyword">LINES</span> <span class="keyword">TERMINATED</span></span><br><span class="line"> <span class="keyword">BY</span> <span class="string">'\n'</span> <span class="keyword">STORED</span> <span class="keyword">AS</span> TEXTFILE LOCATION <span class="string">'/class5/sogouq1'</span>;</span><br></pre></td></tr></table></figure>
+<h1 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h1><h2 id="无法方法MySql服务"><a href="#无法方法MySql服务" class="headerlink" title="无法方法MySql服务"></a>无法方法MySql服务</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">grant</span> all <span class="keyword">privileges</span> <span class="keyword">on</span> *.* <span class="keyword">to</span> <span class="string">'root'</span>@<span class="string">'%'</span> <span class="keyword">identified</span> <span class="keyword">by</span> <span class="string">'123456'</span>;</span><br><span class="line"><span class="keyword">flush</span> <span class="keyword">privileges</span>;</span><br></pre></td></tr></table></figure>
+<p>如下正确：<br>mysql&gt;grant all privileges on <em>.</em> to ‘用户名‘@’ip地址’ identified by ‘密码’;<br>all privileges 所有权限 也可以写成select ,update等<br><em>.</em> 所有库的所有表 如databasename.*<br>用户名 随便起<br>IP  数据库所在的IP<br>identified by ‘密码’ 表示通过密码连接</p>
+<p>执行完上述命令后用下面的命令刷新一下权限<br>mysql&gt;flush privileges;</p>
+<h2 id="异常问题1："><a href="#异常问题1：" class="headerlink" title="异常问题1："></a>异常问题1：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.</span><br><span class="line">SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]</span><br><span class="line">javax.jdo.JDODataStoreException: Required table missing : &quot;`VERSION`&quot; in Catalog &quot;&quot; Schema &quot;&quot;. DataNucleus requires this table to perform its persistence operations. Either your MetaData is incorrect,</span><br><span class="line">or you need to enable &quot;datanucleus.schema.autoCreateTables&quot;	at org.datanucleus.api.jdo.NucleusJDOHelper.getJDOExceptionForNucleusException(NucleusJDOHelper.java:553)</span><br><span class="line">	at org.datanucleus.api.jdo.JDOPersistenceManager.jdoMakePersistent(JDOPersistenceManager.java:720)</span><br><span class="line">	at org.datanucleus.api.jdo.JDOPersistenceManager.makePersistent(JDOPersistenceManager.java:740)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.ObjectStore.setMetaStoreSchemaVersion(ObjectStore.java:7763)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.ObjectStore.checkSchema(ObjectStore.java:7657)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.ObjectStore.verifySchema(ObjectStore.java:7632)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</span><br><span class="line">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</span><br><span class="line">	at java.lang.reflect.Method.invoke(Method.java:497)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.RawStoreProxy.invoke(RawStoreProxy.java:101)</span><br><span class="line">	at com.sun.proxy.$Proxy18.verifySchema(Unknown Source)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore$HMSHandler.getMS(HiveMetaStore.java:547)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore$HMSHandler.createDefaultDB(HiveMetaStore.java:612)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore$HMSHandler.init(HiveMetaStore.java:398)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.RetryingHMSHandler.&lt;init&gt;(RetryingHMSHandler.java:78)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.RetryingHMSHandler.getProxy(RetryingHMSHandler.java:84)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore.newRetryingHMSHandler(HiveMetaStore.java:6390)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore.newRetryingHMSHandler(HiveMetaStore.java:6385)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore.startMetaStore(HiveMetaStore.java:6643)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore.main(HiveMetaStore.java:6570)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</span><br><span class="line">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</span><br><span class="line">	at java.lang.reflect.Method.invoke(Method.java:497)</span><br><span class="line">	at org.apache.hadoop.util.RunJar.run(RunJar.java:221)</span><br><span class="line">	at org.apache.hadoop.util.RunJar.main(RunJar.java:136)</span><br><span class="line">NestedThrowablesStackTrace:</span><br></pre></td></tr></table></figure>
+<p>解决方法：</p>
+<blockquote>
+<p>进入到hive_home然后执行下面命令:<br>bin/schematool -dbType mysql -initSchema</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line">SLF4J: Class path contains multiple SLF4J bindings.</span><br><span class="line">SLF4J: Found binding in [jar:file:/usr/soft/hive2.1/lib/log4j-slf4j-impl-2.4.1.jar!/org/slf4j/impl/StaticLoggerBinder.class]</span><br><span class="line">SLF4J: Found binding in [jar:file:/usr/soft/hadoop-2.6.0/share/hadoop/common/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]</span><br><span class="line">SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.</span><br><span class="line">SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]</span><br><span class="line">javax.jdo.JDOFatalDataStoreException: Unable to open a test connection to the given database. JDBC url = jdbc:mysql://192.168.52.1:3306/hive?createDatabas</span><br><span class="line">eIfNotExsit=true; characterEncoding=UTFq8, username = root. Terminating connection pool (set lazyInit to true if you expect to start your database after your app). Original Exception: ------com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown database &apos;hive&apos;</span><br><span class="line">	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)</span><br><span class="line">	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)</span><br><span class="line">	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)</span><br><span class="line">	at java.lang.reflect.Constructor.newInstance(Constructor.java:422)</span><br><span class="line">	at com.mysql.jdbc.Util.handleNewInstance(Util.java:404)</span><br><span class="line">	at com.mysql.jdbc.Util.getInstance(Util.java:387)</span><br><span class="line">	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:939)</span><br><span class="line">	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3878)</span><br><span class="line">	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3814)</span><br><span class="line">	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:871)</span><br><span class="line">	at com.mysql.jdbc.MysqlIO.proceedHandshakeWithPluggableAuthentication(MysqlIO.java:1694)</span><br><span class="line">	at com.mysql.jdbc.MysqlIO.doHandshake(MysqlIO.java:1215)</span><br><span class="line">	at com.mysql.jdbc.ConnectionImpl.coreConnect(ConnectionImpl.java:2255)</span><br><span class="line">	at com.mysql.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:2286)</span><br><span class="line">	at com.mysql.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:2085)</span><br><span class="line">	at com.mysql.jdbc.ConnectionImpl.&lt;init&gt;(ConnectionImpl.java:795)</span><br><span class="line">	at com.mysql.jdbc.JDBC4Connection.&lt;init&gt;(JDBC4Connection.java:44)</span><br><span class="line">	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)</span><br><span class="line">	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)</span><br><span class="line">	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)</span><br><span class="line">	at java.lang.reflect.Constructor.newInstance(Constructor.java:422)</span><br><span class="line">	at com.mysql.jdbc.Util.handleNewInstance(Util.java:404)</span><br><span class="line">	at com.mysql.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:400)</span><br><span class="line">	at com.mysql.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:327)</span><br><span class="line">	at java.sql.DriverManager.getConnection(DriverManager.java:664)</span><br><span class="line">	at java.sql.DriverManager.getConnection(DriverManager.java:208)</span><br><span class="line">	at com.jolbox.bonecp.BoneCP.obtainRawInternalConnection(BoneCP.java:361)</span><br><span class="line">	at com.jolbox.bonecp.BoneCP.&lt;init&gt;(BoneCP.java:416)</span><br><span class="line">	at com.jolbox.bonecp.BoneCPDataSource.getConnection(BoneCPDataSource.java:120)</span><br><span class="line">	at org.datanucleus.store.rdbms.ConnectionFactoryImpl$ManagedConnectionImpl.getConnection(ConnectionFactoryImpl.java:483)</span><br><span class="line">	at org.datanucleus.store.rdbms.RDBMSStoreManager.&lt;init&gt;(RDBMSStoreManager.java:296)</span><br><span class="line">	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)</span><br><span class="line">	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)</span><br><span class="line">	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)</span><br><span class="line">	at java.lang.reflect.Constructor.newInstance(Constructor.java:422)</span><br><span class="line">	at org.datanucleus.plugin.NonManagedPluginRegistry.createExecutableExtension(NonManagedPluginRegistry.java:606)</span><br><span class="line">	at org.datanucleus.plugin.PluginManager.createExecutableExtension(PluginManager.java:301)</span><br><span class="line">	at org.datanucleus.NucleusContextHelper.createStoreManagerForProperties(NucleusContextHelper.java:133)</span><br><span class="line">	at org.datanucleus.PersistenceNucleusContextImpl.initialise(PersistenceNucleusContextImpl.java:420)</span><br><span class="line">	at org.datanucleus.api.jdo.JDOPersistenceManagerFactory.freezeConfiguration(JDOPersistenceManagerFactory.java:821)</span><br><span class="line">	at org.datanucleus.api.jdo.JDOPersistenceManagerFactory.createPersistenceManagerFactory(JDOPersistenceManagerFactory.java:338)</span><br><span class="line">	at org.datanucleus.api.jdo.JDOPersistenceManagerFactory.getPersistenceManagerFactory(JDOPersistenceManagerFactory.java:217)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</span><br><span class="line">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</span><br><span class="line">	at java.lang.reflect.Method.invoke(Method.java:497)</span><br><span class="line">	at javax.jdo.JDOHelper$16.run(JDOHelper.java:1965)</span><br><span class="line">	at java.security.AccessController.doPrivileged(Native Method)</span><br><span class="line">	at javax.jdo.JDOHelper.invoke(JDOHelper.java:1960)</span><br><span class="line">	at javax.jdo.JDOHelper.invokeGetPersistenceManagerFactoryOnImplementation(JDOHelper.java:1166)</span><br><span class="line">	at javax.jdo.JDOHelper.getPersistenceManagerFactory(JDOHelper.java:808)</span><br><span class="line">	at javax.jdo.JDOHelper.getPersistenceManagerFactory(JDOHelper.java:701)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.ObjectStore.getPMF(ObjectStore.java:424)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.ObjectStore.getPersistenceManager(ObjectStore.java:453)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.ObjectStore.initialize(ObjectStore.java:327)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.ObjectStore.setConf(ObjectStore.java:294)</span><br><span class="line">	at org.apache.hadoop.util.ReflectionUtils.setConf(ReflectionUtils.java:73)</span><br><span class="line">	at org.apache.hadoop.util.ReflectionUtils.newInstance(ReflectionUtils.java:133)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.RawStoreProxy.&lt;init&gt;(RawStoreProxy.java:58)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.RawStoreProxy.getProxy(RawStoreProxy.java:67)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore$HMSHandler.newRawStore(HiveMetaStore.java:581)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore$HMSHandler.getMS(HiveMetaStore.java:546)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore$HMSHandler.createDefaultDB(HiveMetaStore.java:612)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore$HMSHandler.init(HiveMetaStore.java:398)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.RetryingHMSHandler.&lt;init&gt;(RetryingHMSHandler.java:78)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.RetryingHMSHandler.getProxy(RetryingHMSHandler.java:84)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore.newRetryingHMSHandler(HiveMetaStore.java:6390)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore.newRetryingHMSHandler(HiveMetaStore.java:6385)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore.startMetaStore(HiveMetaStore.java:6643)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore.main(HiveMetaStore.java:6570)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</span><br><span class="line">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</span><br><span class="line">	at java.lang.reflect.Method.invoke(Method.java:497)</span><br><span class="line">	at org.apache.hadoop.util.RunJar.run(RunJar.java:221)</span><br><span class="line">	at org.apache.hadoop.util.RunJar.main(RunJar.java:136)</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">集群</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Hive</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/08/16/bigdata-evn-hive/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-bigdata-evn-hadoop" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/16/bigdata-evn-hadoop/">Hadoop环境集群环境配置</a>
+    </h1>
+  
+
+        
+        <a href="/2018/08/16/bigdata-evn-hadoop/" class="archive-article-date">
+  	<time datetime="2018-08-16T09:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="0-安装VMware和Ubuntn"><a href="#0-安装VMware和Ubuntn" class="headerlink" title="0. 安装VMware和Ubuntn"></a>0. 安装VMware和Ubuntn</h1><p>略</p>
+<h1 id="1-Linux环境设置"><a href="#1-Linux环境设置" class="headerlink" title="1.Linux环境设置"></a>1.Linux环境设置</h1><h2 id="1-1-安装配置SSH"><a href="#1-1-安装配置SSH" class="headerlink" title="1.1 安装配置SSH"></a>1.1 安装配置SSH</h2><h3 id="1-1-1-安装"><a href="#1-1-1-安装" class="headerlink" title="1.1.1 安装"></a>1.1.1 安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install openssh-server openssh-client</span><br></pre></td></tr></table></figure>
+<p>查看SSH是否启动</p>
+<blockquote>
+<p>sudo ps -e |grep ssh<br>运行上面命令，如果有sshd，则表示ssh服务已经启动。没有启动，运行如下<br>sudo service ssh start</p>
+</blockquote>
+<p>设置允许Root用户登录</p>
+<blockquote>
+<p>sudo gedit /etc/ssh/sshd_config</p>
+</blockquote>
+<p>修改如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PermitRootLogin yes</span><br></pre></td></tr></table></figure></p>
+<p>重启SSH</p>
+<blockquote>
+<p>sudo /etc/init.d/ssh restart</p>
+</blockquote>
+<h3 id="1-1-2-配置ssh无需密码访问"><a href="#1-1-2-配置ssh无需密码访问" class="headerlink" title="1.1.2 配置ssh无需密码访问"></a>1.1.2 配置ssh无需密码访问</h3><p>生成key</p>
+<blockquote>
+<p>ssh-keygen -t dsa -P ‘’ -f ~/.ssh/id_dsa</p>
+</blockquote>
+<p>拷贝所有从机的公钥到master</p>
+<p>在node1上操作</p>
+<blockquote>
+<p>scp ~/.ssh/id_dsa.pub hadoop@master:/home/hadoop/.ssh/id_dsa.pub.node1</p>
+</blockquote>
+<p>在node2上操作</p>
+<blockquote>
+<p>scp ~/.ssh/id_dsa.pub hadoop@master:/home/hadoop/.ssh/id_dsa.pub.node2</p>
+</blockquote>
+<p>所有公钥文件追加到authorized_keys</p>
+<blockquote>
+<p>cat ~/.ssh/id_dsa.pub &gt;&gt; ~/.ssh/authorized_keys<br>cat id_dsa.pub.node1 &gt;&gt; authorized_keys<br>cat id_dsa.pub.node2 &gt;&gt; authorized_keys</p>
+</blockquote>
+<p>生成的公钥文件拷贝到各机</p>
+<p>scp authorized_keys hadoop@node1:/home/hadoop/.ssh/authorized_keys<br>scp authorized_keys hadoop@node2:/home/hadoop/.ssh/authorized_keys</p>
+<h2 id="修改主机名"><a href="#修改主机名" class="headerlink" title="修改主机名"></a>修改主机名</h2><blockquote>
+<p>sudo vim /etc/hostname</p>
+</blockquote>
+<h2 id="修改hosts文件"><a href="#修改hosts文件" class="headerlink" title="修改hosts文件"></a>修改hosts文件</h2><blockquote>
+<p>sudo vim /etc/hosts</p>
+</blockquote>
+<h1 id="2-JDK安装配置"><a href="#2-JDK安装配置" class="headerlink" title="2.JDK安装配置"></a>2.JDK安装配置</h1><p>解压安装包，修改环境变量</p>
+<blockquote>
+<p>sudo vim /etc/profile</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME=/usr/soft/jdk1.8</span><br><span class="line">export PATH=$PATH:$&#123;JAVA_HOME&#125;/bin:</span><br></pre></td></tr></table></figure>
+<h1 id="3-Scala安装配置"><a href="#3-Scala安装配置" class="headerlink" title="3.Scala安装配置"></a>3.Scala安装配置</h1><h1 id="4-Hadoop安装配置"><a href="#4-Hadoop安装配置" class="headerlink" title="4.Hadoop安装配置"></a>4.Hadoop安装配置</h1><h2 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h2><blockquote>
+<p>sodu vim /etc/profile</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export HADOOP_HOME=/usr/soft/hadoop-2.6.0</span><br><span class="line">export PATH=$PATH:$&#123;HADOOP_HOME&#125;/bin:</span><br></pre></td></tr></table></figure>
+<h2 id="配置hadoop-env-sh"><a href="#配置hadoop-env-sh" class="headerlink" title="配置hadoop-env.sh"></a>配置hadoop-env.sh</h2><blockquote>
+<p>vim /usr/soft/hadoop-2.6.0/etc/hadoop/hadoop-env.sh</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME=/usr/soft/jdk1.8</span><br><span class="line">export HADOOP_PREFIX=/usr/soft/hadoop-2.6.0</span><br></pre></td></tr></table></figure>
+<h2 id="配置-core-site-xml"><a href="#配置-core-site-xml" class="headerlink" title="配置 core-site.xml"></a>配置 core-site.xml</h2><blockquote>
+<p>vim /usr/soft/hadoop-2.6.0/etc/hadoop/core-site.xml</p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>fs.defaultFS<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>hdfs://master:9000<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.tmp.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/usr/soft/hadoop-2.6.0/tmp<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="配置-hdfs-site-xml"><a href="#配置-hdfs-site-xml" class="headerlink" title="配置 hdfs-site.xml"></a>配置 hdfs-site.xml</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.secondary.http-address<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>master:9001<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.name.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">value</span>&gt;</span>file:/usr/soft/hadoop-2.6.0/dfs/name<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.datanode.data.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>file:/usr/soft/hadoop-2.6.0/dfs/data<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.replication<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>2<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.webhdfs.enabled<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="配置-mapred-site-xml"><a href="#配置-mapred-site-xml" class="headerlink" title="配置 mapred-site.xml"></a>配置 mapred-site.xml</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.framework.name<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>yarn<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="配置yarn-env-sh"><a href="#配置yarn-env-sh" class="headerlink" title="配置yarn-env.sh"></a>配置yarn-env.sh</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME=/usr/soft/jdk1.8</span><br></pre></td></tr></table></figure>
+<h2 id="配置yarn-site-xml"><a href="#配置yarn-site-xml" class="headerlink" title="配置yarn-site.xml"></a>配置yarn-site.xml</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.aux-services<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>mapreduce_shuffle<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.hostname<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>master<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="配置-slaves"><a href="#配置-slaves" class="headerlink" title="配置 slaves"></a>配置 slaves</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node1</span><br><span class="line">node2</span><br></pre></td></tr></table></figure>
+<h2 id="将配置文件拷贝到各机器"><a href="#将配置文件拷贝到各机器" class="headerlink" title="将配置文件拷贝到各机器"></a>将配置文件拷贝到各机器</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/hadoop-env.sh hadoop@node1:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/hadoop-env.sh hadoop@node2:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line"></span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/core-site.xml hadoop@node1:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/core-site.xml hadoop@node2:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line"></span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/hdfs-site.xml hadoop@node1:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/hdfs-site.xml hadoop@node2:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line"></span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/mapred-site.xml hadoop@node1:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/mapred-site.xml hadoop@node2:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line"></span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/yarn-site.xml hadoop@node1:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/yarn-site.xml hadoop@node2:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line"></span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/slaves hadoop@node1:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/slaves hadoop@node1:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br></pre></td></tr></table></figure>
+<h2 id="格式化hdfs"><a href="#格式化hdfs" class="headerlink" title="格式化hdfs"></a>格式化hdfs</h2><blockquote>
+<p>/usr/soft/hadoop-2.6.0/bin/hdfs namenode -format</p>
+</blockquote>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><blockquote>
+<p>/usr/soft/hadoop-2.6.0/sbin/start-dfs.sh<br>/usr/soft/hadoop-2.6.0/sbin/stop-dfs.sh</p>
+</blockquote>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Hadoop</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">集群</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/08/16/bigdata-evn-hadoop/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-bigdata-dw-KimballvsInmon" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/16/bigdata-dw-KimballvsInmon/">Kimball VS Inmon</a>
+    </h1>
+  
+
+        
+        <a href="/2018/08/16/bigdata-dw-KimballvsInmon/" class="archive-article-date">
+  	<time datetime="2018-08-16T09:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>优劣比较</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>Kimball</th>
+<th>Inmon</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>时间</td>
+<td>快速交付</td>
+<td>路漫漫</td>
+</tr>
+<tr>
+<td>开发难度</td>
+<td>小</td>
+<td>大</td>
+</tr>
+<tr>
+<td>维护难度</td>
+<td>大</td>
+<td>小</td>
+</tr>
+<tr>
+<td>技能要求</td>
+<td>入门级</td>
+<td>专家级</td>
+</tr>
+<tr>
+<td>数据要求</td>
+<td>特定业务</td>
+<td>企业级</td>
+</tr>
+</tbody>
+</table>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据仓库</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/08/16/bigdata-dw-KimballvsInmon/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-tools-maven" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/16/tools-maven/">windows下使用nexus3搭建maven私库</a>
+    </h1>
+  
+
+        
+        <a href="/2018/08/16/tools-maven/" class="archive-article-date">
+  	<time datetime="2018-08-16T09:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="安装nexus"><a href="#安装nexus" class="headerlink" title="安装nexus"></a>安装nexus</h1><p><a href="http://www.sonatype.com/download-oss-sonatype" target="_blank" rel="noopener">http://www.sonatype.com/download-oss-sonatype</a></p>
+<p>下载Windows版本</p>
+<p>解压</p>
+<p>进入bin目录运行</p>
+<blockquote>
+<p>nexus.exe /run</p>
+</blockquote>
+<p>没什么意外的情况下即可访问<a href="http://localhost:8081" target="_blank" rel="noopener">http://localhost:8081</a></p>
+<h1 id="配置nexus"><a href="#配置nexus" class="headerlink" title="配置nexus"></a>配置nexus</h1><p>默认系统用户密码:admin/admin123</p>
+<p>登录成功后 左边Administration下</p>
+<p>Blob Stores 存放目录（可在此定义自己的存放目录）<br>Repostitories 为远程资源管理（可在这添加资源，比如添加阿里的库）</p>
+<h1 id="配置Maven"><a href="#配置Maven" class="headerlink" title="配置Maven"></a>配置Maven</h1><p>修改Maven的settings文件</p>
+<ul>
+<li><p>增加server</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;server&gt;</span><br><span class="line">  &lt;id&gt;my-nexus-releases&lt;/id&gt;</span><br><span class="line">  &lt;username&gt;admin&lt;/username&gt;</span><br><span class="line">  &lt;password&gt;admin123&lt;/password&gt;</span><br><span class="line">&lt;/server&gt;</span><br><span class="line">&lt;server&gt;</span><br><span class="line">  &lt;id&gt;my-nexus-snapshot&lt;/id&gt;</span><br><span class="line">  &lt;username&gt;admin&lt;/username&gt;</span><br><span class="line">  &lt;password&gt;admin123&lt;/password&gt;</span><br><span class="line">&lt;/server&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>增加mirrors<br>注意这个URL跟nexus里的Repostitories的URL一致</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;mirror&gt;</span><br><span class="line">	  &lt;!--This sends everything else to /public --&gt;</span><br><span class="line">	  &lt;id&gt;nexus&lt;/id&gt;</span><br><span class="line">	  &lt;mirrorOf&gt;*&lt;/mirrorOf&gt;</span><br><span class="line">	  &lt;url&gt;http://localhost:8081/repository/mygroup/&lt;/url&gt;</span><br><span class="line">	&lt;/mirror&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>增加profile<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;profile&gt;</span><br><span class="line">  &lt;id&gt;nexus&lt;/id&gt;</span><br><span class="line">	&lt;!--Enable snapshots for the built in central repo to direct --&gt;</span><br><span class="line">	&lt;!--all requests to nexus via the mirror --&gt;</span><br><span class="line">  &lt;repositories&gt;</span><br><span class="line">	&lt;repository&gt;</span><br><span class="line">		&lt;id&gt;central&lt;/id&gt;</span><br><span class="line">		&lt;url&gt;http://central&lt;/url&gt;</span><br><span class="line">		&lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/releases&gt;</span><br><span class="line">		&lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/snapshots&gt;</span><br><span class="line">	&lt;/repository&gt;</span><br><span class="line">  &lt;/repositories&gt;</span><br><span class="line">  &lt;pluginRepositories&gt;</span><br><span class="line">    &lt;pluginRepository&gt;</span><br><span class="line">		&lt;id&gt;central&lt;/id&gt;</span><br><span class="line">		&lt;url&gt;http://central&lt;/url&gt;</span><br><span class="line">		&lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/releases&gt;</span><br><span class="line">		&lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/snapshots&gt;</span><br><span class="line">	&lt;/pluginRepository&gt;</span><br><span class="line">  &lt;/pluginRepositories&gt;</span><br><span class="line">&lt;/profile&gt;</span><br></pre></td></tr></table></figure></p>
+<p>设置activeProfiles<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;activeProfiles&gt;</span><br><span class="line">  &lt;activeProfile&gt;nexus&lt;/activeProfile&gt;</span><br><span class="line">&lt;/activeProfiles&gt;</span><br></pre></td></tr></table></figure></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">nexus3</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">maven私库</a>
         		</li>
       		
 		</ul>
@@ -200,7 +1223,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/08/tools-atom-01/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/08/16/tools-maven/">展开全文 >></a>
         </p>
       
 
@@ -230,908 +1253,10 @@
 
 
   
-    <article id="post-skill-communication" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/07/skill-communication/">有效沟通笔记</a>
-    </h1>
-  
-
-        
-        <a href="/2018/08/07/skill-communication/" class="archive-article-date">
-  	<time datetime="2018-08-07T07:48:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="0-概述"><a href="#0-概述" class="headerlink" title="0.概述"></a>0.概述</h1><h1 id="1-为何我们不会好好沟通"><a href="#1-为何我们不会好好沟通" class="headerlink" title="1.为何我们不会好好沟通"></a>1.为何我们不会好好沟通</h1><h2 id="三种常见认知偏差"><a href="#三种常见认知偏差" class="headerlink" title="三种常见认知偏差"></a>三种常见认知偏差</h2><h3 id="1）基本归因错误"><a href="#1）基本归因错误" class="headerlink" title="1）基本归因错误"></a>1）基本归因错误</h3><p>我们往往将行为归因于人的性格和态度，而忽视、或者不去了解外部的环境因素。</p>
-<h3 id="2）行动者-观察者偏差"><a href="#2）行动者-观察者偏差" class="headerlink" title="2）行动者-观察者偏差"></a>2）行动者-观察者偏差</h3><blockquote>
-<p>举个例子，你上班迟到是因为懒，我上班迟到是因为压力大；你忘了订机票是因为不负责任，我忘了订机票是工作太忙。典型的双重标准。</p>
-<p>如果我们是行动者，我们倾向于把自己的行为归因于外部环境；如果我们是观察者，则会将其他人（行动者）的行为归因于性格和态度。</p>
-</blockquote>
-<h3 id="3-自利偏差"><a href="#3-自利偏差" class="headerlink" title="3.自利偏差"></a>3.自利偏差</h3><blockquote>
-<p>以和朋友打羽毛球为例，如果你赢了，你会觉得是自己水平比较高；如果你输了，你会觉得是状态不好或者运气不佳。</p>
-<p>在进行归因时，人们尽量使自己处于有利的地位，将积极的结果归因于自己，将消极的结果归因于环境。</p>
-</blockquote>
-<blockquote>
-<p>归因偏差是人之常情，但在了解之后，我们就可以尽量避免认知偏差对我们造成负面影响。</p>
-</blockquote>
-<p><img src="/assets/img/skill-bz01.png" alt="沟通本质"></p>
-<h2 id="沟通陷阱"><a href="#沟通陷阱" class="headerlink" title="沟通陷阱"></a>沟通陷阱</h2><p><img src="/assets/img/skill-xj01.png" alt="锦囊"></p>
-<h2 id="三个锦囊"><a href="#三个锦囊" class="headerlink" title="三个锦囊"></a>三个锦囊</h2><p><img src="/assets/img/skill-jn1.jpg" alt="锦囊一"><br><img src="/assets/img/skill-jn2.jpg" alt="锦囊二"><br><img src="/assets/img/skill-jn3.jpg" alt="锦囊三"></p>
-<h1 id="2-让坏情绪不再影响沟通"><a href="#2-让坏情绪不再影响沟通" class="headerlink" title="2.让坏情绪不再影响沟通"></a>2.让坏情绪不再影响沟通</h1><h1 id="3-开口前，先弄清你的对话目的"><a href="#3-开口前，先弄清你的对话目的" class="headerlink" title="3.开口前，先弄清你的对话目的"></a>3.开口前，先弄清你的对话目的</h1><h1 id="4-对话中，建立双方的共同目的"><a href="#4-对话中，建立双方的共同目的" class="headerlink" title="4.对话中，建立双方的共同目的"></a>4.对话中，建立双方的共同目的</h1><h1 id="5-表达三步走"><a href="#5-表达三步走" class="headerlink" title="5.表达三步走"></a>5.表达三步走</h1><h1 id="6-倾听四部曲"><a href="#6-倾听四部曲" class="headerlink" title="6.倾听四部曲"></a>6.倾听四部曲</h1><h1 id="7-让对话推动决策"><a href="#7-让对话推动决策" class="headerlink" title="7.让对话推动决策"></a>7.让对话推动决策</h1>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">沟通</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/技能//" class="article-tag-list-link color3">技能</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/技能/沟通//" class="article-tag-list-link color3">沟通</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/07/skill-communication/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-bigdata-spark-fun-02" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/07/bigdata-spark-fun-02/">spark RDD的action操作</a>
-    </h1>
-  
-
-        
-        <a href="/2018/08/07/bigdata-spark-fun-02/" class="archive-article-date">
-  	<time datetime="2018-08-07T05:14:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="1-reduce"><a href="#1-reduce" class="headerlink" title="1.reduce"></a>1.reduce</h1><p>reduce(func)是对数据集的所有元素执行聚集(func)函数，该函数必须是可交换的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">val rdd1 = sc.parallelize(1 to 9, 3)</span><br><span class="line">val rdd2 = rdd1.reduce(_ + _)</span><br><span class="line">rdd2: Int = 45</span><br></pre></td></tr></table></figure></p>
-<h1 id="2-collect"><a href="#2-collect" class="headerlink" title="2.collect"></a>2.collect</h1><p>collect是将数据集中的所有元素以一个array的形式返回。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rdd1.collect()</span><br><span class="line">res8: Array[Int] = Array(1, 2, 3, 4, 5, 6, 7, 8, 9)</span><br></pre></td></tr></table></figure></p>
-<h1 id="3-count"><a href="#3-count" class="headerlink" title="3.count"></a>3.count</h1><p>返回数据集中元素的个数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rdd1.count()</span><br><span class="line">res9: Long = 9</span><br></pre></td></tr></table></figure></p>
-        
-          <a class="article-more-a" href="/2018/08/07/bigdata-spark-fun-02/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Spark算子</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/大数据/Spark//" class="article-tag-list-link color1">Spark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/07/bigdata-spark-fun-02/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-bigdata-spark-fun-01" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/07/bigdata-spark-fun-01/">spark的RDD的转换操作</a>
-    </h1>
-  
-
-        
-        <a href="/2018/08/07/bigdata-spark-fun-01/" class="archive-article-date">
-  	<time datetime="2018-08-07T04:30:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="1-map"><a href="#1-map" class="headerlink" title="1. map"></a>1. map</h2><p>map是对RDD中的每个元素都执行一个指定的函数来产生一个新的RDD； RDD之间的元素是一对一关系；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">val rdd1 = sc.parallelize(1 to 9, 3)</span><br><span class="line">val rdd2 = rdd1.map(x =&gt; x*2)</span><br><span class="line">rdd2.collect</span><br><span class="line">res3: Array[Int] = Array(2, 4, 6, 8, 10, 12, 14, 16, 18)</span><br></pre></td></tr></table></figure></p>
-<h2 id="2-filter"><a href="#2-filter" class="headerlink" title="2. filter"></a>2. filter</h2><p>Filter是对RDD元素进行过滤；返回一个新的数据集，是经过func函数后返回值为true的原元素组成；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">val rdd3 = rdd2. filter (x =&gt; x&gt; 10)</span><br><span class="line">rdd3.collect</span><br><span class="line">res4: Array[Int] = Array(12, 14, 16, 18)</span><br></pre></td></tr></table></figure></p>
-<h2 id="3-flatMap"><a href="#3-flatMap" class="headerlink" title="3.flatMap"></a>3.flatMap</h2><p>flatMap类似于map，但是每一个输入元素，会被映射为0到多个输出元素（因此， func函数的返回值是一个Seq，而不是单一元素），<br>RDD之间的元素是一对多关系；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val rdd4 = rdd3. flatMap (x =&gt; x to 20)</span><br><span class="line">res5: Array[Int] = Array(12, 13, 14, 15, 16, 17, 18, 19, 20, 14, 15, 16, 17, 18, 19, 20, 16, 17, 18, 19, 20, 18, 19, 20)</span><br></pre></td></tr></table></figure>
-        
-          <a class="article-more-a" href="/2018/08/07/bigdata-spark-fun-01/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Spark算子</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/大数据/Spark//" class="article-tag-list-link color1">Spark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/07/bigdata-spark-fun-01/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java-jvm-01" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/07/java-jvm-01/">&#39;jvm-01&#39;</a>
-    </h1>
-  
-
-        
-        <a href="/2018/08/07/java-jvm-01/" class="archive-article-date">
-  	<time datetime="2018-08-07T03:23:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/07/java-jvm-01/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/28/hello-world/">Hello World</a>
-    </h1>
-  
-
-        
-        <a href="/2018/07/28/hello-world/" class="archive-article-date">
-  	<time datetime="2018-07-28T06:16:41.623Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/07/28/hello-world/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-bigdata-kafka-base03" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/09/bigdata-kafka-base03/">分布式消息系统Kafka简介</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/09/bigdata-kafka-base03/" class="archive-article-date">
-  	<time datetime="2017-08-09T02:44:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Kafka简介"><a href="#Kafka简介" class="headerlink" title="Kafka简介"></a>Kafka简介</h1><p>Kafka是分布式发布-订阅消息系统。它最初由LinkedIn公司开发，之后成为Apache项目的一部分。Kafka是一个分布式的，可划分的，冗余备份的持久性的日志服务。它主要用于处理活跃的流式数据。</p>
-<p>在大数据系统中，常常会碰到一个问题，整个大数据是由各个子系统组成，数据需要在各个子系统中高性能，低延迟的不停流转。传统的企业消息系统并不是非常适合大规模的数据处理。为了已在同时搞定在线应用（消息）和离线应用（数据文件，日志）Kafka就出现了。</p>
-<p>Kafka可以起到两个作用：</p>
-<blockquote>
-<p>1.降低系统组网复杂度。</p>
-<p>2.降低编程复杂度，各个子系统不在是相互协商接口，各个子系统类似插口插在插座上，Kafka承担高速数据总线的作用。</p>
-</blockquote>
-<h1 id="Kafka主要特点"><a href="#Kafka主要特点" class="headerlink" title="Kafka主要特点"></a>Kafka主要特点</h1><blockquote>
-<p>1.同时为发布和订阅提供高吞吐量。据了解，Kafka每秒可以生产约25万消息（50 MB），每秒处理55万消息（110 MB）。</p>
-<p>2.可进行持久化操作。将消息持久化到磁盘，因此可用于批量消费，例如ETL，以及实时应用程序。通过将数据持久化到硬盘以及replication防止数据丢失。</p>
-<p>3.分布式系统，易于向外扩展。所有的producer、broker和consumer都会有多个，均为分布式的。无需停机即可扩展机器。</p>
-<p>4.消息被处理的状态是在consumer端维护，而不是由server端维护。当失败时能自动平衡。</p>
-<p>5.支持online和offline的场景。</p>
-</blockquote>
-<h1 id="Kafka的架构"><a href="#Kafka的架构" class="headerlink" title="Kafka的架构"></a>Kafka的架构</h1><p><img src="/assets/img/bigdata-kafka-a01.png" alt="架构图"></p>
-<p>Kayka的整体架构非常简单，是显式分布式架构，producer、broker（kafka）和consumer都可以有多个。Producer，consumer实现Kafka注册的接口，数据从producer发送到broker，broker承担一个中间缓存和分发的作用。broker分发注册到系统中的consumer。broker的作用类似于缓存，即活跃的数据和离线处理系统之间的缓存。客户端和服务器端的通信，是基于简单，高性能，且与编程语言无关的TCP协议。</p>
-<p><em>几个基本概念</em></p>
-<blockquote>
-<p>1.Topic：特指Kafka处理的消息源（feeds of messages）的不同分类。</p>
-<p>2.Partition：Topic物理上的分组，一个topic可以分为多个partition，每个partition是一个有序的队列。partition中的每条消息都会被分配一个有序的id（offset）。</p>
-<p>3.Message：消息，是通信的基本单位，每个producer可以向一个topic（主题）发布一些消息。</p>
-<p>4.Producers：消息和数据生产者，向Kafka的一个topic发布消息的过程叫做producers。</p>
-<p>5.Consumers：消息和数据消费者，订阅topics并处理其发布的消息的过程叫做consumers。</p>
-<p>6.Broker：缓存代理，Kafka集群中的一台或多台服务器统称为broker。</p>
-</blockquote>
-<p><img src="/assets/img/bigdata-kafka-a02.png" alt="消息发送的流程"></p>
-<p>1.Producer根据指定的partition方法（round-robin、hash等），将消息发布到指定topic的partition里面</p>
-<p>2.kafka集群接收到Producer发过来的消息后，将其持久化到硬盘，并保留消息指定时长（可配置），而不关注消息是否被消费。</p>
-<p>3.Consumer从kafka集群pull数据，并控制获取消息的offset</p>
-<h1 id="Kayka的设计"><a href="#Kayka的设计" class="headerlink" title="Kayka的设计"></a>Kayka的设计</h1><h2 id="1、吞吐量"><a href="#1、吞吐量" class="headerlink" title="1、吞吐量"></a>1、吞吐量</h2><p>高吞吐是kafka需要实现的核心目标之一，为此kafka做了以下一些设计：</p>
-<blockquote>
-<p>1.数据磁盘持久化：消息不在内存中cache，直接写入到磁盘，充分利用磁盘的顺序读写性能</p>
-<p>2.zero-copy：减少IO操作步骤</p>
-<p>3.数据批量发送</p>
-<p>4.数据压缩</p>
-<p>5.Topic划分为多个partition，提高parallelism</p>
-</blockquote>
-<h2 id="2、负载均衡"><a href="#2、负载均衡" class="headerlink" title="2、负载均衡"></a>2、负载均衡</h2><blockquote>
-<p>1.producer根据用户指定的算法，将消息发送到指定的partition</p>
-<p>2.存在多个partiiton，每个partition有自己的replica，每个replica分布在不同的Broker节点上</p>
-<p>3.多个partition需要选取出lead partition，lead partition负责读写，并由zookeeper负责fail over</p>
-<p>4.通过zookeeper管理broker与consumer的动态加入与离开</p>
-</blockquote>
-<h2 id="3、拉取系统"><a href="#3、拉取系统" class="headerlink" title="3、拉取系统"></a>3、拉取系统</h2><p>由于kafka broker会持久化数据，broker没有内存压力，因此，consumer非常适合采取pull的方式消费数据，具有以下几点好处：</p>
-<blockquote>
-<p>1.简化kafka设计</p>
-<p>2.consumer根据消费能力自主控制消息拉取速度</p>
-<p>3.consumer根据自身情况自主选择消费模式，例如批量，重复消费，从尾端开始消费等</p>
-</blockquote>
-<h2 id="4、可扩展性"><a href="#4、可扩展性" class="headerlink" title="4、可扩展性"></a>4、可扩展性</h2><p>当需要增加broker结点时，新增的broker会向zookeeper注册，而producer及consumer会根据注册在zookeeper上的watcher感知这些变化，并及时作出调整。</p>
-<h1 id="Kayka的应用场景"><a href="#Kayka的应用场景" class="headerlink" title="Kayka的应用场景"></a>Kayka的应用场景</h1><p>1、消息队列</p>
-<p>比起大多数的消息系统来说，Kafka有更好的吞吐量，内置的分区，冗余及容错性，这让Kafka成为了一个很好的大规模消息处理应用的解决方案。消息系统一般吞吐量相对较低，但是需要更小的端到端延时，并尝尝依赖于Kafka提供的强大的持久性保障。在这个领域，Kafka足以媲美传统消息系统，如ActiveMR或RabbitMQ。</p>
-<p>2、行为跟踪</p>
-<p>Kafka的另一个应用场景是跟踪用户浏览页面、搜索及其他行为，以发布-订阅的模式实时记录到对应的topic里。那么这些结果被订阅者拿到后，就可以做进一步的实时处理，或实时监控，或放到hadoop/离线数据仓库里处理。</p>
-<p>3、元信息监控</p>
-<p>作为操作记录的监控模块来使用，即汇集记录一些操作信息，可以理解为运维性质的数据监控吧。</p>
-<p>4、日志收集</p>
-<p>日志收集方面，其实开源产品有很多，包括Scribe、Apache Flume。很多人使用Kafka代替日志聚合（log aggregation）。日志聚合一般来说是从服务器上收集日志文件，然后放到一个集中的位置（文件服务器或HDFS）进行处理。然而Kafka忽略掉文件的细节，将其更清晰地抽象成一个个日志或事件的消息流。这就让Kafka处理过程延迟更低，更容易支持多数据源和分布式数据处理。比起以日志为中心的系统比如Scribe或者Flume来说，Kafka提供同样高效的性能和因为复制导致的更高的耐用性保证，以及更低的端到端延迟。</p>
-<p>5、流处理</p>
-<p>这个场景可能比较多，也很好理解。保存收集流数据，以提供之后对接的Storm或其他流式计算框架进行处理。很多用户会将那些从原始topic来的数据进行阶段性处理，汇总，扩充或者以其他的方式转换到新的topic下再继续后面的处理。例如一个文章推荐的处理流程，可能是先从RSS数据源中抓取文章的内容，然后将其丢入一个叫做“文章”的topic中；后续操作可能是需要对这个内容进行清理，比如回复正常数据或者删除重复数据，最后再将内容匹配的结果返还给用户。这就在一个独立的topic之外，产生了一系列的实时数据处理的流程。Strom和Samza是非常著名的实现这种类型数据转换的框架。</p>
-<p>6、事件源</p>
-<p>事件源是一种应用程序设计的方式，该方式的状态转移被记录为按时间顺序排序的记录序列。Kafka可以存储大量的日志数据，这使得它成为一个对这种方式的应用来说绝佳的后台。比如动态汇总（News feed）。</p>
-<p>7、持久性日志（commit log）</p>
-<p>Kafka可以为一种外部的持久性日志的分布式系统提供服务。这种日志可以在节点间备份数据，并为故障节点数据回复提供一种重新同步的机制。Kafka中日志压缩功能为这种用法提供了条件。在这种用法中，Kafka类似于Apache BookKeeper项目。</p>
-<h1 id="Kayka的设计要点"><a href="#Kayka的设计要点" class="headerlink" title="Kayka的设计要点"></a>Kayka的设计要点</h1><p>1、直接使用linux 文件系统的cache，来高效缓存数据。</p>
-<p>2、采用linux Zero-Copy提高发送性能。传统的数据发送需要发送4次上下文切换，采用sendfile系统调用之后，数据直接在内核态交换，系统上下文切换减少为2次。根据测试结果，可以提高60%的数据发送性能。Zero-Copy详细的技术细节可以参考：<a href="https://www.ibm.com/developerworks/linux/library/j-zerocopy/" target="_blank" rel="noopener">https://www.ibm.com/developerworks/linux/library/j-zerocopy/</a></p>
-<p>3、数据在磁盘上存取代价为O(1)。kafka以topic来进行消息管理，每个topic包含多个part（ition），每个part对应一个逻辑log，有多个segment组成。每个segment中存储多条消息（见下图），消息id由其逻辑位置决定，即从消息id可直接定位到消息的存储位置，避免id到位置的额外映射。每个part在内存中对应一个index，记录每个segment中的第一条消息偏移。发布者发到某个topic的消息会被均匀的分布到多个part上（随机或根据用户指定的回调函数进行分布），broker收到发布消息往对应part的最后一个segment上添加该消息，当某个segment上的消息条数达到配置值或消息发布时间超过阈值时，segment上的消息会被flush到磁盘，只有flush到磁盘上的消息订阅者才能订阅到，segment达到一定的大小后将不会再往该segment写数据，broker会创建新的segment。</p>
-<p>4、显式分布式，即所有的producer、broker和consumer都会有多个，均为分布式的。Producer和broker之间没有负载均衡机制。broker和consumer之间利用zookeeper进行负载均衡。所有broker和consumer都会在zookeeper中进行注册，且zookeeper会保存他们的一些元数据信息。如果某个broker和consumer发生了变化，所有其他的broker和consumer都会得到通知。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Kafka</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/大数据/Kafka//" class="article-tag-list-link color1">Kafka</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/09/bigdata-kafka-base03/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-bigdata-kafka-base02" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/08/bigdata-kafka-base02/">Kafka 高吞吐率的实现</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/08/bigdata-kafka-base02/" class="archive-article-date">
-  	<time datetime="2017-08-08T01:06:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Kafka是分布式消息系统，需要处理海量的消息，Kafka的设计是把所有的消息都写入速度低容量大的硬盘，以此来换取更强的存储能力，但实际上，使用硬盘并没有带来过多的性能损失。kafka主要使用了以下几个方式实现了超高的吞吐率</p>
-<h2 id="顺序读写"><a href="#顺序读写" class="headerlink" title="顺序读写"></a>顺序读写</h2><p>kafka的消息是不断追加到文件中的，这个特性使kafka可以充分利用磁盘的顺序读写性能顺序读写不需要硬盘磁头的寻道时间，只需很少的扇区旋转时间，所以速度远快于随机读写</p>
-<h2 id="零拷贝"><a href="#零拷贝" class="headerlink" title="零拷贝"></a>零拷贝</h2><p>先简单了解下文件系统的操作流程，例如一个程序要把文件内容发送到网络,这个程序是工作在用户空间，文件和网络socket属于硬件资源，两者之间有一个内核空间在操作系统内部，整个过程为：</p>
-<p><img src="/assets/img/bigdata-kafka-01.png" alt="操作流程"></p>
-<p>在Linux kernel2.2 之后出现了一种叫做”零拷贝(zero-copy)”系统调用机制，就是跳过“用户缓冲区”的拷贝，建立一个磁盘空间和内存的直接映射，数据不再复制到“用户态缓冲区”系统上下文切换减少为2次，可以提升一倍的性能<br><img src="/assets/img/bigdata-kafka-02.png" alt="零拷贝操作流程"></p>
-<h2 id="文件分段"><a href="#文件分段" class="headerlink" title="文件分段"></a>文件分段</h2><p>kafka的队列topic被分为了多个区partition，每个partition又分为多个段segment，所以一个队列中的消息实际上是保存在N多个片段文件中通过分段的方式，每次文件操作都是对一个小文件的操作，非常轻便，同时也增加了并行处理能力</p>
-<p><img src="/assets/img/bigdata-kafka-03.png" alt="Topic结构"></p>
-<h2 id="批量发送"><a href="#批量发送" class="headerlink" title="批量发送"></a>批量发送</h2><p>Kafka允许进行批量发送消息，先将消息缓存在内存中，然后一次请求批量发送出去比如可以指定缓存的消息达到某个量的时候就发出去，或者缓存了固定的时间后就发送出去如100条消息就发送，或者每5秒发送一次这种策略将大大减少服务端的I/O次数</p>
-<h2 id="数据压缩"><a href="#数据压缩" class="headerlink" title="数据压缩"></a>数据压缩</h2><p>Kafka还支持对消息集合进行压缩，Producer可以通过GZIP或Snappy格式对消息集合进行压缩压缩的好处就是减少传输的数据量，减轻对网络传输的压力Producer压缩之后，在Consumer需进行解压，虽然增加了CPU的工作，但在对大数据处理上，瓶颈在网络上而不是CPU，所以这个成本很值得</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Kafka</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/大数据/Kafka//" class="article-tag-list-link color1">Kafka</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/08/bigdata-kafka-base02/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-hexo-use" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/31/hexo-use/">在Github上搭建Hexo博客的简要教程</a>
-    </h1>
-  
-
-        
-        <a href="/2017/07/31/hexo-use/" class="archive-article-date">
-  	<time datetime="2017-07-31T14:18:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-31</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="1-前言"><a href="#1-前言" class="headerlink" title="1.前言"></a>1.前言</h1><p>前提环境</p>
-<blockquote>
-<p>安装 NodeJs （安装过程略，注意版本不要太低，我开始的时候弄了半天没成功，后面升级了NodeJs的版本就搞定了）</p>
-<p>安装 Git</p>
-</blockquote>
-<p>将操作分成两部分来做。1）、Github的配置；2）Hexo搭建博客系统</p>
-<h1 id="2-Github的配置"><a href="#2-Github的配置" class="headerlink" title="2.Github的配置"></a>2.Github的配置</h1><h1 id="3-Hexo描建博客系统"><a href="#3-Hexo描建博客系统" class="headerlink" title="3.Hexo描建博客系统"></a>3.Hexo描建博客系统</h1><h2 id="3-1-安装Hexo"><a href="#3-1-安装Hexo" class="headerlink" title="3.1 安装Hexo"></a>3.1 安装Hexo</h2><pre><code>$ cd d:/hexo
-$ npm install hexo-cli -g
-$ hexo init blog
-$ cd blog
-$ npm install
-$ hexo g # 或者hexo generate
-$ hexo s # 或者hexo server，可以在http://localhost:4000/ 查看
-</code></pre><p>到这里Hexo的安装已经完成。打开浏览器访问<a href="http://localhost:4000即可看到效果。" target="_blank" rel="noopener">http://localhost:4000即可看到效果。</a></p>
-<p>不过这个主题的效果实在不怎么好看。所以我们要给他换一个主题。</p>
-<h2 id="3-2-安装Hexo的主题"><a href="#3-2-安装Hexo的主题" class="headerlink" title="3.2 安装Hexo的主题"></a>3.2 安装Hexo的主题</h2><h3 id="下载主题"><a href="#下载主题" class="headerlink" title="下载主题"></a>下载主题</h3><pre><code>git clone https://github.com/litten/hexo-theme-yilia.git themes/yilia
-</code></pre><p>这里用到的主题是yilia，还有另外两个很不错的主题</p>
-<pre><code>git clone https://github.com/iTimeTraveler/hexo-theme-hiker.git themes/hiker
-
-git clone https://github.com/Haojen/hexo-theme-Anisina.git themes/anisina
-</code></pre><p>修改_config.yml文件中的配置，把主题修改为刚刚下载的主题名称</p>
-<pre><code>theme: yilia
-</code></pre><p>使用yilia主题还需要另外安装两个模块(不然浏览所有文章时会报错）</p>
-<pre><code>npm i hexo-generator-json-content --save
-
-npm install hexo-deployer-git --save
-</code></pre><p>修改_config.yml文件增加以下内容（yilia主题的所有文章需要用到）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">jsonContent:</span><br><span class="line">  meta: false</span><br><span class="line">  pages: false</span><br><span class="line">  posts:</span><br><span class="line">		title: true</span><br><span class="line">		date: true</span><br><span class="line">		path: true</span><br><span class="line">		text: false</span><br><span class="line">		raw: false</span><br><span class="line">		content: false</span><br><span class="line">		slug: false</span><br><span class="line">		updated: false</span><br><span class="line">		comments: false</span><br><span class="line">		link: false</span><br><span class="line">		permalink: false</span><br><span class="line">		excerpt: false</span><br><span class="line">		categories: false</span><br><span class="line">		tags: true</span><br></pre></td></tr></table></figure>
-<p>修改_config.yml文件，将Github的地址绑定在这里，可通过 hexo d命令将文章发布到Github上面<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repository: git@github.com:szchengz/szchengz.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">github</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">yilia</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/07/31/hexo-use/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-bigdata-kafka-base01" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/08/bigdata-kafka-base01/">Kafka的架构涉及到的名词</a>
-    </h1>
-  
-
-        
-        <a href="/2016/03/08/bigdata-kafka-base01/" class="archive-article-date">
-  	<time datetime="2016-03-08T00:57:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-03-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ol>
-<li>Topic：用于划分Message的逻辑概念，一个Topic可以分布在多个Broker上。</li>
-</ol>
-<ol start="2">
-<li>Partition：是Kafka中横向扩展和一切并行化的基础，每个Topic都至少被切分为1个Partition。</li>
-</ol>
-<ol start="3">
-<li>Offset：消息在Partition中的编号，编号顺序不跨Partition。</li>
-</ol>
-<ol start="4">
-<li>Consumer：用于从Broker中取出/消费Message。</li>
-</ol>
-<ol start="5">
-<li>Producer：用于往Broker中发送/生产Message。</li>
-</ol>
-<ol start="6">
-<li>Replication：Kafka支持以Partition为单位对Message进行冗余备份，每个Partition都可以配置至少1个Replication(当仅1个Replication时即仅该Partition本身)。</li>
-</ol>
-<ol start="7">
-<li>Leader：每个Replication集合中的Partition都会选出一个唯一的Leader，所有的读写请求都由Leader处理。其他Replicas从Leader处把数据更新同步到本地，过程类似大家熟悉的MySQL中的Binlog同步。</li>
-</ol>
-<ol start="8">
-<li>Broker：Kafka中使用Broker来接受Producer和Consumer的请求，并把Message持久化到本地磁盘。每个Cluster当中会选举出一个Broker来担任Controller，负责处理Partition的Leader选举，协调Partition迁移等工作。</li>
-</ol>
-<ol start="9">
-<li>ISR(In-Sync Replica)：是Replicas的一个子集，表示目前Alive且与Leader能够“Catch-up”的Replicas集合。由于读写都是首先落到Leader上，所以一般来说通过同步机制从Leader上拉取数据的Replica都会和Leader有一些延迟(包括了延迟时间和延迟条数两个维度)，任意一个超过阈值都会把该Replica踢出ISR。每个Partition都有它自己独立的ISR。</li>
-</ol>
-<p>以上几乎是我们在使用Kafka的过程中可能遇到的所有名词，同时也无一不是最核心的概念或组件，感觉到从设计本身来说，Kafka还是足够简洁的。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Kafka</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/大数据/Kafka//" class="article-tag-list-link color1">Kafka</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2016/03/08/bigdata-kafka-base01/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    </nav>
   
 
 
@@ -1225,11 +1350,39 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据仓库</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Hadoop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">集群</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hive</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Spark</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hive</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Kafka</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Spark算子</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1245,11 +1398,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">沟通</a>
+                <a href="javascript:void(0)" class="js-tag color2">nexus3</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">maven私库</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Atom</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">沟通</a>
               </li>
             
             <div class="clearfix"></div>
