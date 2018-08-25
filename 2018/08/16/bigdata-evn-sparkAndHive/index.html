@@ -9,14 +9,14 @@
   <title>Spark与Hive集成 | 陈国中的博客空间</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Spark与Hive集成">
-<meta name="keywords" content="hive,Spark">
+<meta name="keywords" content="Spark,hive">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spark与Hive集成">
 <meta property="og:url" content="https://szchengz.github.io/2018/08/16/bigdata-evn-sparkAndHive/index.html">
 <meta property="og:site_name" content="陈国中的博客空间">
 <meta property="og:description" content="Spark与Hive集成">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-24T03:41:14.000Z">
+<meta property="og:updated_time" content="2018-08-25T13:07:27.640Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spark与Hive集成">
 <meta name="twitter:description" content="Spark与Hive集成">
@@ -157,12 +157,19 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在Spark的conf目录中那建hive-site.xml文件，内容如下：</p>
+        <h1 id="1-前提"><a href="#1-前提" class="headerlink" title="1.前提"></a>1.前提</h1><p>安装MySql<br>安装Hive<br>安装Spark</p>
+<h1 id="2-配置"><a href="#2-配置" class="headerlink" title="2.配置"></a>2.配置</h1><h2 id="拷贝hive安装目录下面的hive-site-xml文件到Spark的conf下面"><a href="#拷贝hive安装目录下面的hive-site-xml文件到Spark的conf下面" class="headerlink" title="拷贝hive安装目录下面的hive-site.xml文件到Spark的conf下面"></a>拷贝hive安装目录下面的hive-site.xml文件到Spark的conf下面</h2><p>内容如下：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;</span><br><span class="line">&lt;?xml-stylesheet type="text/xsl" href="configuration.xsl"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.metastore.uris<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>thrift://master:9083<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>启动Hive元数据服务</p>
 <blockquote>
 <p>./bin/hive –service metastore &amp;</p>
 </blockquote>
+<h1 id="3-测试"><a href="#3-测试" class="headerlink" title="3.测试"></a>3.测试</h1><p>启动spark-sql</p>
+<blockquote>
+<p>./spark-sql –master://spark:7077</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">create table if not exists student(</span><br><span class="line"> id int,</span><br><span class="line"> name string,</span><br><span class="line"> gender string,</span><br><span class="line"> age int);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">insert into student values(1,&apos;Xueqian&apos;,&apos;F&apos;,23); //插入一条记录</span><br><span class="line">insert into student values(2,&apos;Weiliang&apos;,&apos;M&apos;,24); //再插入一条记录</span><br><span class="line">select * from student; //显示student表中的记录</span><br></pre></td></tr></table></figure>
 
       
 
@@ -176,11 +183,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hive</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hive</a>
         		</li>
       		
 		</ul>
@@ -210,11 +217,11 @@
   
 <nav id="article-nav">
   
-    <a href="/2018/08/16/bigdata-hive-q1/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/08/16/bigdata-evn-spark/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          Hive常见问题
+          Spark环境集群环境配置
         
       </div>
     </a>
@@ -359,11 +366,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hive</a>
+                <a href="javascript:void(0)" class="js-tag color1">Spark</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Spark</a>
+                <a href="javascript:void(0)" class="js-tag color5">hive</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -379,10 +386,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">github</a>
               </li>
              
@@ -395,15 +398,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Atom</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">nexus3</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">maven私库</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Atom</a>
               </li>
              
               <li class="article-tag-list-item">
