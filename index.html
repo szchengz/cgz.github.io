@@ -134,90 +134,30 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-bigdata-dw-01" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-helloworld" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/16/bigdata-dw-01/">Kimball VS Inmon</a>
+      <a class="article-title" href="/2018/09/02/helloworld/">helloworld</a>
     </h1>
   
 
         
-        <a href="/2018/08/16/bigdata-dw-01/" class="archive-article-date">
-  	<time datetime="2018-08-16T09:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-16</time>
+        <a href="/2018/09/02/helloworld/" class="archive-article-date">
+  	<time datetime="2018-09-02T03:19:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-02</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="数据仓库与数据集市"><a href="#数据仓库与数据集市" class="headerlink" title="数据仓库与数据集市"></a>数据仓库与数据集市</h1><h1 id="自上而下与自下而上"><a href="#自上而下与自下而上" class="headerlink" title="自上而下与自下而上"></a>自上而下与自下而上</h1><h1 id="数据处理两大类OLAP、OLTP的区别"><a href="#数据处理两大类OLAP、OLTP的区别" class="headerlink" title="数据处理两大类OLAP、OLTP的区别"></a>数据处理两大类OLAP、OLTP的区别</h1><table>
-<thead>
-<tr>
-<th>维度</th>
-<th>OLTP</th>
-<th>OLAP</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>用户</td>
-<td>操作人员，低层管理人员</td>
-<td>决策人员，高级管理人员</td>
-</tr>
-<tr>
-<td>功能</td>
-<td>日常操作处理</td>
-<td>分析决策</td>
-</tr>
-<tr>
-<td>DB设计</td>
-<td>面向应用</td>
-<td>面向主题</td>
-</tr>
-<tr>
-<td>数据</td>
-<td>当前的，最新的细节，二维的分立的</td>
-<td>历史的，聚集的，多维的集成的，统一的</td>
-</tr>
-<tr>
-<td>存取</td>
-<td>读写数十条记录</td>
-<td>读上百万条记录</td>
-</tr>
-<tr>
-<td>工作单位</td>
-<td>简单事务</td>
-<td>复杂的查询</td>
-</tr>
-<tr>
-<td>用户数</td>
-<td>上千个</td>
-<td>上百万个</td>
-</tr>
-<tr>
-<td>DB大小</td>
-<td>100MB-GB</td>
-<td>100GB-TB</td>
-</tr>
-<tr>
-<td>时间要求</td>
-<td>具有实时性</td>
-<td>对时间的要求不严格</td>
-</tr>
-<tr>
-<td>主要应用</td>
-<td>数据仓库</td>
-<td>数据仓库</td>
-</tr>
-</tbody>
-</table>
-<p>OLTP，也叫联机事务处理（Online Transaction Processing），表示事务性非常高的系统，一般都是高可用的在线系统，以小的事务以及小的查询为主，评估其系统的时候，一般看其每秒执行的Transaction以及Execute SQL的数量。在这样的系统中，单个数据库每秒处理的Transaction往往超过几百个，或者是几千个，Select 语句的执行量每秒几千甚至几万个。典型的OLTP系统有电子商务系统、银行、证券等，如美国eBay的业务数据库，就是很典型的OLTP数据库。</p>
-<p>OLAP，也叫联机分析处理（Online Analytical Processing）系统，有的时候也叫DSS决策支持系统，就是我们说的数据仓库。在这样的系统中，语句的执行量不是考核标准，因为一条语句的执行时间可能会非常长，读取的数据也非常多。所以，在这样的系统中，考核的标准往往是磁盘子系统的吞吐量（带宽），如能达到多少MB/s的流量。</p>
-
+        <h1 id="1-测试"><a href="#1-测试" class="headerlink" title="1.测试"></a>1.测试</h1><blockquote>
+<p>export HIVE_HOME=/usr/soft/hive2.1<br>export PATH=.:$PATH:${HIVE_HOME}/bin:</p>
+</blockquote>
+<h1 id="2-配置Hive"><a href="#2-配置Hive" class="headerlink" title="2.配置Hive"></a>2.配置Hive</h1>
       
 
       
@@ -225,33 +165,11 @@
     <div class="article-info article-info-index">
       
       
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据仓库</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
       
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/16/bigdata-dw-01/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/09/02/helloworld/">展开全文 >></a>
         </p>
       
 
@@ -281,19 +199,19 @@
 
 
   
-    <article id="post-tools-maven" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-bigdata-evn-hive" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/16/tools-maven/">windows下使用nexus3搭建maven私库</a>
+      <a class="article-title" href="/2018/08/16/bigdata-evn-hive/">Hive集群环境配置</a>
     </h1>
   
 
         
-        <a href="/2018/08/16/tools-maven/" class="archive-article-date">
+        <a href="/2018/08/16/bigdata-evn-hive/" class="archive-article-date">
   	<time datetime="2018-08-16T09:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-16</time>
 </a>
         
@@ -301,140 +219,28 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="安装nexus"><a href="#安装nexus" class="headerlink" title="安装nexus"></a>安装nexus</h1><p><a href="http://www.sonatype.com/download-oss-sonatype" target="_blank" rel="noopener">http://www.sonatype.com/download-oss-sonatype</a></p>
-<p>下载Windows版本</p>
-<p>解压</p>
-<p>进入bin目录运行</p>
+        <h1 id="1-解压Hive，配置环境变量"><a href="#1-解压Hive，配置环境变量" class="headerlink" title="1.解压Hive，配置环境变量"></a>1.解压Hive，配置环境变量</h1><blockquote>
+<p>export HIVE_HOME=/usr/soft/hive2.1<br>export PATH=.:$PATH:${HIVE_HOME}/bin:</p>
+</blockquote>
+<h1 id="2-配置Hive"><a href="#2-配置Hive" class="headerlink" title="2.配置Hive"></a>2.配置Hive</h1><blockquote>
+<p>cd $HIVE_HOME/conf<br>cp hive-default.xml.template hive-site.xml</p>
+</blockquote>
+<p>修改hive-site.xml内容如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;</span><br><span class="line">&lt;?xml-stylesheet type="text/xsl" href="configuration.xsl"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionURL<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>jdbc:mysql://192.168.2.102:3306/hive?createDatabaseIfNotExsit=true; characterEncoding=UTFq8<span class="tag">&lt;/<span class="name">va</span></span></span><br><span class="line"><span class="tag"><span class="attr">lue</span>&gt;</span>    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionDriverName<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>com.mysql.jdbc.Driver<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionUserName<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>root<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionPassword<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>123456<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>datanucleus.readOnlyDatastore<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>false<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>datanucleus.fixedDatastore<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>false<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>datanucleus.autoCreateSchema<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>datanucleus.autoCreateTables<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>datanucleus.autoCreateColumns<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h1 id="把MySql的驱动jar包复制到lib目录下面"><a href="#把MySql的驱动jar包复制到lib目录下面" class="headerlink" title="把MySql的驱动jar包复制到lib目录下面"></a>把MySql的驱动jar包复制到lib目录下面</h1><h1 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h1><p>./bin/hive –service metastore &amp;</p>
+<p>nohup hive –service metastore &amp;<br>nohup hive –service metastore &gt; metastore.log 2&gt;&amp;1 &amp;</p>
+<p>查看服务<br>ps -aux|grep metastore<br>ps -ef |grep metastore</p>
+<h1 id="启动Hive"><a href="#启动Hive" class="headerlink" title="启动Hive"></a>启动Hive</h1><p>./bin/hive</p>
+<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> tbDate(dateID <span class="keyword">string</span>,theyearmonth <span class="keyword">string</span>,theyear <span class="keyword">string</span>,themonth <span class="keyword">string</span>,thedate <span class="keyword">string</span>,theweek <span class="keyword">string</span>,theweeks <span class="keyword">string</span>,thequot <span class="keyword">string</span>,thetenday <span class="keyword">string</span>,thehalfmonth <span class="keyword">string</span>) <span class="keyword">ROW</span> <span class="keyword">FORMAT</span> <span class="keyword">DELIMITED</span> <span class="keyword">FIELDS</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">','</span> <span class="keyword">LINES</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\n'</span> ;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> tbStock(ordernumber <span class="keyword">STRING</span>,locationid <span class="keyword">string</span>,dateID <span class="keyword">string</span>) <span class="keyword">ROW</span> <span class="keyword">FORMAT</span> <span class="keyword">DELIMITED</span> <span class="keyword">FIELDS</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">','</span> <span class="keyword">LINES</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\n'</span> ;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> tbStockDetail(ordernumber <span class="keyword">STRING</span>,<span class="keyword">rownum</span> <span class="built_in">int</span>,itemid <span class="keyword">string</span>,qty <span class="built_in">int</span>,price <span class="built_in">int</span> ,amount <span class="built_in">int</span>) <span class="keyword">ROW</span> <span class="keyword">FORMAT</span> <span class="keyword">DELIMITED</span> <span class="keyword">FIELDS</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">','</span> <span class="keyword">LINES</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\n'</span> ;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> SOGOUQ2(DT <span class="keyword">STRING</span>,WEBSESSION <span class="keyword">STRING</span>,WORD <span class="keyword">STRING</span>,S_SEQ <span class="built_in">INT</span>,C_SEQ <span class="built_in">INT</span>,WEBSITE <span class="keyword">STRING</span>) <span class="keyword">ROW</span> <span class="keyword">FORMAT</span> <span class="keyword">DELIMITED</span> <span class="keyword">FIELDS</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\t'</span> <span class="keyword">LINES</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\n'</span> ;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">EXTERNAL</span> <span class="keyword">TABLE</span> SOGOUQ1(DT <span class="keyword">STRING</span>,WEBSESSION <span class="keyword">STRING</span>,WORD <span class="keyword">STRING</span>,S_SEQ <span class="built_in">INT</span>,C_SEQ <span class="built_in">INT</span>,WEBSITE <span class="keyword">STRING</span>) <span class="keyword">ROW</span> <span class="keyword">FORMAT</span> <span class="keyword">DELIMITED</span> <span class="keyword">FIELDS</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\t'</span> <span class="keyword">LINES</span> <span class="keyword">TERMINATED</span></span><br><span class="line"> <span class="keyword">BY</span> <span class="string">'\n'</span> <span class="keyword">STORED</span> <span class="keyword">AS</span> TEXTFILE LOCATION <span class="string">'/class5/sogouq1'</span>;</span><br></pre></td></tr></table></figure>
+<h1 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h1><h2 id="无法方法MySql服务"><a href="#无法方法MySql服务" class="headerlink" title="无法方法MySql服务"></a>无法方法MySql服务</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">grant</span> all <span class="keyword">privileges</span> <span class="keyword">on</span> *.* <span class="keyword">to</span> <span class="string">'root'</span>@<span class="string">'%'</span> <span class="keyword">identified</span> <span class="keyword">by</span> <span class="string">'123456'</span>;</span><br><span class="line"><span class="keyword">flush</span> <span class="keyword">privileges</span>;</span><br></pre></td></tr></table></figure>
+<p>如下正确：<br>mysql&gt;grant all privileges on <em>.</em> to ‘用户名‘@’ip地址’ identified by ‘密码’;<br>all privileges 所有权限 也可以写成select ,update等<br><em>.</em> 所有库的所有表 如databasename.*<br>用户名 随便起<br>IP  数据库所在的IP<br>identified by ‘密码’ 表示通过密码连接</p>
+<p>执行完上述命令后用下面的命令刷新一下权限<br>mysql&gt;flush privileges;</p>
+<h2 id="异常问题1："><a href="#异常问题1：" class="headerlink" title="异常问题1："></a>异常问题1：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.</span><br><span class="line">SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]</span><br><span class="line">javax.jdo.JDODataStoreException: Required table missing : &quot;`VERSION`&quot; in Catalog &quot;&quot; Schema &quot;&quot;. DataNucleus requires this table to perform its persistence operations. Either your MetaData is incorrect,</span><br><span class="line">or you need to enable &quot;datanucleus.schema.autoCreateTables&quot;	at org.datanucleus.api.jdo.NucleusJDOHelper.getJDOExceptionForNucleusException(NucleusJDOHelper.java:553)</span><br><span class="line">	at org.datanucleus.api.jdo.JDOPersistenceManager.jdoMakePersistent(JDOPersistenceManager.java:720)</span><br><span class="line">	at org.datanucleus.api.jdo.JDOPersistenceManager.makePersistent(JDOPersistenceManager.java:740)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.ObjectStore.setMetaStoreSchemaVersion(ObjectStore.java:7763)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.ObjectStore.checkSchema(ObjectStore.java:7657)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.ObjectStore.verifySchema(ObjectStore.java:7632)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</span><br><span class="line">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</span><br><span class="line">	at java.lang.reflect.Method.invoke(Method.java:497)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.RawStoreProxy.invoke(RawStoreProxy.java:101)</span><br><span class="line">	at com.sun.proxy.$Proxy18.verifySchema(Unknown Source)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore$HMSHandler.getMS(HiveMetaStore.java:547)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore$HMSHandler.createDefaultDB(HiveMetaStore.java:612)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore$HMSHandler.init(HiveMetaStore.java:398)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.RetryingHMSHandler.&lt;init&gt;(RetryingHMSHandler.java:78)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.RetryingHMSHandler.getProxy(RetryingHMSHandler.java:84)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore.newRetryingHMSHandler(HiveMetaStore.java:6390)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore.newRetryingHMSHandler(HiveMetaStore.java:6385)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore.startMetaStore(HiveMetaStore.java:6643)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore.main(HiveMetaStore.java:6570)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</span><br><span class="line">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</span><br><span class="line">	at java.lang.reflect.Method.invoke(Method.java:497)</span><br><span class="line">	at org.apache.hadoop.util.RunJar.run(RunJar.java:221)</span><br><span class="line">	at org.apache.hadoop.util.RunJar.main(RunJar.java:136)</span><br><span class="line">NestedThrowablesStackTrace:</span><br></pre></td></tr></table></figure>
+<p>解决方法：</p>
 <blockquote>
-<p>nexus.exe /run</p>
+<p>进入到hive_home然后执行下面命令:<br>bin/schematool -dbType mysql -initSchema</p>
 </blockquote>
-<p>没什么意外的情况下即可访问<a href="http://localhost:8081" target="_blank" rel="noopener">http://localhost:8081</a></p>
-<h1 id="配置nexus"><a href="#配置nexus" class="headerlink" title="配置nexus"></a>配置nexus</h1><p>默认系统用户密码:admin/admin123</p>
-<p>登录成功后 左边Administration下</p>
-<p>Blob Stores 存放目录（可在此定义自己的存放目录）<br>Repostitories 为远程资源管理（可在这添加资源，比如添加阿里的库）</p>
-<h1 id="配置Maven"><a href="#配置Maven" class="headerlink" title="配置Maven"></a>配置Maven</h1><p>修改Maven的settings文件</p>
-<ul>
-<li><p>增加server</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;server&gt;</span><br><span class="line">  &lt;id&gt;my-nexus-releases&lt;/id&gt;</span><br><span class="line">  &lt;username&gt;admin&lt;/username&gt;</span><br><span class="line">  &lt;password&gt;admin123&lt;/password&gt;</span><br><span class="line">&lt;/server&gt;</span><br><span class="line">&lt;server&gt;</span><br><span class="line">  &lt;id&gt;my-nexus-snapshot&lt;/id&gt;</span><br><span class="line">  &lt;username&gt;admin&lt;/username&gt;</span><br><span class="line">  &lt;password&gt;admin123&lt;/password&gt;</span><br><span class="line">&lt;/server&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>增加mirrors<br>注意这个URL跟nexus里的Repostitories的URL一致</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;mirror&gt;</span><br><span class="line">	  &lt;!--This sends everything else to /public --&gt;</span><br><span class="line">	  &lt;id&gt;nexus&lt;/id&gt;</span><br><span class="line">	  &lt;mirrorOf&gt;*&lt;/mirrorOf&gt;</span><br><span class="line">	  &lt;url&gt;http://localhost:8081/repository/mygroup/&lt;/url&gt;</span><br><span class="line">	&lt;/mirror&gt;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>增加profile<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;profile&gt;</span><br><span class="line">  &lt;id&gt;nexus&lt;/id&gt;</span><br><span class="line">	&lt;!--Enable snapshots for the built in central repo to direct --&gt;</span><br><span class="line">	&lt;!--all requests to nexus via the mirror --&gt;</span><br><span class="line">  &lt;repositories&gt;</span><br><span class="line">	&lt;repository&gt;</span><br><span class="line">		&lt;id&gt;central&lt;/id&gt;</span><br><span class="line">		&lt;url&gt;http://central&lt;/url&gt;</span><br><span class="line">		&lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/releases&gt;</span><br><span class="line">		&lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/snapshots&gt;</span><br><span class="line">	&lt;/repository&gt;</span><br><span class="line">  &lt;/repositories&gt;</span><br><span class="line">  &lt;pluginRepositories&gt;</span><br><span class="line">    &lt;pluginRepository&gt;</span><br><span class="line">		&lt;id&gt;central&lt;/id&gt;</span><br><span class="line">		&lt;url&gt;http://central&lt;/url&gt;</span><br><span class="line">		&lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/releases&gt;</span><br><span class="line">		&lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/snapshots&gt;</span><br><span class="line">	&lt;/pluginRepository&gt;</span><br><span class="line">  &lt;/pluginRepositories&gt;</span><br><span class="line">&lt;/profile&gt;</span><br></pre></td></tr></table></figure></p>
-<p>设置activeProfiles<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;activeProfiles&gt;</span><br><span class="line">  &lt;activeProfile&gt;nexus&lt;/activeProfile&gt;</span><br><span class="line">&lt;/activeProfiles&gt;</span><br></pre></td></tr></table></figure></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">nexus3</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">maven私库</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/工具//" class="article-tag-list-link color3">工具</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/16/tools-maven/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-bigdata-evn-spark" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/16/bigdata-evn-spark/">Spark环境集群环境配置</a>
-    </h1>
-  
-
-        
-        <a href="/2018/08/16/bigdata-evn-spark/" class="archive-article-date">
-  	<time datetime="2018-08-16T09:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="1-解压Spark，配置环境变量"><a href="#1-解压Spark，配置环境变量" class="headerlink" title="1.解压Spark，配置环境变量"></a>1.解压Spark，配置环境变量</h1><blockquote>
-<p>export SPARK_HOME=/usr/soft/spark2.1<br>export PATH=$PATH:${SPARK_HOME}/bin:</p>
-</blockquote>
-<h1 id="2-配置-slaves-conf目录下）"><a href="#2-配置-slaves-conf目录下）" class="headerlink" title="2.配置 slaves(conf目录下）"></a>2.配置 slaves(conf目录下）</h1><blockquote>
-<p>cp slaves.template slaves<br>vim slaves<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node1</span><br><span class="line">node2</span><br></pre></td></tr></table></figure></p>
-</blockquote>
-<h1 id="3-配置-spark-defaults-conf（配置historyServer必须配置这个，如果无须配置这个可以不用配置）"><a href="#3-配置-spark-defaults-conf（配置historyServer必须配置这个，如果无须配置这个可以不用配置）" class="headerlink" title="3.配置 spark-defaults.conf（配置historyServer必须配置这个，如果无须配置这个可以不用配置）"></a>3.配置 spark-defaults.conf（配置historyServer必须配置这个，如果无须配置这个可以不用配置）</h1><p>cp spark-defaults.conf.template spark-defaults.conf<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">spark.executor.extraJavaOptions  -XX:+PrintGCDetails -Dkey=value -Dnumbers=&quot;one two three&quot;</span><br><span class="line">spark.eventLog.enabled           true</span><br><span class="line">spark.eventLog.dir               hdfs://master:9000/historyServerforSpark</span><br><span class="line">spark.yarn.historyServer.address work1:18080</span><br><span class="line">spark.history.fs.logDirectory    hdfs://master:9000/historyServerforSpark</span><br></pre></td></tr></table></figure></p>
-<h1 id="4-配置-spark-env-sh"><a href="#4-配置-spark-env-sh" class="headerlink" title="4.配置  spark-env.sh"></a>4.配置  spark-env.sh</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">export SCALA_HOME=/usr/soft/scala-2.11.8</span><br><span class="line">export JAVA_HOME=/usr/soft/jdk1.8</span><br><span class="line">export SPARK_MASTER_IP=master</span><br><span class="line">export SPARK_WORKER_MEMORY=1g</span><br><span class="line">export HADOOP_HOME=/usr/soft/hadoop2.6</span><br><span class="line">export HADOOP_CONF_DIR=/usr/soft/hadoop2.6/etc/hadoop</span><br></pre></td></tr></table></figure>
-<h1 id="5-拷贝文件"><a href="#5-拷贝文件" class="headerlink" title="5.拷贝文件"></a>5.拷贝文件</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">scp /usr/soft/spark2.1/conf/spark-env.sh root@node1:/usr/soft/spark2.1/conf/</span><br><span class="line">scp /usr/soft/spark2.1/conf/spark-env.sh root@node2:/usr/soft/spark2.1/conf/</span><br><span class="line"></span><br><span class="line">scp /usr/soft/spark2.1/conf/slaves root@node1:/usr/soft/spark2.1/conf/</span><br><span class="line">scp /usr/soft/spark2.1/conf/slaves root@node2:/usr/soft/spark2.1/conf/</span><br></pre></td></tr></table></figure>
-<h1 id="6-启动"><a href="#6-启动" class="headerlink" title="6.启动"></a>6.启动</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/usr/soft/spark2.1/sbin/start-master.sh</span><br><span class="line">/usr/soft/spark2.1/sbin/start-slaves.sh</span><br><span class="line"></span><br><span class="line">/usr/soft/spark2.1/sbin/stop-all.sh</span><br></pre></td></tr></table></figure>
-<h1 id="创建历史记录目录"><a href="#创建历史记录目录" class="headerlink" title="创建历史记录目录"></a>创建历史记录目录</h1><blockquote>
-<p>hadoop fs -mkdir /historyServerforSpark<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">　　hadoop fs -mkdir -p /Hadoop/Input（在HDFS创建目录）</span><br><span class="line">　　hadoop fs -put hello.txt /Hadoop/Input（将hello.txt文件上传到HDFS）</span><br><span class="line">　　hadoop fs -ls /Hadoop/Input （查看上传的文件）</span><br><span class="line">　　hadoop fs -text /Hadoop/Input/hello.txt （查看文件内容）</span><br></pre></td></tr></table></figure></p>
-</blockquote>
-<h1 id="启动spark-shell测试"><a href="#启动spark-shell测试" class="headerlink" title="启动spark-shell测试"></a>启动spark-shell测试</h1><p>创建测试数据</p>
-<blockquote>
-<p>hadoop fs -mkdir /testdata<br>hadoop fs -put $SPARK_HOME/LICENSE /testdata</p>
-</blockquote>
-<p>启动spark-shell</p>
-<blockquote>
-<p>/usr/soft/spark2.1/bin/spark-shell –master spark://master:7077</p>
-</blockquote>
-<p>spark wordcount<br>注意：如果是读本地文件，集群中的各节点都需要有这个文件，不然会提示找不到文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">val file=sc.textFile(&quot;file:/usr/soft/spark-2.1.0-bin-hadoop2.6/README.md&quot;)</span><br><span class="line">val file=sc.textFile(&quot;/usr/soft/spark-2.1.0-bin-hadoop2.6/README.md&quot;)</span><br><span class="line">val file=sc.textFile(&quot;hdsf://master:9000/testdata/README.md&quot;)</span><br><span class="line"></span><br><span class="line">//val rdd = file.flatMap(line =&gt; line.split(&quot; &quot;)).map(word =&gt; (word,1)).reduceByKey(_+_)</span><br><span class="line"></span><br><span class="line">val words = file.flatMap(line =&gt; line.split(&quot; &quot;))</span><br><span class="line">val pairs = words.map(word =&gt; (words,1))</span><br><span class="line"></span><br><span class="line">//val wordcount = pairs.reduceByKey((v1,v2) =&gt; v1+v2)</span><br><span class="line">val wordcount = pairs.reduceByKey(_+_)</span><br><span class="line"></span><br><span class="line">wordcount.collect().foreach(println)</span><br><span class="line"></span><br><span class="line">val rddTotal = rdd.collect()</span><br><span class="line">rddTotal.foreach(println)</span><br></pre></td></tr></table></figure>
-<p>wordcount升级版，增加排序<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">val file=sc.textFile(&quot;hdfs://master:9000/testdata/LICENSE&quot;)</span><br><span class="line">val rdd = file.flatMap(line=&gt;line.split(&quot; &quot;)).map(word =&gt; (word,1)).reduceByKey(_+_).map(tp=&gt;(tp._2,tp._1)).sortByKey(false).map(item=&gt;(item._2,item._1)).collect</span><br><span class="line">rdd.foreach(println)</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line">SLF4J: Class path contains multiple SLF4J bindings.</span><br><span class="line">SLF4J: Found binding in [jar:file:/usr/soft/hive2.1/lib/log4j-slf4j-impl-2.4.1.jar!/org/slf4j/impl/StaticLoggerBinder.class]</span><br><span class="line">SLF4J: Found binding in [jar:file:/usr/soft/hadoop-2.6.0/share/hadoop/common/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]</span><br><span class="line">SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.</span><br><span class="line">SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]</span><br><span class="line">javax.jdo.JDOFatalDataStoreException: Unable to open a test connection to the given database. JDBC url = jdbc:mysql://192.168.52.1:3306/hive?createDatabas</span><br><span class="line">eIfNotExsit=true; characterEncoding=UTFq8, username = root. Terminating connection pool (set lazyInit to true if you expect to start your database after your app). Original Exception: ------com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown database &apos;hive&apos;</span><br><span class="line">	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)</span><br><span class="line">	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)</span><br><span class="line">	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)</span><br><span class="line">	at java.lang.reflect.Constructor.newInstance(Constructor.java:422)</span><br><span class="line">	at com.mysql.jdbc.Util.handleNewInstance(Util.java:404)</span><br><span class="line">	at com.mysql.jdbc.Util.getInstance(Util.java:387)</span><br><span class="line">	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:939)</span><br><span class="line">	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3878)</span><br><span class="line">	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3814)</span><br><span class="line">	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:871)</span><br><span class="line">	at com.mysql.jdbc.MysqlIO.proceedHandshakeWithPluggableAuthentication(MysqlIO.java:1694)</span><br><span class="line">	at com.mysql.jdbc.MysqlIO.doHandshake(MysqlIO.java:1215)</span><br><span class="line">	at com.mysql.jdbc.ConnectionImpl.coreConnect(ConnectionImpl.java:2255)</span><br><span class="line">	at com.mysql.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:2286)</span><br><span class="line">	at com.mysql.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:2085)</span><br><span class="line">	at com.mysql.jdbc.ConnectionImpl.&lt;init&gt;(ConnectionImpl.java:795)</span><br><span class="line">	at com.mysql.jdbc.JDBC4Connection.&lt;init&gt;(JDBC4Connection.java:44)</span><br><span class="line">	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)</span><br><span class="line">	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)</span><br><span class="line">	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)</span><br><span class="line">	at java.lang.reflect.Constructor.newInstance(Constructor.java:422)</span><br><span class="line">	at com.mysql.jdbc.Util.handleNewInstance(Util.java:404)</span><br><span class="line">	at com.mysql.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:400)</span><br><span class="line">	at com.mysql.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:327)</span><br><span class="line">	at java.sql.DriverManager.getConnection(DriverManager.java:664)</span><br><span class="line">	at java.sql.DriverManager.getConnection(DriverManager.java:208)</span><br><span class="line">	at com.jolbox.bonecp.BoneCP.obtainRawInternalConnection(BoneCP.java:361)</span><br><span class="line">	at com.jolbox.bonecp.BoneCP.&lt;init&gt;(BoneCP.java:416)</span><br><span class="line">	at com.jolbox.bonecp.BoneCPDataSource.getConnection(BoneCPDataSource.java:120)</span><br><span class="line">	at org.datanucleus.store.rdbms.ConnectionFactoryImpl$ManagedConnectionImpl.getConnection(ConnectionFactoryImpl.java:483)</span><br><span class="line">	at org.datanucleus.store.rdbms.RDBMSStoreManager.&lt;init&gt;(RDBMSStoreManager.java:296)</span><br><span class="line">	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)</span><br><span class="line">	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)</span><br><span class="line">	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)</span><br><span class="line">	at java.lang.reflect.Constructor.newInstance(Constructor.java:422)</span><br><span class="line">	at org.datanucleus.plugin.NonManagedPluginRegistry.createExecutableExtension(NonManagedPluginRegistry.java:606)</span><br><span class="line">	at org.datanucleus.plugin.PluginManager.createExecutableExtension(PluginManager.java:301)</span><br><span class="line">	at org.datanucleus.NucleusContextHelper.createStoreManagerForProperties(NucleusContextHelper.java:133)</span><br><span class="line">	at org.datanucleus.PersistenceNucleusContextImpl.initialise(PersistenceNucleusContextImpl.java:420)</span><br><span class="line">	at org.datanucleus.api.jdo.JDOPersistenceManagerFactory.freezeConfiguration(JDOPersistenceManagerFactory.java:821)</span><br><span class="line">	at org.datanucleus.api.jdo.JDOPersistenceManagerFactory.createPersistenceManagerFactory(JDOPersistenceManagerFactory.java:338)</span><br><span class="line">	at org.datanucleus.api.jdo.JDOPersistenceManagerFactory.getPersistenceManagerFactory(JDOPersistenceManagerFactory.java:217)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</span><br><span class="line">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</span><br><span class="line">	at java.lang.reflect.Method.invoke(Method.java:497)</span><br><span class="line">	at javax.jdo.JDOHelper$16.run(JDOHelper.java:1965)</span><br><span class="line">	at java.security.AccessController.doPrivileged(Native Method)</span><br><span class="line">	at javax.jdo.JDOHelper.invoke(JDOHelper.java:1960)</span><br><span class="line">	at javax.jdo.JDOHelper.invokeGetPersistenceManagerFactoryOnImplementation(JDOHelper.java:1166)</span><br><span class="line">	at javax.jdo.JDOHelper.getPersistenceManagerFactory(JDOHelper.java:808)</span><br><span class="line">	at javax.jdo.JDOHelper.getPersistenceManagerFactory(JDOHelper.java:701)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.ObjectStore.getPMF(ObjectStore.java:424)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.ObjectStore.getPersistenceManager(ObjectStore.java:453)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.ObjectStore.initialize(ObjectStore.java:327)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.ObjectStore.setConf(ObjectStore.java:294)</span><br><span class="line">	at org.apache.hadoop.util.ReflectionUtils.setConf(ReflectionUtils.java:73)</span><br><span class="line">	at org.apache.hadoop.util.ReflectionUtils.newInstance(ReflectionUtils.java:133)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.RawStoreProxy.&lt;init&gt;(RawStoreProxy.java:58)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.RawStoreProxy.getProxy(RawStoreProxy.java:67)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore$HMSHandler.newRawStore(HiveMetaStore.java:581)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore$HMSHandler.getMS(HiveMetaStore.java:546)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore$HMSHandler.createDefaultDB(HiveMetaStore.java:612)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore$HMSHandler.init(HiveMetaStore.java:398)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.RetryingHMSHandler.&lt;init&gt;(RetryingHMSHandler.java:78)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.RetryingHMSHandler.getProxy(RetryingHMSHandler.java:84)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore.newRetryingHMSHandler(HiveMetaStore.java:6390)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore.newRetryingHMSHandler(HiveMetaStore.java:6385)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore.startMetaStore(HiveMetaStore.java:6643)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore.main(HiveMetaStore.java:6570)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</span><br><span class="line">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</span><br><span class="line">	at java.lang.reflect.Method.invoke(Method.java:497)</span><br><span class="line">	at org.apache.hadoop.util.RunJar.run(RunJar.java:221)</span><br><span class="line">	at org.apache.hadoop.util.RunJar.main(RunJar.java:136)</span><br></pre></td></tr></table></figure>
 
       
 
@@ -452,7 +258,7 @@
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Hive</a>
         		</li>
       		
 		</ul>
@@ -473,7 +279,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/16/bigdata-evn-spark/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/08/16/bigdata-evn-hive/">展开全文 >></a>
         </p>
       
 
@@ -792,19 +598,19 @@
 
 
   
-    <article id="post-bigdata-evn-hive" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-bigdata-evn-spark" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/16/bigdata-evn-hive/">Hive集群环境配置</a>
+      <a class="article-title" href="/2018/08/16/bigdata-evn-spark/">Spark环境集群环境配置</a>
     </h1>
   
 
         
-        <a href="/2018/08/16/bigdata-evn-hive/" class="archive-article-date">
+        <a href="/2018/08/16/bigdata-evn-spark/" class="archive-article-date">
   	<time datetime="2018-08-16T09:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-16</time>
 </a>
         
@@ -812,28 +618,30 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="1-解压Hive，配置环境变量"><a href="#1-解压Hive，配置环境变量" class="headerlink" title="1.解压Hive，配置环境变量"></a>1.解压Hive，配置环境变量</h1><blockquote>
-<p>export HIVE_HOME=/usr/soft/hive2.1<br>export PATH=.:$PATH:${HIVE_HOME}/bin:</p>
+        <h1 id="1-解压Spark，配置环境变量"><a href="#1-解压Spark，配置环境变量" class="headerlink" title="1.解压Spark，配置环境变量"></a>1.解压Spark，配置环境变量</h1><blockquote>
+<p>export SPARK_HOME=/usr/soft/spark2.1<br>export PATH=$PATH:${SPARK_HOME}/bin:</p>
 </blockquote>
-<h1 id="2-配置Hive"><a href="#2-配置Hive" class="headerlink" title="2.配置Hive"></a>2.配置Hive</h1><blockquote>
-<p>cd $HIVE_HOME/conf<br>cp hive-default.xml.template hive-site.xml</p>
+<h1 id="2-配置-slaves-conf目录下）"><a href="#2-配置-slaves-conf目录下）" class="headerlink" title="2.配置 slaves(conf目录下）"></a>2.配置 slaves(conf目录下）</h1><blockquote>
+<p>cp slaves.template slaves<br>vim slaves<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node1</span><br><span class="line">node2</span><br></pre></td></tr></table></figure></p>
 </blockquote>
-<p>修改hive-site.xml内容如下：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;</span><br><span class="line">&lt;?xml-stylesheet type="text/xsl" href="configuration.xsl"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionURL<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>jdbc:mysql://192.168.2.102:3306/hive?createDatabaseIfNotExsit=true; characterEncoding=UTFq8<span class="tag">&lt;/<span class="name">va</span></span></span><br><span class="line"><span class="tag"><span class="attr">lue</span>&gt;</span>    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionDriverName<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>com.mysql.jdbc.Driver<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionUserName<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>root<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionPassword<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>123456<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>datanucleus.readOnlyDatastore<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>false<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>datanucleus.fixedDatastore<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>false<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>datanucleus.autoCreateSchema<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>datanucleus.autoCreateTables<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>datanucleus.autoCreateColumns<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h1 id="把MySql的驱动jar包复制到lib目录下面"><a href="#把MySql的驱动jar包复制到lib目录下面" class="headerlink" title="把MySql的驱动jar包复制到lib目录下面"></a>把MySql的驱动jar包复制到lib目录下面</h1><h1 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h1><p>./bin/hive –service metastore &amp;</p>
-<p>nohup hive –service metastore &amp;<br>nohup hive –service metastore &gt; metastore.log 2&gt;&amp;1 &amp;</p>
-<p>查看服务<br>ps -aux|grep metastore<br>ps -ef |grep metastore</p>
-<h1 id="启动Hive"><a href="#启动Hive" class="headerlink" title="启动Hive"></a>启动Hive</h1><p>./bin/hive</p>
-<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> tbDate(dateID <span class="keyword">string</span>,theyearmonth <span class="keyword">string</span>,theyear <span class="keyword">string</span>,themonth <span class="keyword">string</span>,thedate <span class="keyword">string</span>,theweek <span class="keyword">string</span>,theweeks <span class="keyword">string</span>,thequot <span class="keyword">string</span>,thetenday <span class="keyword">string</span>,thehalfmonth <span class="keyword">string</span>) <span class="keyword">ROW</span> <span class="keyword">FORMAT</span> <span class="keyword">DELIMITED</span> <span class="keyword">FIELDS</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">','</span> <span class="keyword">LINES</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\n'</span> ;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> tbStock(ordernumber <span class="keyword">STRING</span>,locationid <span class="keyword">string</span>,dateID <span class="keyword">string</span>) <span class="keyword">ROW</span> <span class="keyword">FORMAT</span> <span class="keyword">DELIMITED</span> <span class="keyword">FIELDS</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">','</span> <span class="keyword">LINES</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\n'</span> ;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> tbStockDetail(ordernumber <span class="keyword">STRING</span>,<span class="keyword">rownum</span> <span class="built_in">int</span>,itemid <span class="keyword">string</span>,qty <span class="built_in">int</span>,price <span class="built_in">int</span> ,amount <span class="built_in">int</span>) <span class="keyword">ROW</span> <span class="keyword">FORMAT</span> <span class="keyword">DELIMITED</span> <span class="keyword">FIELDS</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">','</span> <span class="keyword">LINES</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\n'</span> ;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> SOGOUQ2(DT <span class="keyword">STRING</span>,WEBSESSION <span class="keyword">STRING</span>,WORD <span class="keyword">STRING</span>,S_SEQ <span class="built_in">INT</span>,C_SEQ <span class="built_in">INT</span>,WEBSITE <span class="keyword">STRING</span>) <span class="keyword">ROW</span> <span class="keyword">FORMAT</span> <span class="keyword">DELIMITED</span> <span class="keyword">FIELDS</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\t'</span> <span class="keyword">LINES</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\n'</span> ;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">EXTERNAL</span> <span class="keyword">TABLE</span> SOGOUQ1(DT <span class="keyword">STRING</span>,WEBSESSION <span class="keyword">STRING</span>,WORD <span class="keyword">STRING</span>,S_SEQ <span class="built_in">INT</span>,C_SEQ <span class="built_in">INT</span>,WEBSITE <span class="keyword">STRING</span>) <span class="keyword">ROW</span> <span class="keyword">FORMAT</span> <span class="keyword">DELIMITED</span> <span class="keyword">FIELDS</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\t'</span> <span class="keyword">LINES</span> <span class="keyword">TERMINATED</span></span><br><span class="line"> <span class="keyword">BY</span> <span class="string">'\n'</span> <span class="keyword">STORED</span> <span class="keyword">AS</span> TEXTFILE LOCATION <span class="string">'/class5/sogouq1'</span>;</span><br></pre></td></tr></table></figure>
-<h1 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h1><h2 id="无法方法MySql服务"><a href="#无法方法MySql服务" class="headerlink" title="无法方法MySql服务"></a>无法方法MySql服务</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">grant</span> all <span class="keyword">privileges</span> <span class="keyword">on</span> *.* <span class="keyword">to</span> <span class="string">'root'</span>@<span class="string">'%'</span> <span class="keyword">identified</span> <span class="keyword">by</span> <span class="string">'123456'</span>;</span><br><span class="line"><span class="keyword">flush</span> <span class="keyword">privileges</span>;</span><br></pre></td></tr></table></figure>
-<p>如下正确：<br>mysql&gt;grant all privileges on <em>.</em> to ‘用户名‘@’ip地址’ identified by ‘密码’;<br>all privileges 所有权限 也可以写成select ,update等<br><em>.</em> 所有库的所有表 如databasename.*<br>用户名 随便起<br>IP  数据库所在的IP<br>identified by ‘密码’ 表示通过密码连接</p>
-<p>执行完上述命令后用下面的命令刷新一下权限<br>mysql&gt;flush privileges;</p>
-<h2 id="异常问题1："><a href="#异常问题1：" class="headerlink" title="异常问题1："></a>异常问题1：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.</span><br><span class="line">SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]</span><br><span class="line">javax.jdo.JDODataStoreException: Required table missing : &quot;`VERSION`&quot; in Catalog &quot;&quot; Schema &quot;&quot;. DataNucleus requires this table to perform its persistence operations. Either your MetaData is incorrect,</span><br><span class="line">or you need to enable &quot;datanucleus.schema.autoCreateTables&quot;	at org.datanucleus.api.jdo.NucleusJDOHelper.getJDOExceptionForNucleusException(NucleusJDOHelper.java:553)</span><br><span class="line">	at org.datanucleus.api.jdo.JDOPersistenceManager.jdoMakePersistent(JDOPersistenceManager.java:720)</span><br><span class="line">	at org.datanucleus.api.jdo.JDOPersistenceManager.makePersistent(JDOPersistenceManager.java:740)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.ObjectStore.setMetaStoreSchemaVersion(ObjectStore.java:7763)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.ObjectStore.checkSchema(ObjectStore.java:7657)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.ObjectStore.verifySchema(ObjectStore.java:7632)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</span><br><span class="line">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</span><br><span class="line">	at java.lang.reflect.Method.invoke(Method.java:497)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.RawStoreProxy.invoke(RawStoreProxy.java:101)</span><br><span class="line">	at com.sun.proxy.$Proxy18.verifySchema(Unknown Source)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore$HMSHandler.getMS(HiveMetaStore.java:547)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore$HMSHandler.createDefaultDB(HiveMetaStore.java:612)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore$HMSHandler.init(HiveMetaStore.java:398)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.RetryingHMSHandler.&lt;init&gt;(RetryingHMSHandler.java:78)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.RetryingHMSHandler.getProxy(RetryingHMSHandler.java:84)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore.newRetryingHMSHandler(HiveMetaStore.java:6390)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore.newRetryingHMSHandler(HiveMetaStore.java:6385)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore.startMetaStore(HiveMetaStore.java:6643)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore.main(HiveMetaStore.java:6570)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</span><br><span class="line">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</span><br><span class="line">	at java.lang.reflect.Method.invoke(Method.java:497)</span><br><span class="line">	at org.apache.hadoop.util.RunJar.run(RunJar.java:221)</span><br><span class="line">	at org.apache.hadoop.util.RunJar.main(RunJar.java:136)</span><br><span class="line">NestedThrowablesStackTrace:</span><br></pre></td></tr></table></figure>
-<p>解决方法：</p>
+<h1 id="3-配置-spark-defaults-conf（配置historyServer必须配置这个，如果无须配置这个可以不用配置）"><a href="#3-配置-spark-defaults-conf（配置historyServer必须配置这个，如果无须配置这个可以不用配置）" class="headerlink" title="3.配置 spark-defaults.conf（配置historyServer必须配置这个，如果无须配置这个可以不用配置）"></a>3.配置 spark-defaults.conf（配置historyServer必须配置这个，如果无须配置这个可以不用配置）</h1><p>cp spark-defaults.conf.template spark-defaults.conf<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">spark.executor.extraJavaOptions  -XX:+PrintGCDetails -Dkey=value -Dnumbers=&quot;one two three&quot;</span><br><span class="line">spark.eventLog.enabled           true</span><br><span class="line">spark.eventLog.dir               hdfs://master:9000/historyServerforSpark</span><br><span class="line">spark.yarn.historyServer.address work1:18080</span><br><span class="line">spark.history.fs.logDirectory    hdfs://master:9000/historyServerforSpark</span><br></pre></td></tr></table></figure></p>
+<h1 id="4-配置-spark-env-sh"><a href="#4-配置-spark-env-sh" class="headerlink" title="4.配置  spark-env.sh"></a>4.配置  spark-env.sh</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">export SCALA_HOME=/usr/soft/scala-2.11.8</span><br><span class="line">export JAVA_HOME=/usr/soft/jdk1.8</span><br><span class="line">export SPARK_MASTER_IP=master</span><br><span class="line">export SPARK_WORKER_MEMORY=1g</span><br><span class="line">export HADOOP_HOME=/usr/soft/hadoop2.6</span><br><span class="line">export HADOOP_CONF_DIR=/usr/soft/hadoop2.6/etc/hadoop</span><br></pre></td></tr></table></figure>
+<h1 id="5-拷贝文件"><a href="#5-拷贝文件" class="headerlink" title="5.拷贝文件"></a>5.拷贝文件</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">scp /usr/soft/spark2.1/conf/spark-env.sh root@node1:/usr/soft/spark2.1/conf/</span><br><span class="line">scp /usr/soft/spark2.1/conf/spark-env.sh root@node2:/usr/soft/spark2.1/conf/</span><br><span class="line"></span><br><span class="line">scp /usr/soft/spark2.1/conf/slaves root@node1:/usr/soft/spark2.1/conf/</span><br><span class="line">scp /usr/soft/spark2.1/conf/slaves root@node2:/usr/soft/spark2.1/conf/</span><br></pre></td></tr></table></figure>
+<h1 id="6-启动"><a href="#6-启动" class="headerlink" title="6.启动"></a>6.启动</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/usr/soft/spark2.1/sbin/start-master.sh</span><br><span class="line">/usr/soft/spark2.1/sbin/start-slaves.sh</span><br><span class="line"></span><br><span class="line">/usr/soft/spark2.1/sbin/stop-all.sh</span><br></pre></td></tr></table></figure>
+<h1 id="创建历史记录目录"><a href="#创建历史记录目录" class="headerlink" title="创建历史记录目录"></a>创建历史记录目录</h1><blockquote>
+<p>hadoop fs -mkdir /historyServerforSpark<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">　　hadoop fs -mkdir -p /Hadoop/Input（在HDFS创建目录）</span><br><span class="line">　　hadoop fs -put hello.txt /Hadoop/Input（将hello.txt文件上传到HDFS）</span><br><span class="line">　　hadoop fs -ls /Hadoop/Input （查看上传的文件）</span><br><span class="line">　　hadoop fs -text /Hadoop/Input/hello.txt （查看文件内容）</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h1 id="启动spark-shell测试"><a href="#启动spark-shell测试" class="headerlink" title="启动spark-shell测试"></a>启动spark-shell测试</h1><p>创建测试数据</p>
 <blockquote>
-<p>进入到hive_home然后执行下面命令:<br>bin/schematool -dbType mysql -initSchema</p>
+<p>hadoop fs -mkdir /testdata<br>hadoop fs -put $SPARK_HOME/LICENSE /testdata</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line">SLF4J: Class path contains multiple SLF4J bindings.</span><br><span class="line">SLF4J: Found binding in [jar:file:/usr/soft/hive2.1/lib/log4j-slf4j-impl-2.4.1.jar!/org/slf4j/impl/StaticLoggerBinder.class]</span><br><span class="line">SLF4J: Found binding in [jar:file:/usr/soft/hadoop-2.6.0/share/hadoop/common/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]</span><br><span class="line">SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.</span><br><span class="line">SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]</span><br><span class="line">javax.jdo.JDOFatalDataStoreException: Unable to open a test connection to the given database. JDBC url = jdbc:mysql://192.168.52.1:3306/hive?createDatabas</span><br><span class="line">eIfNotExsit=true; characterEncoding=UTFq8, username = root. Terminating connection pool (set lazyInit to true if you expect to start your database after your app). Original Exception: ------com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown database &apos;hive&apos;</span><br><span class="line">	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)</span><br><span class="line">	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)</span><br><span class="line">	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)</span><br><span class="line">	at java.lang.reflect.Constructor.newInstance(Constructor.java:422)</span><br><span class="line">	at com.mysql.jdbc.Util.handleNewInstance(Util.java:404)</span><br><span class="line">	at com.mysql.jdbc.Util.getInstance(Util.java:387)</span><br><span class="line">	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:939)</span><br><span class="line">	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3878)</span><br><span class="line">	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3814)</span><br><span class="line">	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:871)</span><br><span class="line">	at com.mysql.jdbc.MysqlIO.proceedHandshakeWithPluggableAuthentication(MysqlIO.java:1694)</span><br><span class="line">	at com.mysql.jdbc.MysqlIO.doHandshake(MysqlIO.java:1215)</span><br><span class="line">	at com.mysql.jdbc.ConnectionImpl.coreConnect(ConnectionImpl.java:2255)</span><br><span class="line">	at com.mysql.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:2286)</span><br><span class="line">	at com.mysql.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:2085)</span><br><span class="line">	at com.mysql.jdbc.ConnectionImpl.&lt;init&gt;(ConnectionImpl.java:795)</span><br><span class="line">	at com.mysql.jdbc.JDBC4Connection.&lt;init&gt;(JDBC4Connection.java:44)</span><br><span class="line">	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)</span><br><span class="line">	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)</span><br><span class="line">	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)</span><br><span class="line">	at java.lang.reflect.Constructor.newInstance(Constructor.java:422)</span><br><span class="line">	at com.mysql.jdbc.Util.handleNewInstance(Util.java:404)</span><br><span class="line">	at com.mysql.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:400)</span><br><span class="line">	at com.mysql.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:327)</span><br><span class="line">	at java.sql.DriverManager.getConnection(DriverManager.java:664)</span><br><span class="line">	at java.sql.DriverManager.getConnection(DriverManager.java:208)</span><br><span class="line">	at com.jolbox.bonecp.BoneCP.obtainRawInternalConnection(BoneCP.java:361)</span><br><span class="line">	at com.jolbox.bonecp.BoneCP.&lt;init&gt;(BoneCP.java:416)</span><br><span class="line">	at com.jolbox.bonecp.BoneCPDataSource.getConnection(BoneCPDataSource.java:120)</span><br><span class="line">	at org.datanucleus.store.rdbms.ConnectionFactoryImpl$ManagedConnectionImpl.getConnection(ConnectionFactoryImpl.java:483)</span><br><span class="line">	at org.datanucleus.store.rdbms.RDBMSStoreManager.&lt;init&gt;(RDBMSStoreManager.java:296)</span><br><span class="line">	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)</span><br><span class="line">	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)</span><br><span class="line">	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)</span><br><span class="line">	at java.lang.reflect.Constructor.newInstance(Constructor.java:422)</span><br><span class="line">	at org.datanucleus.plugin.NonManagedPluginRegistry.createExecutableExtension(NonManagedPluginRegistry.java:606)</span><br><span class="line">	at org.datanucleus.plugin.PluginManager.createExecutableExtension(PluginManager.java:301)</span><br><span class="line">	at org.datanucleus.NucleusContextHelper.createStoreManagerForProperties(NucleusContextHelper.java:133)</span><br><span class="line">	at org.datanucleus.PersistenceNucleusContextImpl.initialise(PersistenceNucleusContextImpl.java:420)</span><br><span class="line">	at org.datanucleus.api.jdo.JDOPersistenceManagerFactory.freezeConfiguration(JDOPersistenceManagerFactory.java:821)</span><br><span class="line">	at org.datanucleus.api.jdo.JDOPersistenceManagerFactory.createPersistenceManagerFactory(JDOPersistenceManagerFactory.java:338)</span><br><span class="line">	at org.datanucleus.api.jdo.JDOPersistenceManagerFactory.getPersistenceManagerFactory(JDOPersistenceManagerFactory.java:217)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</span><br><span class="line">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</span><br><span class="line">	at java.lang.reflect.Method.invoke(Method.java:497)</span><br><span class="line">	at javax.jdo.JDOHelper$16.run(JDOHelper.java:1965)</span><br><span class="line">	at java.security.AccessController.doPrivileged(Native Method)</span><br><span class="line">	at javax.jdo.JDOHelper.invoke(JDOHelper.java:1960)</span><br><span class="line">	at javax.jdo.JDOHelper.invokeGetPersistenceManagerFactoryOnImplementation(JDOHelper.java:1166)</span><br><span class="line">	at javax.jdo.JDOHelper.getPersistenceManagerFactory(JDOHelper.java:808)</span><br><span class="line">	at javax.jdo.JDOHelper.getPersistenceManagerFactory(JDOHelper.java:701)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.ObjectStore.getPMF(ObjectStore.java:424)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.ObjectStore.getPersistenceManager(ObjectStore.java:453)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.ObjectStore.initialize(ObjectStore.java:327)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.ObjectStore.setConf(ObjectStore.java:294)</span><br><span class="line">	at org.apache.hadoop.util.ReflectionUtils.setConf(ReflectionUtils.java:73)</span><br><span class="line">	at org.apache.hadoop.util.ReflectionUtils.newInstance(ReflectionUtils.java:133)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.RawStoreProxy.&lt;init&gt;(RawStoreProxy.java:58)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.RawStoreProxy.getProxy(RawStoreProxy.java:67)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore$HMSHandler.newRawStore(HiveMetaStore.java:581)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore$HMSHandler.getMS(HiveMetaStore.java:546)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore$HMSHandler.createDefaultDB(HiveMetaStore.java:612)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore$HMSHandler.init(HiveMetaStore.java:398)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.RetryingHMSHandler.&lt;init&gt;(RetryingHMSHandler.java:78)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.RetryingHMSHandler.getProxy(RetryingHMSHandler.java:84)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore.newRetryingHMSHandler(HiveMetaStore.java:6390)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore.newRetryingHMSHandler(HiveMetaStore.java:6385)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore.startMetaStore(HiveMetaStore.java:6643)</span><br><span class="line">	at org.apache.hadoop.hive.metastore.HiveMetaStore.main(HiveMetaStore.java:6570)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</span><br><span class="line">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</span><br><span class="line">	at java.lang.reflect.Method.invoke(Method.java:497)</span><br><span class="line">	at org.apache.hadoop.util.RunJar.run(RunJar.java:221)</span><br><span class="line">	at org.apache.hadoop.util.RunJar.main(RunJar.java:136)</span><br></pre></td></tr></table></figure>
+<p>启动spark-shell</p>
+<blockquote>
+<p>/usr/soft/spark2.1/bin/spark-shell –master spark://master:7077</p>
+</blockquote>
+<p>spark wordcount<br>注意：如果是读本地文件，集群中的各节点都需要有这个文件，不然会提示找不到文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">val file=sc.textFile(&quot;file:/usr/soft/spark-2.1.0-bin-hadoop2.6/README.md&quot;)</span><br><span class="line">val file=sc.textFile(&quot;/usr/soft/spark-2.1.0-bin-hadoop2.6/README.md&quot;)</span><br><span class="line">val file=sc.textFile(&quot;hdsf://master:9000/testdata/README.md&quot;)</span><br><span class="line"></span><br><span class="line">//val rdd = file.flatMap(line =&gt; line.split(&quot; &quot;)).map(word =&gt; (word,1)).reduceByKey(_+_)</span><br><span class="line"></span><br><span class="line">val words = file.flatMap(line =&gt; line.split(&quot; &quot;))</span><br><span class="line">val pairs = words.map(word =&gt; (words,1))</span><br><span class="line"></span><br><span class="line">//val wordcount = pairs.reduceByKey((v1,v2) =&gt; v1+v2)</span><br><span class="line">val wordcount = pairs.reduceByKey(_+_)</span><br><span class="line"></span><br><span class="line">wordcount.collect().foreach(println)</span><br><span class="line"></span><br><span class="line">val rddTotal = rdd.collect()</span><br><span class="line">rddTotal.foreach(println)</span><br></pre></td></tr></table></figure>
+<p>wordcount升级版，增加排序<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">val file=sc.textFile(&quot;hdfs://master:9000/testdata/LICENSE&quot;)</span><br><span class="line">val rdd = file.flatMap(line=&gt;line.split(&quot; &quot;)).map(word =&gt; (word,1)).reduceByKey(_+_).map(tp=&gt;(tp._2,tp._1)).sortByKey(false).map(item=&gt;(item._2,item._1)).collect</span><br><span class="line">rdd.foreach(println)</span><br></pre></td></tr></table></figure></p>
 
       
 
@@ -851,7 +659,7 @@
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Hive</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
         		</li>
       		
 		</ul>
@@ -872,7 +680,238 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/16/bigdata-evn-hive/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/08/16/bigdata-evn-spark/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-tools-maven" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/16/tools-maven/">windows下使用nexus3搭建maven私库</a>
+    </h1>
+  
+
+        
+        <a href="/2018/08/16/tools-maven/" class="archive-article-date">
+  	<time datetime="2018-08-16T09:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="安装nexus"><a href="#安装nexus" class="headerlink" title="安装nexus"></a>安装nexus</h1><p><a href="http://www.sonatype.com/download-oss-sonatype" target="_blank" rel="noopener">http://www.sonatype.com/download-oss-sonatype</a></p>
+<p>下载Windows版本</p>
+<p>解压</p>
+<p>进入bin目录运行</p>
+<blockquote>
+<p>nexus.exe /run</p>
+</blockquote>
+<p>没什么意外的情况下即可访问<a href="http://localhost:8081" target="_blank" rel="noopener">http://localhost:8081</a></p>
+<h1 id="配置nexus"><a href="#配置nexus" class="headerlink" title="配置nexus"></a>配置nexus</h1><p>默认系统用户密码:admin/admin123</p>
+<p>登录成功后 左边Administration下</p>
+<p>Blob Stores 存放目录（可在此定义自己的存放目录）<br>Repostitories 为远程资源管理（可在这添加资源，比如添加阿里的库）</p>
+<h1 id="配置Maven"><a href="#配置Maven" class="headerlink" title="配置Maven"></a>配置Maven</h1><p>修改Maven的settings文件</p>
+<ul>
+<li><p>增加server</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;server&gt;</span><br><span class="line">  &lt;id&gt;my-nexus-releases&lt;/id&gt;</span><br><span class="line">  &lt;username&gt;admin&lt;/username&gt;</span><br><span class="line">  &lt;password&gt;admin123&lt;/password&gt;</span><br><span class="line">&lt;/server&gt;</span><br><span class="line">&lt;server&gt;</span><br><span class="line">  &lt;id&gt;my-nexus-snapshot&lt;/id&gt;</span><br><span class="line">  &lt;username&gt;admin&lt;/username&gt;</span><br><span class="line">  &lt;password&gt;admin123&lt;/password&gt;</span><br><span class="line">&lt;/server&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>增加mirrors<br>注意这个URL跟nexus里的Repostitories的URL一致</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;mirror&gt;</span><br><span class="line">	  &lt;!--This sends everything else to /public --&gt;</span><br><span class="line">	  &lt;id&gt;nexus&lt;/id&gt;</span><br><span class="line">	  &lt;mirrorOf&gt;*&lt;/mirrorOf&gt;</span><br><span class="line">	  &lt;url&gt;http://localhost:8081/repository/mygroup/&lt;/url&gt;</span><br><span class="line">	&lt;/mirror&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>增加profile<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;profile&gt;</span><br><span class="line">  &lt;id&gt;nexus&lt;/id&gt;</span><br><span class="line">	&lt;!--Enable snapshots for the built in central repo to direct --&gt;</span><br><span class="line">	&lt;!--all requests to nexus via the mirror --&gt;</span><br><span class="line">  &lt;repositories&gt;</span><br><span class="line">	&lt;repository&gt;</span><br><span class="line">		&lt;id&gt;central&lt;/id&gt;</span><br><span class="line">		&lt;url&gt;http://central&lt;/url&gt;</span><br><span class="line">		&lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/releases&gt;</span><br><span class="line">		&lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/snapshots&gt;</span><br><span class="line">	&lt;/repository&gt;</span><br><span class="line">  &lt;/repositories&gt;</span><br><span class="line">  &lt;pluginRepositories&gt;</span><br><span class="line">    &lt;pluginRepository&gt;</span><br><span class="line">		&lt;id&gt;central&lt;/id&gt;</span><br><span class="line">		&lt;url&gt;http://central&lt;/url&gt;</span><br><span class="line">		&lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/releases&gt;</span><br><span class="line">		&lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/snapshots&gt;</span><br><span class="line">	&lt;/pluginRepository&gt;</span><br><span class="line">  &lt;/pluginRepositories&gt;</span><br><span class="line">&lt;/profile&gt;</span><br></pre></td></tr></table></figure></p>
+<p>设置activeProfiles<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;activeProfiles&gt;</span><br><span class="line">  &lt;activeProfile&gt;nexus&lt;/activeProfile&gt;</span><br><span class="line">&lt;/activeProfiles&gt;</span><br></pre></td></tr></table></figure></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">nexus3</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">maven私库</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/工具//" class="article-tag-list-link color3">工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/08/16/tools-maven/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-bigdata-dw-KimballvsInmon" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/16/bigdata-dw-KimballvsInmon/">Kimball VS Inmon</a>
+    </h1>
+  
+
+        
+        <a href="/2018/08/16/bigdata-dw-KimballvsInmon/" class="archive-article-date">
+  	<time datetime="2018-08-16T09:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>优劣比较</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>Kimball</th>
+<th>Inmon</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>时间</td>
+<td>快速交付</td>
+<td>路漫漫</td>
+</tr>
+<tr>
+<td>开发难度</td>
+<td>小</td>
+<td>大</td>
+</tr>
+<tr>
+<td>维护难度</td>
+<td>大</td>
+<td>小</td>
+</tr>
+<tr>
+<td>技能要求</td>
+<td>入门级</td>
+<td>专家级</td>
+</tr>
+<tr>
+<td>数据要求</td>
+<td>特定业务</td>
+<td>企业级</td>
+</tr>
+</tbody>
+</table>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据仓库</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/08/16/bigdata-dw-KimballvsInmon/">展开全文 >></a>
         </p>
       
 
@@ -1059,19 +1098,19 @@
 
 
   
-    <article id="post-os-linux-user01" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-bigdata-dw-01" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/16/os-linux-user01/">Linux 常用操作</a>
+      <a class="article-title" href="/2018/08/16/bigdata-dw-01/">Kimball VS Inmon</a>
     </h1>
   
 
         
-        <a href="/2018/08/16/os-linux-user01/" class="archive-article-date">
+        <a href="/2018/08/16/bigdata-dw-01/" class="archive-article-date">
   	<time datetime="2018-08-16T09:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-16</time>
 </a>
         
@@ -1079,131 +1118,69 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="常用操作"><a href="#常用操作" class="headerlink" title="常用操作"></a>常用操作</h1><h2 id="chown-命令"><a href="#chown-命令" class="headerlink" title="chown 命令"></a>chown 命令</h2><p>语法：chown ［选项］ 用户或组 文件</p>
-<h2 id="chgrp命令"><a href="#chgrp命令" class="headerlink" title="chgrp命令"></a>chgrp命令</h2><p>功能：改变文件或目录所属的组。</p>
-<p>语法：chgrp ［选项］ group filename¼</p>
-<h1 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h1><h2 id="修改密码时提示太简单"><a href="#修改密码时提示太简单" class="headerlink" title="修改密码时提示太简单"></a>修改密码时提示太简单</h2><p>解决方法：使用管理员权限</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/操作系统//" class="article-tag-list-link color5">操作系统</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/16/os-linux-user01/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-bigdata-dw-KimballvsInmon" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/16/bigdata-dw-KimballvsInmon/">Kimball VS Inmon</a>
-    </h1>
-  
-
-        
-        <a href="/2018/08/16/bigdata-dw-KimballvsInmon/" class="archive-article-date">
-  	<time datetime="2018-08-16T09:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>优劣比较</p>
-<table>
+        <h1 id="数据仓库与数据集市"><a href="#数据仓库与数据集市" class="headerlink" title="数据仓库与数据集市"></a>数据仓库与数据集市</h1><h1 id="自上而下与自下而上"><a href="#自上而下与自下而上" class="headerlink" title="自上而下与自下而上"></a>自上而下与自下而上</h1><h1 id="数据处理两大类OLAP、OLTP的区别"><a href="#数据处理两大类OLAP、OLTP的区别" class="headerlink" title="数据处理两大类OLAP、OLTP的区别"></a>数据处理两大类OLAP、OLTP的区别</h1><table>
 <thead>
 <tr>
-<th>特性</th>
-<th>Kimball</th>
-<th>Inmon</th>
+<th>维度</th>
+<th>OLTP</th>
+<th>OLAP</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>时间</td>
-<td>快速交付</td>
-<td>路漫漫</td>
+<td>用户</td>
+<td>操作人员，低层管理人员</td>
+<td>决策人员，高级管理人员</td>
 </tr>
 <tr>
-<td>开发难度</td>
-<td>小</td>
-<td>大</td>
+<td>功能</td>
+<td>日常操作处理</td>
+<td>分析决策</td>
 </tr>
 <tr>
-<td>维护难度</td>
-<td>大</td>
-<td>小</td>
+<td>DB设计</td>
+<td>面向应用</td>
+<td>面向主题</td>
 </tr>
 <tr>
-<td>技能要求</td>
-<td>入门级</td>
-<td>专家级</td>
+<td>数据</td>
+<td>当前的，最新的细节，二维的分立的</td>
+<td>历史的，聚集的，多维的集成的，统一的</td>
 </tr>
 <tr>
-<td>数据要求</td>
-<td>特定业务</td>
-<td>企业级</td>
+<td>存取</td>
+<td>读写数十条记录</td>
+<td>读上百万条记录</td>
+</tr>
+<tr>
+<td>工作单位</td>
+<td>简单事务</td>
+<td>复杂的查询</td>
+</tr>
+<tr>
+<td>用户数</td>
+<td>上千个</td>
+<td>上百万个</td>
+</tr>
+<tr>
+<td>DB大小</td>
+<td>100MB-GB</td>
+<td>100GB-TB</td>
+</tr>
+<tr>
+<td>时间要求</td>
+<td>具有实时性</td>
+<td>对时间的要求不严格</td>
+</tr>
+<tr>
+<td>主要应用</td>
+<td>数据仓库</td>
+<td>数据仓库</td>
 </tr>
 </tbody>
 </table>
+<p>OLTP，也叫联机事务处理（Online Transaction Processing），表示事务性非常高的系统，一般都是高可用的在线系统，以小的事务以及小的查询为主，评估其系统的时候，一般看其每秒执行的Transaction以及Execute SQL的数量。在这样的系统中，单个数据库每秒处理的Transaction往往超过几百个，或者是几千个，Select 语句的执行量每秒几千甚至几万个。典型的OLTP系统有电子商务系统、银行、证券等，如美国eBay的业务数据库，就是很典型的OLTP数据库。</p>
+<p>OLAP，也叫联机分析处理（Online Analytical Processing）系统，有的时候也叫DSS决策支持系统，就是我们说的数据仓库。在这样的系统中，语句的执行量不是考核标准，因为一条语句的执行时间可能会非常长，读取的数据也非常多。所以，在这样的系统中，考核的标准往往是磁盘子系统的吞吐量（带宽），如能达到多少MB/s的流量。</p>
 
       
 
@@ -1238,7 +1215,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/16/bigdata-dw-KimballvsInmon/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/08/16/bigdata-dw-01/">展开全文 >></a>
         </p>
       
 
@@ -1270,7 +1247,7 @@
   
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 
@@ -1397,6 +1374,22 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">沟通</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">nexus3</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">maven私库</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">github</a>
               </li>
              
@@ -1409,23 +1402,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Atom</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">nexus3</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">maven私库</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">沟通</a>
               </li>
             
             <div class="clearfix"></div>
