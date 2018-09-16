@@ -172,6 +172,7 @@
 <h1 id="5-循环语句"><a href="#5-循环语句" class="headerlink" title="5.循环语句"></a>5.循环语句</h1><p>方式一：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">drop</span> <span class="keyword">procedure</span> <span class="keyword">if</span> <span class="keyword">exists</span> sp5_1;</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">procedure</span> sp5_1()</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">  <span class="keyword">declare</span> <span class="keyword">sum</span> <span class="built_in">int</span> <span class="keyword">default</span> <span class="number">0</span>;  <span class="comment">-- default 是指定该变量的默认值</span></span><br><span class="line">  <span class="keyword">declare</span> i <span class="built_in">int</span> <span class="keyword">default</span> <span class="number">1</span>;</span><br><span class="line">  while i&lt;=10 DO -- 循环开始</span><br><span class="line">    <span class="keyword">set</span> <span class="keyword">sum</span>=<span class="keyword">sum</span>+i;</span><br><span class="line">    <span class="keyword">set</span> i=i+<span class="number">1</span>;</span><br><span class="line">  <span class="keyword">end</span> <span class="keyword">while</span>; <span class="comment">-- 循环结束</span></span><br><span class="line">  <span class="keyword">select</span> <span class="keyword">sum</span>;  <span class="comment">-- 输出结果</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">;</span><br><span class="line"><span class="keyword">call</span> sp5_1();</span><br></pre></td></tr></table></figure></p>
 <p>方式二<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">drop</span> <span class="keyword">procedure</span> <span class="keyword">if</span> <span class="keyword">exists</span> sp5_2;</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">procedure</span> sp5_2()</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">  <span class="keyword">declare</span> <span class="keyword">sum</span> <span class="built_in">int</span> <span class="keyword">default</span> <span class="number">0</span>;  <span class="comment">-- default 是指定该变量的默认值</span></span><br><span class="line">  <span class="keyword">declare</span> i <span class="built_in">int</span> <span class="keyword">default</span> <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">  loop_name:loop</span><br><span class="line">	<span class="comment">-- 满足条件时离开循环</span></span><br><span class="line">	if i &gt; 10 then</span><br><span class="line">		<span class="comment">-- 和 break 差不多都是结束训话</span></span><br><span class="line">		leave loop_name;</span><br><span class="line">	<span class="keyword">end</span> <span class="keyword">if</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">set</span> <span class="keyword">sum</span>=<span class="keyword">sum</span>+i;</span><br><span class="line">    <span class="keyword">set</span> i=i+<span class="number">1</span>;</span><br><span class="line">  <span class="keyword">end</span> <span class="keyword">loop</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="keyword">select</span> <span class="keyword">sum</span>;  <span class="comment">-- 输出结果</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">;</span><br><span class="line"><span class="keyword">call</span> sp5_2();</span><br></pre></td></tr></table></figure></p>
 <p>方式三：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">drop</span> <span class="keyword">procedure</span> <span class="keyword">if</span> <span class="keyword">exists</span> sp5_3;</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">procedure</span> sp5_3()</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">declare</span> <span class="keyword">sum</span> <span class="built_in">int</span> <span class="keyword">default</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">declare</span> i <span class="built_in">int</span> <span class="keyword">default</span> <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">	repeat <span class="comment">-- 循环开始</span></span><br><span class="line">        <span class="keyword">set</span> <span class="keyword">sum</span>=<span class="keyword">sum</span>+i;</span><br><span class="line">        <span class="keyword">set</span> i=i+<span class="number">1</span>;</span><br><span class="line">    until i &gt; 10 end repeat; -- 循环结束</span><br><span class="line"></span><br><span class="line">	<span class="keyword">select</span> <span class="keyword">sum</span>; <span class="comment">-- 输出结果</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">;</span><br><span class="line"><span class="keyword">call</span> sp5_3();</span><br></pre></td></tr></table></figure></p>
+<h1 id="6-循环结果集"><a href="#6-循环结果集" class="headerlink" title="6.循环结果集"></a>6.循环结果集</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">drop procedure if exists sp6_1;</span><br><span class="line">create procedure sp6_1()</span><br><span class="line">begin</span><br><span class="line"></span><br><span class="line">	DECLARE _done varchar(20) default &apos;&apos;;</span><br><span class="line">	declare rest varchar(1000) default &apos;&apos;;</span><br><span class="line"></span><br><span class="line">	declare id1 int;</span><br><span class="line">	declare sum1 int default 0;</span><br><span class="line">	declare code1 varchar(20) default &apos;&apos;;</span><br><span class="line">	declare name1 varchar(20) default &apos;&apos;;</span><br><span class="line">	declare stime1 datetime default now();</span><br><span class="line">	declare etime1 datetime default now();</span><br><span class="line"></span><br><span class="line">  DECLARE _cur CURSOR FOR</span><br><span class="line">         SELECT id, code, name, stime, etime FROM t1;</span><br><span class="line">	delete from t2;</span><br><span class="line">	open _cur;</span><br><span class="line">		REPEAT</span><br><span class="line"></span><br><span class="line">			fetch _cur into id1, code1, name1, stime1, etime1;</span><br><span class="line"></span><br><span class="line">			set _done = code1;</span><br><span class="line"></span><br><span class="line">			set sum1=sum1+id1;</span><br><span class="line">			select id1,code1,name1;</span><br><span class="line">			set rest = concat(rest, name1, &apos;-&apos;);</span><br><span class="line"></span><br><span class="line">			insert into t2(code,name) values(code1,name1);</span><br><span class="line">		UNTIL _done=&apos;item&apos; END REPEAT;</span><br><span class="line"></span><br><span class="line">	close _cur;</span><br><span class="line"></span><br><span class="line">	select sum1;</span><br><span class="line">	select rest;</span><br><span class="line"></span><br><span class="line">end</span><br><span class="line">;</span><br></pre></td></tr></table></figure>
 <h1 id="常用函数"><a href="#常用函数" class="headerlink" title="常用函数"></a>常用函数</h1><p>IFNULL(expr1,expr2)<br>假如expr1 不为 NULL，则 IFNULL() 的返回值为 expr1; 否则其返回值为 expr2。IFNULL()的返回值是数字或是字符串，具体情况取决于其所使用的语境。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SELECT IFNULL(1,0);</span><br><span class="line">SELECT IFNULL(NULL,10);</span><br><span class="line">SELECT IFNULL(1/0,10);</span><br><span class="line">SELECT IFNULL(1/0,&apos;yes&apos;);</span><br></pre></td></tr></table></figure></p>
 <p>IF(expr1,expr2,expr3)<br>如果 expr1 是TRUE (expr1 &lt;&gt; 0 and expr1 &lt;&gt; NULL)，则 IF()的返回值为expr2; 否则返回值则为 expr3。IF() 的返回值为数字值或字符串值，具体情况视其所在语境而定。<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">if</span>(sva=<span class="number">1</span>,<span class="string">"男"</span>,<span class="string">"女"</span>) <span class="keyword">as</span> ssva <span class="keyword">from</span> taname <span class="keyword">where</span> <span class="keyword">id</span> = <span class="string">'111'</span></span><br></pre></td></tr></table></figure></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">CASE</span> sva <span class="keyword">WHEN</span> <span class="number">1</span> <span class="keyword">THEN</span> <span class="string">'男'</span> <span class="keyword">ELSE</span> <span class="string">'女'</span> <span class="keyword">END</span> <span class="keyword">as</span> ssva <span class="keyword">from</span> taname <span class="keyword">where</span> <span class="keyword">id</span> = <span class="string">'1'</span></span><br></pre></td></tr></table></figure>
@@ -248,19 +249,19 @@
 
 
   
-    <article id="post-bigdata-dw-01" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-bigdata-evn-hadoop" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/16/bigdata-dw-01/">Kimball VS Inmon</a>
+      <a class="article-title" href="/2018/08/16/bigdata-evn-hadoop/">Hadoop环境集群环境配置</a>
     </h1>
   
 
         
-        <a href="/2018/08/16/bigdata-dw-01/" class="archive-article-date">
+        <a href="/2018/08/16/bigdata-evn-hadoop/" class="archive-article-date">
   	<time datetime="2018-08-16T09:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-16</time>
 </a>
         
@@ -268,69 +269,75 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="数据仓库与数据集市"><a href="#数据仓库与数据集市" class="headerlink" title="数据仓库与数据集市"></a>数据仓库与数据集市</h1><h1 id="自上而下与自下而上"><a href="#自上而下与自下而上" class="headerlink" title="自上而下与自下而上"></a>自上而下与自下而上</h1><h1 id="数据处理两大类OLAP、OLTP的区别"><a href="#数据处理两大类OLAP、OLTP的区别" class="headerlink" title="数据处理两大类OLAP、OLTP的区别"></a>数据处理两大类OLAP、OLTP的区别</h1><table>
-<thead>
-<tr>
-<th>维度</th>
-<th>OLTP</th>
-<th>OLAP</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>用户</td>
-<td>操作人员，低层管理人员</td>
-<td>决策人员，高级管理人员</td>
-</tr>
-<tr>
-<td>功能</td>
-<td>日常操作处理</td>
-<td>分析决策</td>
-</tr>
-<tr>
-<td>DB设计</td>
-<td>面向应用</td>
-<td>面向主题</td>
-</tr>
-<tr>
-<td>数据</td>
-<td>当前的，最新的细节，二维的分立的</td>
-<td>历史的，聚集的，多维的集成的，统一的</td>
-</tr>
-<tr>
-<td>存取</td>
-<td>读写数十条记录</td>
-<td>读上百万条记录</td>
-</tr>
-<tr>
-<td>工作单位</td>
-<td>简单事务</td>
-<td>复杂的查询</td>
-</tr>
-<tr>
-<td>用户数</td>
-<td>上千个</td>
-<td>上百万个</td>
-</tr>
-<tr>
-<td>DB大小</td>
-<td>100MB-GB</td>
-<td>100GB-TB</td>
-</tr>
-<tr>
-<td>时间要求</td>
-<td>具有实时性</td>
-<td>对时间的要求不严格</td>
-</tr>
-<tr>
-<td>主要应用</td>
-<td>数据仓库</td>
-<td>数据仓库</td>
-</tr>
-</tbody>
-</table>
-<p>OLTP，也叫联机事务处理（Online Transaction Processing），表示事务性非常高的系统，一般都是高可用的在线系统，以小的事务以及小的查询为主，评估其系统的时候，一般看其每秒执行的Transaction以及Execute SQL的数量。在这样的系统中，单个数据库每秒处理的Transaction往往超过几百个，或者是几千个，Select 语句的执行量每秒几千甚至几万个。典型的OLTP系统有电子商务系统、银行、证券等，如美国eBay的业务数据库，就是很典型的OLTP数据库。</p>
-<p>OLAP，也叫联机分析处理（Online Analytical Processing）系统，有的时候也叫DSS决策支持系统，就是我们说的数据仓库。在这样的系统中，语句的执行量不是考核标准，因为一条语句的执行时间可能会非常长，读取的数据也非常多。所以，在这样的系统中，考核的标准往往是磁盘子系统的吞吐量（带宽），如能达到多少MB/s的流量。</p>
+        <h1 id="0-安装VMware和Ubuntn"><a href="#0-安装VMware和Ubuntn" class="headerlink" title="0. 安装VMware和Ubuntn"></a>0. 安装VMware和Ubuntn</h1><p>略</p>
+<h1 id="1-Linux环境设置"><a href="#1-Linux环境设置" class="headerlink" title="1.Linux环境设置"></a>1.Linux环境设置</h1><h2 id="1-1-安装配置SSH"><a href="#1-1-安装配置SSH" class="headerlink" title="1.1 安装配置SSH"></a>1.1 安装配置SSH</h2><h3 id="1-1-1-安装"><a href="#1-1-1-安装" class="headerlink" title="1.1.1 安装"></a>1.1.1 安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install openssh-server openssh-client</span><br></pre></td></tr></table></figure>
+<p>查看SSH是否启动</p>
+<blockquote>
+<p>sudo ps -e |grep ssh<br>运行上面命令，如果有sshd，则表示ssh服务已经启动。没有启动，运行如下<br>sudo service ssh start</p>
+</blockquote>
+<p>设置允许Root用户登录</p>
+<blockquote>
+<p>sudo gedit /etc/ssh/sshd_config</p>
+</blockquote>
+<p>修改如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PermitRootLogin yes</span><br></pre></td></tr></table></figure></p>
+<p>重启SSH</p>
+<blockquote>
+<p>sudo /etc/init.d/ssh restart</p>
+</blockquote>
+<h3 id="1-1-2-配置ssh无需密码访问"><a href="#1-1-2-配置ssh无需密码访问" class="headerlink" title="1.1.2 配置ssh无需密码访问"></a>1.1.2 配置ssh无需密码访问</h3><p>生成key</p>
+<blockquote>
+<p>ssh-keygen -t dsa -P ‘’ -f ~/.ssh/id_dsa</p>
+</blockquote>
+<p>拷贝所有从机的公钥到master</p>
+<p>在node1上操作</p>
+<blockquote>
+<p>scp ~/.ssh/id_dsa.pub hadoop@master:/home/hadoop/.ssh/id_dsa.pub.node1</p>
+</blockquote>
+<p>在node2上操作</p>
+<blockquote>
+<p>scp ~/.ssh/id_dsa.pub hadoop@master:/home/hadoop/.ssh/id_dsa.pub.node2</p>
+</blockquote>
+<p>所有公钥文件追加到authorized_keys</p>
+<blockquote>
+<p>cat ~/.ssh/id_dsa.pub &gt;&gt; ~/.ssh/authorized_keys<br>cat id_dsa.pub.node1 &gt;&gt; authorized_keys<br>cat id_dsa.pub.node2 &gt;&gt; authorized_keys</p>
+</blockquote>
+<p>生成的公钥文件拷贝到各机</p>
+<p>scp authorized_keys hadoop@node1:/home/hadoop/.ssh/authorized_keys<br>scp authorized_keys hadoop@node2:/home/hadoop/.ssh/authorized_keys</p>
+<h2 id="修改主机名"><a href="#修改主机名" class="headerlink" title="修改主机名"></a>修改主机名</h2><blockquote>
+<p>sudo vim /etc/hostname</p>
+</blockquote>
+<h2 id="修改hosts文件"><a href="#修改hosts文件" class="headerlink" title="修改hosts文件"></a>修改hosts文件</h2><blockquote>
+<p>sudo vim /etc/hosts</p>
+</blockquote>
+<h1 id="2-JDK安装配置"><a href="#2-JDK安装配置" class="headerlink" title="2.JDK安装配置"></a>2.JDK安装配置</h1><p>解压安装包，修改环境变量</p>
+<blockquote>
+<p>sudo vim /etc/profile</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME=/usr/soft/jdk1.8</span><br><span class="line">export PATH=$PATH:$&#123;JAVA_HOME&#125;/bin:</span><br></pre></td></tr></table></figure>
+<h1 id="3-Scala安装配置"><a href="#3-Scala安装配置" class="headerlink" title="3.Scala安装配置"></a>3.Scala安装配置</h1><h1 id="4-Hadoop安装配置"><a href="#4-Hadoop安装配置" class="headerlink" title="4.Hadoop安装配置"></a>4.Hadoop安装配置</h1><h2 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h2><blockquote>
+<p>sodu vim /etc/profile</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export HADOOP_HOME=/usr/soft/hadoop-2.6.0</span><br><span class="line">export PATH=$PATH:$&#123;HADOOP_HOME&#125;/bin:</span><br></pre></td></tr></table></figure>
+<h2 id="配置hadoop-env-sh"><a href="#配置hadoop-env-sh" class="headerlink" title="配置hadoop-env.sh"></a>配置hadoop-env.sh</h2><blockquote>
+<p>vim /usr/soft/hadoop-2.6.0/etc/hadoop/hadoop-env.sh</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME=/usr/soft/jdk1.8</span><br><span class="line">export HADOOP_PREFIX=/usr/soft/hadoop-2.6.0</span><br></pre></td></tr></table></figure>
+<h2 id="配置-core-site-xml"><a href="#配置-core-site-xml" class="headerlink" title="配置 core-site.xml"></a>配置 core-site.xml</h2><blockquote>
+<p>vim /usr/soft/hadoop-2.6.0/etc/hadoop/core-site.xml</p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>fs.defaultFS<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>hdfs://master:9000<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.tmp.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/usr/soft/hadoop-2.6.0/tmp<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="配置-hdfs-site-xml"><a href="#配置-hdfs-site-xml" class="headerlink" title="配置 hdfs-site.xml"></a>配置 hdfs-site.xml</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.secondary.http-address<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>master:9001<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.name.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">value</span>&gt;</span>file:/usr/soft/hadoop-2.6.0/dfs/name<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.datanode.data.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>file:/usr/soft/hadoop-2.6.0/dfs/data<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.replication<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>2<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.webhdfs.enabled<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="配置-mapred-site-xml"><a href="#配置-mapred-site-xml" class="headerlink" title="配置 mapred-site.xml"></a>配置 mapred-site.xml</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.framework.name<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>yarn<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="配置yarn-env-sh"><a href="#配置yarn-env-sh" class="headerlink" title="配置yarn-env.sh"></a>配置yarn-env.sh</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME=/usr/soft/jdk1.8</span><br></pre></td></tr></table></figure>
+<h2 id="配置yarn-site-xml"><a href="#配置yarn-site-xml" class="headerlink" title="配置yarn-site.xml"></a>配置yarn-site.xml</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.aux-services<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>mapreduce_shuffle<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.hostname<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>master<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="配置-slaves"><a href="#配置-slaves" class="headerlink" title="配置 slaves"></a>配置 slaves</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node1</span><br><span class="line">node2</span><br></pre></td></tr></table></figure>
+<h2 id="将配置文件拷贝到各机器"><a href="#将配置文件拷贝到各机器" class="headerlink" title="将配置文件拷贝到各机器"></a>将配置文件拷贝到各机器</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/hadoop-env.sh hadoop@node1:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/hadoop-env.sh hadoop@node2:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line"></span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/core-site.xml hadoop@node1:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/core-site.xml hadoop@node2:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line"></span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/hdfs-site.xml hadoop@node1:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/hdfs-site.xml hadoop@node2:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line"></span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/mapred-site.xml hadoop@node1:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/mapred-site.xml hadoop@node2:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line"></span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/yarn-site.xml hadoop@node1:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/yarn-site.xml hadoop@node2:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line"></span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/slaves hadoop@node1:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/slaves hadoop@node1:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br></pre></td></tr></table></figure>
+<h2 id="格式化hdfs"><a href="#格式化hdfs" class="headerlink" title="格式化hdfs"></a>格式化hdfs</h2><blockquote>
+<p>/usr/soft/hadoop-2.6.0/bin/hdfs namenode -format</p>
+</blockquote>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><blockquote>
+<p>/usr/soft/hadoop-2.6.0/sbin/start-dfs.sh<br>/usr/soft/hadoop-2.6.0/sbin/stop-dfs.sh</p>
+</blockquote>
 
       
 
@@ -344,120 +351,12 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据仓库</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Hadoop</a>
         		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/16/bigdata-dw-01/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-bigdata-evn-spark" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/16/bigdata-evn-spark/">Spark环境集群环境配置</a>
-    </h1>
-  
-
-        
-        <a href="/2018/08/16/bigdata-evn-spark/" class="archive-article-date">
-  	<time datetime="2018-08-16T09:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="1-解压Spark，配置环境变量"><a href="#1-解压Spark，配置环境变量" class="headerlink" title="1.解压Spark，配置环境变量"></a>1.解压Spark，配置环境变量</h1><blockquote>
-<p>export SPARK_HOME=/usr/soft/spark2.1<br>export PATH=$PATH:${SPARK_HOME}/bin:</p>
-</blockquote>
-<h1 id="2-配置-slaves-conf目录下）"><a href="#2-配置-slaves-conf目录下）" class="headerlink" title="2.配置 slaves(conf目录下）"></a>2.配置 slaves(conf目录下）</h1><blockquote>
-<p>cp slaves.template slaves<br>vim slaves<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node1</span><br><span class="line">node2</span><br></pre></td></tr></table></figure></p>
-</blockquote>
-<h1 id="3-配置-spark-defaults-conf（配置historyServer必须配置这个，如果无须配置这个可以不用配置）"><a href="#3-配置-spark-defaults-conf（配置historyServer必须配置这个，如果无须配置这个可以不用配置）" class="headerlink" title="3.配置 spark-defaults.conf（配置historyServer必须配置这个，如果无须配置这个可以不用配置）"></a>3.配置 spark-defaults.conf（配置historyServer必须配置这个，如果无须配置这个可以不用配置）</h1><p>cp spark-defaults.conf.template spark-defaults.conf<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">spark.executor.extraJavaOptions  -XX:+PrintGCDetails -Dkey=value -Dnumbers=&quot;one two three&quot;</span><br><span class="line">spark.eventLog.enabled           true</span><br><span class="line">spark.eventLog.dir               hdfs://master:9000/historyServerforSpark</span><br><span class="line">spark.yarn.historyServer.address work1:18080</span><br><span class="line">spark.history.fs.logDirectory    hdfs://master:9000/historyServerforSpark</span><br></pre></td></tr></table></figure></p>
-<h1 id="4-配置-spark-env-sh"><a href="#4-配置-spark-env-sh" class="headerlink" title="4.配置  spark-env.sh"></a>4.配置  spark-env.sh</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">export SCALA_HOME=/usr/soft/scala-2.11.8</span><br><span class="line">export JAVA_HOME=/usr/soft/jdk1.8</span><br><span class="line">export SPARK_MASTER_IP=master</span><br><span class="line">export SPARK_WORKER_MEMORY=1g</span><br><span class="line">export HADOOP_HOME=/usr/soft/hadoop2.6</span><br><span class="line">export HADOOP_CONF_DIR=/usr/soft/hadoop2.6/etc/hadoop</span><br></pre></td></tr></table></figure>
-<h1 id="5-拷贝文件"><a href="#5-拷贝文件" class="headerlink" title="5.拷贝文件"></a>5.拷贝文件</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">scp /usr/soft/spark2.1/conf/spark-env.sh root@node1:/usr/soft/spark2.1/conf/</span><br><span class="line">scp /usr/soft/spark2.1/conf/spark-env.sh root@node2:/usr/soft/spark2.1/conf/</span><br><span class="line"></span><br><span class="line">scp /usr/soft/spark2.1/conf/slaves root@node1:/usr/soft/spark2.1/conf/</span><br><span class="line">scp /usr/soft/spark2.1/conf/slaves root@node2:/usr/soft/spark2.1/conf/</span><br></pre></td></tr></table></figure>
-<h1 id="6-启动"><a href="#6-启动" class="headerlink" title="6.启动"></a>6.启动</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/usr/soft/spark2.1/sbin/start-master.sh</span><br><span class="line">/usr/soft/spark2.1/sbin/start-slaves.sh</span><br><span class="line"></span><br><span class="line">/usr/soft/spark2.1/sbin/stop-all.sh</span><br></pre></td></tr></table></figure>
-<h1 id="创建历史记录目录"><a href="#创建历史记录目录" class="headerlink" title="创建历史记录目录"></a>创建历史记录目录</h1><blockquote>
-<p>hadoop fs -mkdir /historyServerforSpark<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">　　hadoop fs -mkdir -p /Hadoop/Input（在HDFS创建目录）</span><br><span class="line">　　hadoop fs -put hello.txt /Hadoop/Input（将hello.txt文件上传到HDFS）</span><br><span class="line">　　hadoop fs -ls /Hadoop/Input （查看上传的文件）</span><br><span class="line">　　hadoop fs -text /Hadoop/Input/hello.txt （查看文件内容）</span><br></pre></td></tr></table></figure></p>
-</blockquote>
-<h1 id="启动spark-shell测试"><a href="#启动spark-shell测试" class="headerlink" title="启动spark-shell测试"></a>启动spark-shell测试</h1><p>创建测试数据</p>
-<blockquote>
-<p>hadoop fs -mkdir /testdata<br>hadoop fs -put $SPARK_HOME/LICENSE /testdata</p>
-</blockquote>
-<p>启动spark-shell</p>
-<blockquote>
-<p>/usr/soft/spark2.1/bin/spark-shell –master spark://master:7077</p>
-</blockquote>
-<p>spark wordcount<br>注意：如果是读本地文件，集群中的各节点都需要有这个文件，不然会提示找不到文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">val file=sc.textFile(&quot;file:/usr/soft/spark-2.1.0-bin-hadoop2.6/README.md&quot;)</span><br><span class="line">val file=sc.textFile(&quot;/usr/soft/spark-2.1.0-bin-hadoop2.6/README.md&quot;)</span><br><span class="line">val file=sc.textFile(&quot;hdsf://master:9000/testdata/README.md&quot;)</span><br><span class="line"></span><br><span class="line">//val rdd = file.flatMap(line =&gt; line.split(&quot; &quot;)).map(word =&gt; (word,1)).reduceByKey(_+_)</span><br><span class="line"></span><br><span class="line">val words = file.flatMap(line =&gt; line.split(&quot; &quot;))</span><br><span class="line">val pairs = words.map(word =&gt; (words,1))</span><br><span class="line"></span><br><span class="line">//val wordcount = pairs.reduceByKey((v1,v2) =&gt; v1+v2)</span><br><span class="line">val wordcount = pairs.reduceByKey(_+_)</span><br><span class="line"></span><br><span class="line">wordcount.collect().foreach(println)</span><br><span class="line"></span><br><span class="line">val rddTotal = rdd.collect()</span><br><span class="line">rddTotal.foreach(println)</span><br></pre></td></tr></table></figure>
-<p>wordcount升级版，增加排序<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">val file=sc.textFile(&quot;hdfs://master:9000/testdata/LICENSE&quot;)</span><br><span class="line">val rdd = file.flatMap(line=&gt;line.split(&quot; &quot;)).map(word =&gt; (word,1)).reduceByKey(_+_).map(tp=&gt;(tp._2,tp._1)).sortByKey(false).map(item=&gt;(item._2,item._1)).collect</span><br><span class="line">rdd.foreach(println)</span><br></pre></td></tr></table></figure></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
+      		 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">集群</a>
         		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
-        		</li>
       		
 		</ul>
 	</div>
@@ -477,108 +376,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/16/bigdata-evn-spark/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-bigdata-evn-sparkAndHive" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/16/bigdata-evn-sparkAndHive/">Spark与Hive集成</a>
-    </h1>
-  
-
-        
-        <a href="/2018/08/16/bigdata-evn-sparkAndHive/" class="archive-article-date">
-  	<time datetime="2018-08-16T09:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="1-前提"><a href="#1-前提" class="headerlink" title="1.前提"></a>1.前提</h1><p>安装MySql<br>安装Hive<br>安装Spark</p>
-<h1 id="2-配置"><a href="#2-配置" class="headerlink" title="2.配置"></a>2.配置</h1><h2 id="拷贝hive安装目录下面的hive-site-xml文件到Spark的conf下面"><a href="#拷贝hive安装目录下面的hive-site-xml文件到Spark的conf下面" class="headerlink" title="拷贝hive安装目录下面的hive-site.xml文件到Spark的conf下面"></a>拷贝hive安装目录下面的hive-site.xml文件到Spark的conf下面</h2><p>内容如下：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;</span><br><span class="line">&lt;?xml-stylesheet type="text/xsl" href="configuration.xsl"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.metastore.uris<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>thrift://master:9083<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>启动Hive元数据服务</p>
-<blockquote>
-<p>./bin/hive –service metastore &amp;</p>
-</blockquote>
-<h1 id="3-测试"><a href="#3-测试" class="headerlink" title="3.测试"></a>3.测试</h1><p>启动spark-sql</p>
-<blockquote>
-<p>./spark-sql –master://spark:7077</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">create table if not exists student(</span><br><span class="line"> id int,</span><br><span class="line"> name string,</span><br><span class="line"> gender string,</span><br><span class="line"> age int);</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">insert into student values(1,&apos;Xueqian&apos;,&apos;F&apos;,23); //插入一条记录</span><br><span class="line">insert into student values(2,&apos;Weiliang&apos;,&apos;M&apos;,24); //再插入一条记录</span><br><span class="line">select * from student; //显示student表中的记录</span><br></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hive</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/16/bigdata-evn-sparkAndHive/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/08/16/bigdata-evn-hadoop/">展开全文 >></a>
         </p>
       
 
@@ -796,127 +594,6 @@
 
 
   
-    <article id="post-bigdata-dw-KimballvsInmon" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/16/bigdata-dw-KimballvsInmon/">Kimball VS Inmon</a>
-    </h1>
-  
-
-        
-        <a href="/2018/08/16/bigdata-dw-KimballvsInmon/" class="archive-article-date">
-  	<time datetime="2018-08-16T09:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>优劣比较</p>
-<table>
-<thead>
-<tr>
-<th>特性</th>
-<th>Kimball</th>
-<th>Inmon</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>时间</td>
-<td>快速交付</td>
-<td>路漫漫</td>
-</tr>
-<tr>
-<td>开发难度</td>
-<td>小</td>
-<td>大</td>
-</tr>
-<tr>
-<td>维护难度</td>
-<td>大</td>
-<td>小</td>
-</tr>
-<tr>
-<td>技能要求</td>
-<td>入门级</td>
-<td>专家级</td>
-</tr>
-<tr>
-<td>数据要求</td>
-<td>特定业务</td>
-<td>企业级</td>
-</tr>
-</tbody>
-</table>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据仓库</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/16/bigdata-dw-KimballvsInmon/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-bigdata-evn-hive" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -998,6 +675,107 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/08/16/bigdata-evn-hive/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-bigdata-evn-sparkAndHive" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/16/bigdata-evn-sparkAndHive/">Spark与Hive集成</a>
+    </h1>
+  
+
+        
+        <a href="/2018/08/16/bigdata-evn-sparkAndHive/" class="archive-article-date">
+  	<time datetime="2018-08-16T09:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="1-前提"><a href="#1-前提" class="headerlink" title="1.前提"></a>1.前提</h1><p>安装MySql<br>安装Hive<br>安装Spark</p>
+<h1 id="2-配置"><a href="#2-配置" class="headerlink" title="2.配置"></a>2.配置</h1><h2 id="拷贝hive安装目录下面的hive-site-xml文件到Spark的conf下面"><a href="#拷贝hive安装目录下面的hive-site-xml文件到Spark的conf下面" class="headerlink" title="拷贝hive安装目录下面的hive-site.xml文件到Spark的conf下面"></a>拷贝hive安装目录下面的hive-site.xml文件到Spark的conf下面</h2><p>内容如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;</span><br><span class="line">&lt;?xml-stylesheet type="text/xsl" href="configuration.xsl"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.metastore.uris<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>thrift://master:9083<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>启动Hive元数据服务</p>
+<blockquote>
+<p>./bin/hive –service metastore &amp;</p>
+</blockquote>
+<h1 id="3-测试"><a href="#3-测试" class="headerlink" title="3.测试"></a>3.测试</h1><p>启动spark-sql</p>
+<blockquote>
+<p>./spark-sql –master://spark:7077</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">create table if not exists student(</span><br><span class="line"> id int,</span><br><span class="line"> name string,</span><br><span class="line"> gender string,</span><br><span class="line"> age int);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">insert into student values(1,&apos;Xueqian&apos;,&apos;F&apos;,23); //插入一条记录</span><br><span class="line">insert into student values(2,&apos;Weiliang&apos;,&apos;M&apos;,24); //再插入一条记录</span><br><span class="line">select * from student; //显示student表中的记录</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hive</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/08/16/bigdata-evn-sparkAndHive/">展开全文 >></a>
         </p>
       
 
@@ -1137,19 +915,19 @@
 
 
   
-    <article id="post-bigdata-evn-hadoop" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-bigdata-evn-spark" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/16/bigdata-evn-hadoop/">Hadoop环境集群环境配置</a>
+      <a class="article-title" href="/2018/08/16/bigdata-evn-spark/">Spark环境集群环境配置</a>
     </h1>
   
 
         
-        <a href="/2018/08/16/bigdata-evn-hadoop/" class="archive-article-date">
+        <a href="/2018/08/16/bigdata-evn-spark/" class="archive-article-date">
   	<time datetime="2018-08-16T09:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-16</time>
 </a>
         
@@ -1157,75 +935,30 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="0-安装VMware和Ubuntn"><a href="#0-安装VMware和Ubuntn" class="headerlink" title="0. 安装VMware和Ubuntn"></a>0. 安装VMware和Ubuntn</h1><p>略</p>
-<h1 id="1-Linux环境设置"><a href="#1-Linux环境设置" class="headerlink" title="1.Linux环境设置"></a>1.Linux环境设置</h1><h2 id="1-1-安装配置SSH"><a href="#1-1-安装配置SSH" class="headerlink" title="1.1 安装配置SSH"></a>1.1 安装配置SSH</h2><h3 id="1-1-1-安装"><a href="#1-1-1-安装" class="headerlink" title="1.1.1 安装"></a>1.1.1 安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install openssh-server openssh-client</span><br></pre></td></tr></table></figure>
-<p>查看SSH是否启动</p>
+        <h1 id="1-解压Spark，配置环境变量"><a href="#1-解压Spark，配置环境变量" class="headerlink" title="1.解压Spark，配置环境变量"></a>1.解压Spark，配置环境变量</h1><blockquote>
+<p>export SPARK_HOME=/usr/soft/spark2.1<br>export PATH=$PATH:${SPARK_HOME}/bin:</p>
+</blockquote>
+<h1 id="2-配置-slaves-conf目录下）"><a href="#2-配置-slaves-conf目录下）" class="headerlink" title="2.配置 slaves(conf目录下）"></a>2.配置 slaves(conf目录下）</h1><blockquote>
+<p>cp slaves.template slaves<br>vim slaves<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node1</span><br><span class="line">node2</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h1 id="3-配置-spark-defaults-conf（配置historyServer必须配置这个，如果无须配置这个可以不用配置）"><a href="#3-配置-spark-defaults-conf（配置historyServer必须配置这个，如果无须配置这个可以不用配置）" class="headerlink" title="3.配置 spark-defaults.conf（配置historyServer必须配置这个，如果无须配置这个可以不用配置）"></a>3.配置 spark-defaults.conf（配置historyServer必须配置这个，如果无须配置这个可以不用配置）</h1><p>cp spark-defaults.conf.template spark-defaults.conf<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">spark.executor.extraJavaOptions  -XX:+PrintGCDetails -Dkey=value -Dnumbers=&quot;one two three&quot;</span><br><span class="line">spark.eventLog.enabled           true</span><br><span class="line">spark.eventLog.dir               hdfs://master:9000/historyServerforSpark</span><br><span class="line">spark.yarn.historyServer.address work1:18080</span><br><span class="line">spark.history.fs.logDirectory    hdfs://master:9000/historyServerforSpark</span><br></pre></td></tr></table></figure></p>
+<h1 id="4-配置-spark-env-sh"><a href="#4-配置-spark-env-sh" class="headerlink" title="4.配置  spark-env.sh"></a>4.配置  spark-env.sh</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">export SCALA_HOME=/usr/soft/scala-2.11.8</span><br><span class="line">export JAVA_HOME=/usr/soft/jdk1.8</span><br><span class="line">export SPARK_MASTER_IP=master</span><br><span class="line">export SPARK_WORKER_MEMORY=1g</span><br><span class="line">export HADOOP_HOME=/usr/soft/hadoop2.6</span><br><span class="line">export HADOOP_CONF_DIR=/usr/soft/hadoop2.6/etc/hadoop</span><br></pre></td></tr></table></figure>
+<h1 id="5-拷贝文件"><a href="#5-拷贝文件" class="headerlink" title="5.拷贝文件"></a>5.拷贝文件</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">scp /usr/soft/spark2.1/conf/spark-env.sh root@node1:/usr/soft/spark2.1/conf/</span><br><span class="line">scp /usr/soft/spark2.1/conf/spark-env.sh root@node2:/usr/soft/spark2.1/conf/</span><br><span class="line"></span><br><span class="line">scp /usr/soft/spark2.1/conf/slaves root@node1:/usr/soft/spark2.1/conf/</span><br><span class="line">scp /usr/soft/spark2.1/conf/slaves root@node2:/usr/soft/spark2.1/conf/</span><br></pre></td></tr></table></figure>
+<h1 id="6-启动"><a href="#6-启动" class="headerlink" title="6.启动"></a>6.启动</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/usr/soft/spark2.1/sbin/start-master.sh</span><br><span class="line">/usr/soft/spark2.1/sbin/start-slaves.sh</span><br><span class="line"></span><br><span class="line">/usr/soft/spark2.1/sbin/stop-all.sh</span><br></pre></td></tr></table></figure>
+<h1 id="创建历史记录目录"><a href="#创建历史记录目录" class="headerlink" title="创建历史记录目录"></a>创建历史记录目录</h1><blockquote>
+<p>hadoop fs -mkdir /historyServerforSpark<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">　　hadoop fs -mkdir -p /Hadoop/Input（在HDFS创建目录）</span><br><span class="line">　　hadoop fs -put hello.txt /Hadoop/Input（将hello.txt文件上传到HDFS）</span><br><span class="line">　　hadoop fs -ls /Hadoop/Input （查看上传的文件）</span><br><span class="line">　　hadoop fs -text /Hadoop/Input/hello.txt （查看文件内容）</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h1 id="启动spark-shell测试"><a href="#启动spark-shell测试" class="headerlink" title="启动spark-shell测试"></a>启动spark-shell测试</h1><p>创建测试数据</p>
 <blockquote>
-<p>sudo ps -e |grep ssh<br>运行上面命令，如果有sshd，则表示ssh服务已经启动。没有启动，运行如下<br>sudo service ssh start</p>
+<p>hadoop fs -mkdir /testdata<br>hadoop fs -put $SPARK_HOME/LICENSE /testdata</p>
 </blockquote>
-<p>设置允许Root用户登录</p>
+<p>启动spark-shell</p>
 <blockquote>
-<p>sudo gedit /etc/ssh/sshd_config</p>
+<p>/usr/soft/spark2.1/bin/spark-shell –master spark://master:7077</p>
 </blockquote>
-<p>修改如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PermitRootLogin yes</span><br></pre></td></tr></table></figure></p>
-<p>重启SSH</p>
-<blockquote>
-<p>sudo /etc/init.d/ssh restart</p>
-</blockquote>
-<h3 id="1-1-2-配置ssh无需密码访问"><a href="#1-1-2-配置ssh无需密码访问" class="headerlink" title="1.1.2 配置ssh无需密码访问"></a>1.1.2 配置ssh无需密码访问</h3><p>生成key</p>
-<blockquote>
-<p>ssh-keygen -t dsa -P ‘’ -f ~/.ssh/id_dsa</p>
-</blockquote>
-<p>拷贝所有从机的公钥到master</p>
-<p>在node1上操作</p>
-<blockquote>
-<p>scp ~/.ssh/id_dsa.pub hadoop@master:/home/hadoop/.ssh/id_dsa.pub.node1</p>
-</blockquote>
-<p>在node2上操作</p>
-<blockquote>
-<p>scp ~/.ssh/id_dsa.pub hadoop@master:/home/hadoop/.ssh/id_dsa.pub.node2</p>
-</blockquote>
-<p>所有公钥文件追加到authorized_keys</p>
-<blockquote>
-<p>cat ~/.ssh/id_dsa.pub &gt;&gt; ~/.ssh/authorized_keys<br>cat id_dsa.pub.node1 &gt;&gt; authorized_keys<br>cat id_dsa.pub.node2 &gt;&gt; authorized_keys</p>
-</blockquote>
-<p>生成的公钥文件拷贝到各机</p>
-<p>scp authorized_keys hadoop@node1:/home/hadoop/.ssh/authorized_keys<br>scp authorized_keys hadoop@node2:/home/hadoop/.ssh/authorized_keys</p>
-<h2 id="修改主机名"><a href="#修改主机名" class="headerlink" title="修改主机名"></a>修改主机名</h2><blockquote>
-<p>sudo vim /etc/hostname</p>
-</blockquote>
-<h2 id="修改hosts文件"><a href="#修改hosts文件" class="headerlink" title="修改hosts文件"></a>修改hosts文件</h2><blockquote>
-<p>sudo vim /etc/hosts</p>
-</blockquote>
-<h1 id="2-JDK安装配置"><a href="#2-JDK安装配置" class="headerlink" title="2.JDK安装配置"></a>2.JDK安装配置</h1><p>解压安装包，修改环境变量</p>
-<blockquote>
-<p>sudo vim /etc/profile</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME=/usr/soft/jdk1.8</span><br><span class="line">export PATH=$PATH:$&#123;JAVA_HOME&#125;/bin:</span><br></pre></td></tr></table></figure>
-<h1 id="3-Scala安装配置"><a href="#3-Scala安装配置" class="headerlink" title="3.Scala安装配置"></a>3.Scala安装配置</h1><h1 id="4-Hadoop安装配置"><a href="#4-Hadoop安装配置" class="headerlink" title="4.Hadoop安装配置"></a>4.Hadoop安装配置</h1><h2 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h2><blockquote>
-<p>sodu vim /etc/profile</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export HADOOP_HOME=/usr/soft/hadoop-2.6.0</span><br><span class="line">export PATH=$PATH:$&#123;HADOOP_HOME&#125;/bin:</span><br></pre></td></tr></table></figure>
-<h2 id="配置hadoop-env-sh"><a href="#配置hadoop-env-sh" class="headerlink" title="配置hadoop-env.sh"></a>配置hadoop-env.sh</h2><blockquote>
-<p>vim /usr/soft/hadoop-2.6.0/etc/hadoop/hadoop-env.sh</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME=/usr/soft/jdk1.8</span><br><span class="line">export HADOOP_PREFIX=/usr/soft/hadoop-2.6.0</span><br></pre></td></tr></table></figure>
-<h2 id="配置-core-site-xml"><a href="#配置-core-site-xml" class="headerlink" title="配置 core-site.xml"></a>配置 core-site.xml</h2><blockquote>
-<p>vim /usr/soft/hadoop-2.6.0/etc/hadoop/core-site.xml</p>
-</blockquote>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>fs.defaultFS<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>hdfs://master:9000<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.tmp.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/usr/soft/hadoop-2.6.0/tmp<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="配置-hdfs-site-xml"><a href="#配置-hdfs-site-xml" class="headerlink" title="配置 hdfs-site.xml"></a>配置 hdfs-site.xml</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.secondary.http-address<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>master:9001<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.name.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">value</span>&gt;</span>file:/usr/soft/hadoop-2.6.0/dfs/name<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.datanode.data.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>file:/usr/soft/hadoop-2.6.0/dfs/data<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.replication<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>2<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.webhdfs.enabled<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="配置-mapred-site-xml"><a href="#配置-mapred-site-xml" class="headerlink" title="配置 mapred-site.xml"></a>配置 mapred-site.xml</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.framework.name<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>yarn<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="配置yarn-env-sh"><a href="#配置yarn-env-sh" class="headerlink" title="配置yarn-env.sh"></a>配置yarn-env.sh</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME=/usr/soft/jdk1.8</span><br></pre></td></tr></table></figure>
-<h2 id="配置yarn-site-xml"><a href="#配置yarn-site-xml" class="headerlink" title="配置yarn-site.xml"></a>配置yarn-site.xml</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.aux-services<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>mapreduce_shuffle<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.hostname<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>master<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="配置-slaves"><a href="#配置-slaves" class="headerlink" title="配置 slaves"></a>配置 slaves</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node1</span><br><span class="line">node2</span><br></pre></td></tr></table></figure>
-<h2 id="将配置文件拷贝到各机器"><a href="#将配置文件拷贝到各机器" class="headerlink" title="将配置文件拷贝到各机器"></a>将配置文件拷贝到各机器</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/hadoop-env.sh hadoop@node1:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/hadoop-env.sh hadoop@node2:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line"></span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/core-site.xml hadoop@node1:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/core-site.xml hadoop@node2:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line"></span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/hdfs-site.xml hadoop@node1:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/hdfs-site.xml hadoop@node2:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line"></span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/mapred-site.xml hadoop@node1:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/mapred-site.xml hadoop@node2:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line"></span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/yarn-site.xml hadoop@node1:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/yarn-site.xml hadoop@node2:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line"></span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/slaves hadoop@node1:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/slaves hadoop@node1:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br></pre></td></tr></table></figure>
-<h2 id="格式化hdfs"><a href="#格式化hdfs" class="headerlink" title="格式化hdfs"></a>格式化hdfs</h2><blockquote>
-<p>/usr/soft/hadoop-2.6.0/bin/hdfs namenode -format</p>
-</blockquote>
-<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><blockquote>
-<p>/usr/soft/hadoop-2.6.0/sbin/start-dfs.sh<br>/usr/soft/hadoop-2.6.0/sbin/stop-dfs.sh</p>
-</blockquote>
+<p>spark wordcount<br>注意：如果是读本地文件，集群中的各节点都需要有这个文件，不然会提示找不到文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">val file=sc.textFile(&quot;file:/usr/soft/spark-2.1.0-bin-hadoop2.6/README.md&quot;)</span><br><span class="line">val file=sc.textFile(&quot;/usr/soft/spark-2.1.0-bin-hadoop2.6/README.md&quot;)</span><br><span class="line">val file=sc.textFile(&quot;hdsf://master:9000/testdata/README.md&quot;)</span><br><span class="line"></span><br><span class="line">//val rdd = file.flatMap(line =&gt; line.split(&quot; &quot;)).map(word =&gt; (word,1)).reduceByKey(_+_)</span><br><span class="line"></span><br><span class="line">val words = file.flatMap(line =&gt; line.split(&quot; &quot;))</span><br><span class="line">val pairs = words.map(word =&gt; (words,1))</span><br><span class="line"></span><br><span class="line">//val wordcount = pairs.reduceByKey((v1,v2) =&gt; v1+v2)</span><br><span class="line">val wordcount = pairs.reduceByKey(_+_)</span><br><span class="line"></span><br><span class="line">wordcount.collect().foreach(println)</span><br><span class="line"></span><br><span class="line">val rddTotal = rdd.collect()</span><br><span class="line">rddTotal.foreach(println)</span><br></pre></td></tr></table></figure>
+<p>wordcount升级版，增加排序<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">val file=sc.textFile(&quot;hdfs://master:9000/testdata/LICENSE&quot;)</span><br><span class="line">val rdd = file.flatMap(line=&gt;line.split(&quot; &quot;)).map(word =&gt; (word,1)).reduceByKey(_+_).map(tp=&gt;(tp._2,tp._1)).sortByKey(false).map(item=&gt;(item._2,item._1)).collect</span><br><span class="line">rdd.foreach(println)</span><br></pre></td></tr></table></figure></p>
 
       
 
@@ -1239,11 +972,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Hadoop</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">集群</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">集群</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
         		</li>
       		
 		</ul>
@@ -1264,7 +997,206 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/16/bigdata-evn-hadoop/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/08/16/bigdata-evn-spark/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-tools-atom-01" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/08/tools-atom-01/">ATOM常用插件推荐</a>
+    </h1>
+  
+
+        
+        <a href="/2018/08/08/tools-atom-01/" class="archive-article-date">
+  	<time datetime="2018-08-08T00:46:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-08</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="simplified-chinese-menu"><a href="#simplified-chinese-menu" class="headerlink" title="simplified-chinese-menu"></a>simplified-chinese-menu</h1><p>ATOM的汉化插件</p>
+<h1 id="file-icons"><a href="#file-icons" class="headerlink" title="file-icons"></a>file-icons</h1><p>文件图标美化</p>
+<h1 id="atom-beautify"><a href="#atom-beautify" class="headerlink" title="atom-beautify"></a>atom-beautify</h1><p>代码格式一键美化</p>
+<h1 id="last-cursor-position"><a href="#last-cursor-position" class="headerlink" title="last-cursor-position"></a>last-cursor-position</h1><p>光标自由切换到上一次/下一次编辑位置</p>
+<h1 id="minimap"><a href="#minimap" class="headerlink" title="minimap"></a>minimap</h1><p>代码小地图</p>
+<h1 id="sync-settings"><a href="#sync-settings" class="headerlink" title="sync-settings"></a>sync-settings</h1><p>插件备份、按键绑定备份</p>
+<h1 id="activate-power-mode"><a href="#activate-power-mode" class="headerlink" title="activate-power-mode"></a>activate-power-mode</h1><p>输入时有震撼效果</p>
+<h1 id="tortoise-svn"><a href="#tortoise-svn" class="headerlink" title="tortoise-svn"></a>tortoise-svn</h1><p>svn插件</p>
+<h1 id="atom-terminal-panel"><a href="#atom-terminal-panel" class="headerlink" title="atom-terminal-panel"></a>atom-terminal-panel</h1><p>atom内置命令行工具</p>
+<h1 id="Git-github"><a href="#Git-github" class="headerlink" title="Git/github"></a>Git/github</h1><p>　　　git-plus—在 Atom 里面执行 Git 命令，不用来回切换终端和编辑器<br>　　　git-control—git面板<br>　　　tree-view-git-status—文件夹git状态<br>　　　gist-it—快速分享代码到gist.github.com<br>　　　这里写图片描述<br>　　git-log<br>　　图形化git提交记录<br>这里写图片描述</p>
+<h1 id="markdown"><a href="#markdown" class="headerlink" title="markdown"></a>markdown</h1><p>markdown-preview-plus markdown预览</p>
+<h1 id="vim-mode"><a href="#vim-mode" class="headerlink" title="vim-mode"></a>vim-mode</h1><p>支持vim模式</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Atom</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/工具//" class="article-tag-list-link color3">工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/08/08/tools-atom-01/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-skill-communication" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/07/skill-communication/">有效沟通笔记</a>
+    </h1>
+  
+
+        
+        <a href="/2018/08/07/skill-communication/" class="archive-article-date">
+  	<time datetime="2018-08-07T07:48:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="0-概述"><a href="#0-概述" class="headerlink" title="0.概述"></a>0.概述</h1><h1 id="1-为何我们不会好好沟通"><a href="#1-为何我们不会好好沟通" class="headerlink" title="1.为何我们不会好好沟通"></a>1.为何我们不会好好沟通</h1><h2 id="三种常见认知偏差"><a href="#三种常见认知偏差" class="headerlink" title="三种常见认知偏差"></a>三种常见认知偏差</h2><h3 id="1）基本归因错误"><a href="#1）基本归因错误" class="headerlink" title="1）基本归因错误"></a>1）基本归因错误</h3><p>我们往往将行为归因于人的性格和态度，而忽视、或者不去了解外部的环境因素。</p>
+<h3 id="2）行动者-观察者偏差"><a href="#2）行动者-观察者偏差" class="headerlink" title="2）行动者-观察者偏差"></a>2）行动者-观察者偏差</h3><blockquote>
+<p>举个例子，你上班迟到是因为懒，我上班迟到是因为压力大；你忘了订机票是因为不负责任，我忘了订机票是工作太忙。典型的双重标准。</p>
+<p>如果我们是行动者，我们倾向于把自己的行为归因于外部环境；如果我们是观察者，则会将其他人（行动者）的行为归因于性格和态度。</p>
+</blockquote>
+<h3 id="3-自利偏差"><a href="#3-自利偏差" class="headerlink" title="3.自利偏差"></a>3.自利偏差</h3><blockquote>
+<p>以和朋友打羽毛球为例，如果你赢了，你会觉得是自己水平比较高；如果你输了，你会觉得是状态不好或者运气不佳。</p>
+<p>在进行归因时，人们尽量使自己处于有利的地位，将积极的结果归因于自己，将消极的结果归因于环境。</p>
+</blockquote>
+<blockquote>
+<p>归因偏差是人之常情，但在了解之后，我们就可以尽量避免认知偏差对我们造成负面影响。</p>
+</blockquote>
+<p><img src="/assets/img/skill-bz01.png" alt="沟通本质"></p>
+<h2 id="沟通陷阱"><a href="#沟通陷阱" class="headerlink" title="沟通陷阱"></a>沟通陷阱</h2><p><img src="/assets/img/skill-xj01.png" alt="锦囊"></p>
+<h2 id="三个锦囊"><a href="#三个锦囊" class="headerlink" title="三个锦囊"></a>三个锦囊</h2><p><img src="/assets/img/skill-jn1.jpg" alt="锦囊一"><br><img src="/assets/img/skill-jn2.jpg" alt="锦囊二"><br><img src="/assets/img/skill-jn3.jpg" alt="锦囊三"></p>
+<h1 id="2-让坏情绪不再影响沟通"><a href="#2-让坏情绪不再影响沟通" class="headerlink" title="2.让坏情绪不再影响沟通"></a>2.让坏情绪不再影响沟通</h1><h1 id="3-开口前，先弄清你的对话目的"><a href="#3-开口前，先弄清你的对话目的" class="headerlink" title="3.开口前，先弄清你的对话目的"></a>3.开口前，先弄清你的对话目的</h1><h1 id="4-对话中，建立双方的共同目的"><a href="#4-对话中，建立双方的共同目的" class="headerlink" title="4.对话中，建立双方的共同目的"></a>4.对话中，建立双方的共同目的</h1><h1 id="5-表达三步走"><a href="#5-表达三步走" class="headerlink" title="5.表达三步走"></a>5.表达三步走</h1><h1 id="6-倾听四部曲"><a href="#6-倾听四部曲" class="headerlink" title="6.倾听四部曲"></a>6.倾听四部曲</h1><h1 id="7-让对话推动决策"><a href="#7-让对话推动决策" class="headerlink" title="7.让对话推动决策"></a>7.让对话推动决策</h1>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">沟通</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/技能//" class="article-tag-list-link color3">技能</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/技能/沟通//" class="article-tag-list-link color3">沟通</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/08/07/skill-communication/">展开全文 >></a>
         </p>
       
 
@@ -1391,15 +1323,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">数据仓库</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1411,11 +1339,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Spark</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hive</a>
+                <a href="javascript:void(0)" class="js-tag color1">Spark</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1431,6 +1359,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">沟通</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">MySql</a>
               </li>
              
@@ -1443,7 +1375,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">沟通</a>
+                <a href="javascript:void(0)" class="js-tag color5">Atom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1455,15 +1387,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Atom</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">nexus3</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">maven私库</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hive</a>
               </li>
             
             <div class="clearfix"></div>
