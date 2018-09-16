@@ -134,6 +134,97 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-sql-function-01" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/16/sql-function-01/">MySql自定义函数返回星期几</a>
+    </h1>
+  
+
+        
+        <a href="/2018/09/16/sql-function-01/" class="archive-article-date">
+  	<time datetime="2018-09-16T09:00:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>语法：Create function function_name(参数列表)returns返回值类型</p>
+<p>创建一个自定义函数返回星期几</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">function</span> <span class="keyword">if</span> <span class="keyword">exists</span> day2week;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">FUNCTION</span> day2week( thedate datetime)  <span class="keyword">returns</span> <span class="built_in">varchar</span> (<span class="number">20</span>)</span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">	<span class="keyword">declare</span> rs <span class="built_in">varchar</span>(<span class="number">20</span>) <span class="keyword">default</span> <span class="string">''</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">select</span> <span class="keyword">case</span> <span class="keyword">WEEKDAY</span>(thedate)</span><br><span class="line">	<span class="keyword">when</span> <span class="number">0</span> <span class="keyword">then</span> <span class="string">'星期一'</span></span><br><span class="line">	<span class="keyword">when</span> <span class="number">1</span> <span class="keyword">then</span> <span class="string">'星期二'</span></span><br><span class="line">	<span class="keyword">when</span> <span class="number">2</span> <span class="keyword">then</span> <span class="string">'星期三'</span></span><br><span class="line">	<span class="keyword">when</span> <span class="number">3</span> <span class="keyword">then</span> <span class="string">'星期四'</span></span><br><span class="line">	<span class="keyword">when</span> <span class="number">4</span> <span class="keyword">then</span> <span class="string">'星期五'</span></span><br><span class="line">	<span class="keyword">when</span> <span class="number">5</span> <span class="keyword">then</span> <span class="string">'星期六'</span></span><br><span class="line">	<span class="keyword">when</span> <span class="number">6</span> <span class="keyword">then</span> <span class="string">'星期日'</span></span><br><span class="line">	<span class="keyword">end</span></span><br><span class="line">	<span class="keyword">into</span> rs;</span><br><span class="line"></span><br><span class="line">    return rs;</span><br><span class="line"><span class="keyword">END</span>;</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySql</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">自定义函数</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/数据库//" class="article-tag-list-link color4">数据库</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/09/16/sql-function-01/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-sql-procedure-01" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -342,11 +433,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hive</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hive</a>
         		</li>
       		
 		</ul>
@@ -368,6 +459,94 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/08/16/bigdata-evn-sparkAndHive/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-bigdata-hive-01" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/16/bigdata-hive-01/">Hive实现WordCount</a>
+    </h1>
+  
+
+        
+        <a href="/2018/08/16/bigdata-hive-01/" class="archive-article-date">
+  	<time datetime="2018-08-16T09:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="1、常用命令"><a href="#1、常用命令" class="headerlink" title="1、常用命令"></a>1、常用命令</h1><h2 id="1-1-建表"><a href="#1-1-建表" class="headerlink" title="1.1 建表"></a>1.1 建表</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">#建表(默认是内部表)</span><br><span class="line">create table trade_detail(id bigint, account string, income double, expenses double, time string)</span><br><span class="line">row format delimited fields terminated by &apos;\t&apos;;</span><br><span class="line"></span><br><span class="line">create table test(id string,name string) row format delimited fields terminated by &apos;,&apos; stored as textfile;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#建分区表</span><br><span class="line">#普通表和分区表区别：有大量数据增加的需要建分区表</span><br><span class="line">create table td_part(id bigint, account string, income double, expenses double, time string)</span><br><span class="line">partitioned by (logdate string)</span><br><span class="line">row format delimited fields terminated by &apos;\t&apos;;</span><br><span class="line"></span><br><span class="line">#建外部表</span><br><span class="line">create external table td_ext(id bigint, account string, income double, expenses double, time string)</span><br><span class="line">row format delimited fields terminated by &apos;\t&apos; location &apos;/td_ext&apos;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#创建分区表（table中的列不能和partition中的列重合了）</span><br><span class="line">create table ptest(ename string) partitioned by (deptno int) row format delimited fields terminated by &apos;\t&apos;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#显示有多少数据库</span><br><span class="line">show databases;</span><br><span class="line"></span><br><span class="line">#查看有多少表</span><br><span class="line">show tables;</span><br><span class="line"></span><br><span class="line">#查看表信息</span><br><span class="line">describe tablename;</span><br><span class="line">desc tablename</span><br><span class="line"></span><br><span class="line">#创建数据库</span><br><span class="line">create database wordcount;</span><br></pre></td></tr></table></figure>
+<h2 id="1-2-加载数据到表"><a href="#1-2-加载数据到表" class="headerlink" title="1.2 加载数据到表"></a>1.2 加载数据到表</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#把本地数据装载到数据表，也就是在metastore上创建信息</span><br><span class="line">load data local inpath &apos;/testdata/sogouq1&apos; into table sogouq1_1;</span><br><span class="line">load data local inpath &apos;/root/employees.txt&apos; into table employee;</span><br><span class="line"></span><br><span class="line">#把HDFS上的数据装载到数据表</span><br><span class="line">load data inpath &apos;/testdata/SogouQ1/SogouQ1.txt&apos; into table sogouq1_1;</span><br><span class="line">load data inpath &apos;/test/employees.txt&apos; OVERWRITE into table employee;</span><br><span class="line"></span><br><span class="line">#加载数据到分区表必须指明所属分区</span><br><span class="line">load data local inpath &apos;./book.txt&apos; overwrite into table book</span><br><span class="line">partition (pubdate=&apos;2010-08-22&apos;);</span><br><span class="line"></span><br><span class="line">//导数据到分区表</span><br><span class="line">load Data Local inpath &apos;/home/licz/data/ptest20&apos; overwrite Into Table ptest Partition(deptno=20);</span><br><span class="line">load Data Local inpath &apos;/home/licz/data/ptest30&apos; Into Table ptest Partition(deptno=30);</span><br><span class="line"></span><br><span class="line">#从原有的表employee中追加数据到表copy_employee：</span><br><span class="line">insert INTO table copy_employee select * from employee</span><br><span class="line"></span><br><span class="line">#从原有的表employee中加载数据到表copy_employee，并替换掉原来的数据</span><br><span class="line">insert OVERWRITE table copy_employee select * from employee;</span><br><span class="line"></span><br><span class="line">#创建表的时候通过select加载数据：</span><br><span class="line">create table cr_employee as SELECT * from employee;</span><br><span class="line"></span><br><span class="line">#创建表的时候通过select 指定建立的字段并加载指定字段的数据</span><br><span class="line">create table cr_employee1 as SELECT name from employee;</span><br><span class="line"></span><br><span class="line">#直接把与表结构相符的数据文件复制到表指定的存储位置</span><br><span class="line">dfs -put /root/employees.txt /user/hive/warehouse/employee;</span><br></pre></td></tr></table></figure>
+<p>查看表结构：describe employee;<br>SHOW TABLES; # 查看所有的表<br>SHOW TABLES ‘TMP’; #支持模糊查询<br>SHOW PARTITIONS TMP_TABLE; #查看表有哪些分区<br>DESCRIBE TMP_TABLE; #查看表结构</p>
+<h1 id="2-Hive实现WordCount"><a href="#2-Hive实现WordCount" class="headerlink" title="2 Hive实现WordCount"></a>2 Hive实现WordCount</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">  // 创建一个数据库</span><br><span class="line">  <span class="keyword">create</span> <span class="keyword">database</span> wordcount;</span><br><span class="line">  //选择这个数据库</span><br><span class="line">  <span class="keyword">use</span> wordcount;</span><br><span class="line"></span><br><span class="line">  //创建一个外部表，数据存在HDFS下的worddata目录</span><br><span class="line">  <span class="keyword">create</span> <span class="keyword">external</span> <span class="keyword">table</span> word_data(line <span class="keyword">string</span>) <span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">'\n'</span> <span class="keyword">stored</span> <span class="keyword">as</span> textfile location <span class="string">'/worddata'</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">create</span> <span class="keyword">table</span> words(word <span class="keyword">string</span>);</span><br><span class="line"></span><br><span class="line">    //根据MapReduce的规则，我们需要进行拆分，把每行数据拆分成单词，这里需要用到一个hive的内置表生成函数（UDTF）：explode(array)，参数是array，其实就是行变多列：</span><br><span class="line">    //split是拆分函数，跟java的split功能一样，这里是按照空格拆分，所以执行完hql语句，words表里面就全部保存的单个单词</span><br><span class="line">    这样基本实现了，因为hql可以group by，所以最后统计语句为：</span><br><span class="line"></span><br><span class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> <span class="keyword">table</span> words <span class="keyword">select</span> explode(<span class="keyword">split</span>(line, <span class="string">" "</span>)) <span class="keyword">as</span> word <span class="keyword">from</span> word_data;</span><br><span class="line"></span><br><span class="line">//wordcount.words 库名称.表名称，group by word这个word是<span class="keyword">create</span> <span class="keyword">table</span> words(word <span class="keyword">string</span>) 命令创建的word <span class="keyword">string</span></span><br><span class="line">    <span class="keyword">select</span> word, <span class="keyword">count</span>(*) <span class="keyword">from</span> wordcount.words <span class="keyword">group</span> <span class="keyword">by</span> word;</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Hive</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/08/16/bigdata-hive-01/">展开全文 >></a>
         </p>
       
 
@@ -709,11 +888,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Hive</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">集群</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">集群</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Hive</a>
         		</li>
       		
 		</ul>
@@ -735,118 +914,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/08/16/bigdata-evn-hive/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-bigdata-evn-spark" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/16/bigdata-evn-spark/">Spark环境集群环境配置</a>
-    </h1>
-  
-
-        
-        <a href="/2018/08/16/bigdata-evn-spark/" class="archive-article-date">
-  	<time datetime="2018-08-16T09:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="1-解压Spark，配置环境变量"><a href="#1-解压Spark，配置环境变量" class="headerlink" title="1.解压Spark，配置环境变量"></a>1.解压Spark，配置环境变量</h1><blockquote>
-<p>export SPARK_HOME=/usr/soft/spark2.1<br>export PATH=$PATH:${SPARK_HOME}/bin:</p>
-</blockquote>
-<h1 id="2-配置-slaves-conf目录下）"><a href="#2-配置-slaves-conf目录下）" class="headerlink" title="2.配置 slaves(conf目录下）"></a>2.配置 slaves(conf目录下）</h1><blockquote>
-<p>cp slaves.template slaves<br>vim slaves<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node1</span><br><span class="line">node2</span><br></pre></td></tr></table></figure></p>
-</blockquote>
-<h1 id="3-配置-spark-defaults-conf（配置historyServer必须配置这个，如果无须配置这个可以不用配置）"><a href="#3-配置-spark-defaults-conf（配置historyServer必须配置这个，如果无须配置这个可以不用配置）" class="headerlink" title="3.配置 spark-defaults.conf（配置historyServer必须配置这个，如果无须配置这个可以不用配置）"></a>3.配置 spark-defaults.conf（配置historyServer必须配置这个，如果无须配置这个可以不用配置）</h1><p>cp spark-defaults.conf.template spark-defaults.conf<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">spark.executor.extraJavaOptions  -XX:+PrintGCDetails -Dkey=value -Dnumbers=&quot;one two three&quot;</span><br><span class="line">spark.eventLog.enabled           true</span><br><span class="line">spark.eventLog.dir               hdfs://master:9000/historyServerforSpark</span><br><span class="line">spark.yarn.historyServer.address work1:18080</span><br><span class="line">spark.history.fs.logDirectory    hdfs://master:9000/historyServerforSpark</span><br></pre></td></tr></table></figure></p>
-<h1 id="4-配置-spark-env-sh"><a href="#4-配置-spark-env-sh" class="headerlink" title="4.配置  spark-env.sh"></a>4.配置  spark-env.sh</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">export SCALA_HOME=/usr/soft/scala-2.11.8</span><br><span class="line">export JAVA_HOME=/usr/soft/jdk1.8</span><br><span class="line">export SPARK_MASTER_IP=master</span><br><span class="line">export SPARK_WORKER_MEMORY=1g</span><br><span class="line">export HADOOP_HOME=/usr/soft/hadoop2.6</span><br><span class="line">export HADOOP_CONF_DIR=/usr/soft/hadoop2.6/etc/hadoop</span><br></pre></td></tr></table></figure>
-<h1 id="5-拷贝文件"><a href="#5-拷贝文件" class="headerlink" title="5.拷贝文件"></a>5.拷贝文件</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">scp /usr/soft/spark2.1/conf/spark-env.sh root@node1:/usr/soft/spark2.1/conf/</span><br><span class="line">scp /usr/soft/spark2.1/conf/spark-env.sh root@node2:/usr/soft/spark2.1/conf/</span><br><span class="line"></span><br><span class="line">scp /usr/soft/spark2.1/conf/slaves root@node1:/usr/soft/spark2.1/conf/</span><br><span class="line">scp /usr/soft/spark2.1/conf/slaves root@node2:/usr/soft/spark2.1/conf/</span><br></pre></td></tr></table></figure>
-<h1 id="6-启动"><a href="#6-启动" class="headerlink" title="6.启动"></a>6.启动</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/usr/soft/spark2.1/sbin/start-master.sh</span><br><span class="line">/usr/soft/spark2.1/sbin/start-slaves.sh</span><br><span class="line"></span><br><span class="line">/usr/soft/spark2.1/sbin/stop-all.sh</span><br></pre></td></tr></table></figure>
-<h1 id="创建历史记录目录"><a href="#创建历史记录目录" class="headerlink" title="创建历史记录目录"></a>创建历史记录目录</h1><blockquote>
-<p>hadoop fs -mkdir /historyServerforSpark<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">　　hadoop fs -mkdir -p /Hadoop/Input（在HDFS创建目录）</span><br><span class="line">　　hadoop fs -put hello.txt /Hadoop/Input（将hello.txt文件上传到HDFS）</span><br><span class="line">　　hadoop fs -ls /Hadoop/Input （查看上传的文件）</span><br><span class="line">　　hadoop fs -text /Hadoop/Input/hello.txt （查看文件内容）</span><br></pre></td></tr></table></figure></p>
-</blockquote>
-<h1 id="启动spark-shell测试"><a href="#启动spark-shell测试" class="headerlink" title="启动spark-shell测试"></a>启动spark-shell测试</h1><p>创建测试数据</p>
-<blockquote>
-<p>hadoop fs -mkdir /testdata<br>hadoop fs -put $SPARK_HOME/LICENSE /testdata</p>
-</blockquote>
-<p>启动spark-shell</p>
-<blockquote>
-<p>/usr/soft/spark2.1/bin/spark-shell –master spark://master:7077</p>
-</blockquote>
-<p>spark wordcount<br>注意：如果是读本地文件，集群中的各节点都需要有这个文件，不然会提示找不到文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">val file=sc.textFile(&quot;file:/usr/soft/spark-2.1.0-bin-hadoop2.6/README.md&quot;)</span><br><span class="line">val file=sc.textFile(&quot;/usr/soft/spark-2.1.0-bin-hadoop2.6/README.md&quot;)</span><br><span class="line">val file=sc.textFile(&quot;hdsf://master:9000/testdata/README.md&quot;)</span><br><span class="line"></span><br><span class="line">//val rdd = file.flatMap(line =&gt; line.split(&quot; &quot;)).map(word =&gt; (word,1)).reduceByKey(_+_)</span><br><span class="line"></span><br><span class="line">val words = file.flatMap(line =&gt; line.split(&quot; &quot;))</span><br><span class="line">val pairs = words.map(word =&gt; (words,1))</span><br><span class="line"></span><br><span class="line">//val wordcount = pairs.reduceByKey((v1,v2) =&gt; v1+v2)</span><br><span class="line">val wordcount = pairs.reduceByKey(_+_)</span><br><span class="line"></span><br><span class="line">wordcount.collect().foreach(println)</span><br><span class="line"></span><br><span class="line">val rddTotal = rdd.collect()</span><br><span class="line">rddTotal.foreach(println)</span><br></pre></td></tr></table></figure>
-<p>wordcount升级版，增加排序<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">val file=sc.textFile(&quot;hdfs://master:9000/testdata/LICENSE&quot;)</span><br><span class="line">val rdd = file.flatMap(line=&gt;line.split(&quot; &quot;)).map(word =&gt; (word,1)).reduceByKey(_+_).map(tp=&gt;(tp._2,tp._1)).sortByKey(false).map(item=&gt;(item._2,item._1)).collect</span><br><span class="line">rdd.foreach(println)</span><br></pre></td></tr></table></figure></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">集群</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/16/bigdata-evn-spark/">展开全文 >></a>
         </p>
       
 
@@ -986,19 +1053,19 @@
 
 
   
-    <article id="post-bigdata-hive-01" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-bigdata-evn-spark" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/16/bigdata-hive-01/">Hive实现WordCount</a>
+      <a class="article-title" href="/2018/08/16/bigdata-evn-spark/">Spark环境集群环境配置</a>
     </h1>
   
 
         
-        <a href="/2018/08/16/bigdata-hive-01/" class="archive-article-date">
+        <a href="/2018/08/16/bigdata-evn-spark/" class="archive-article-date">
   	<time datetime="2018-08-16T09:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-16</time>
 </a>
         
@@ -1006,10 +1073,30 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="1、常用命令"><a href="#1、常用命令" class="headerlink" title="1、常用命令"></a>1、常用命令</h1><h2 id="1-1-建表"><a href="#1-1-建表" class="headerlink" title="1.1 建表"></a>1.1 建表</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">#建表(默认是内部表)</span><br><span class="line">create table trade_detail(id bigint, account string, income double, expenses double, time string)</span><br><span class="line">row format delimited fields terminated by &apos;\t&apos;;</span><br><span class="line"></span><br><span class="line">create table test(id string,name string) row format delimited fields terminated by &apos;,&apos; stored as textfile;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#建分区表</span><br><span class="line">#普通表和分区表区别：有大量数据增加的需要建分区表</span><br><span class="line">create table td_part(id bigint, account string, income double, expenses double, time string)</span><br><span class="line">partitioned by (logdate string)</span><br><span class="line">row format delimited fields terminated by &apos;\t&apos;;</span><br><span class="line"></span><br><span class="line">#建外部表</span><br><span class="line">create external table td_ext(id bigint, account string, income double, expenses double, time string)</span><br><span class="line">row format delimited fields terminated by &apos;\t&apos; location &apos;/td_ext&apos;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#创建分区表（table中的列不能和partition中的列重合了）</span><br><span class="line">create table ptest(ename string) partitioned by (deptno int) row format delimited fields terminated by &apos;\t&apos;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#显示有多少数据库</span><br><span class="line">show databases;</span><br><span class="line"></span><br><span class="line">#查看有多少表</span><br><span class="line">show tables;</span><br><span class="line"></span><br><span class="line">#查看表信息</span><br><span class="line">describe tablename;</span><br><span class="line">desc tablename</span><br><span class="line"></span><br><span class="line">#创建数据库</span><br><span class="line">create database wordcount;</span><br></pre></td></tr></table></figure>
-<h2 id="1-2-加载数据到表"><a href="#1-2-加载数据到表" class="headerlink" title="1.2 加载数据到表"></a>1.2 加载数据到表</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#把本地数据装载到数据表，也就是在metastore上创建信息</span><br><span class="line">load data local inpath &apos;/testdata/sogouq1&apos; into table sogouq1_1;</span><br><span class="line">load data local inpath &apos;/root/employees.txt&apos; into table employee;</span><br><span class="line"></span><br><span class="line">#把HDFS上的数据装载到数据表</span><br><span class="line">load data inpath &apos;/testdata/SogouQ1/SogouQ1.txt&apos; into table sogouq1_1;</span><br><span class="line">load data inpath &apos;/test/employees.txt&apos; OVERWRITE into table employee;</span><br><span class="line"></span><br><span class="line">#加载数据到分区表必须指明所属分区</span><br><span class="line">load data local inpath &apos;./book.txt&apos; overwrite into table book</span><br><span class="line">partition (pubdate=&apos;2010-08-22&apos;);</span><br><span class="line"></span><br><span class="line">//导数据到分区表</span><br><span class="line">load Data Local inpath &apos;/home/licz/data/ptest20&apos; overwrite Into Table ptest Partition(deptno=20);</span><br><span class="line">load Data Local inpath &apos;/home/licz/data/ptest30&apos; Into Table ptest Partition(deptno=30);</span><br><span class="line"></span><br><span class="line">#从原有的表employee中追加数据到表copy_employee：</span><br><span class="line">insert INTO table copy_employee select * from employee</span><br><span class="line"></span><br><span class="line">#从原有的表employee中加载数据到表copy_employee，并替换掉原来的数据</span><br><span class="line">insert OVERWRITE table copy_employee select * from employee;</span><br><span class="line"></span><br><span class="line">#创建表的时候通过select加载数据：</span><br><span class="line">create table cr_employee as SELECT * from employee;</span><br><span class="line"></span><br><span class="line">#创建表的时候通过select 指定建立的字段并加载指定字段的数据</span><br><span class="line">create table cr_employee1 as SELECT name from employee;</span><br><span class="line"></span><br><span class="line">#直接把与表结构相符的数据文件复制到表指定的存储位置</span><br><span class="line">dfs -put /root/employees.txt /user/hive/warehouse/employee;</span><br></pre></td></tr></table></figure>
-<p>查看表结构：describe employee;<br>SHOW TABLES; # 查看所有的表<br>SHOW TABLES ‘TMP’; #支持模糊查询<br>SHOW PARTITIONS TMP_TABLE; #查看表有哪些分区<br>DESCRIBE TMP_TABLE; #查看表结构</p>
-<h1 id="2-Hive实现WordCount"><a href="#2-Hive实现WordCount" class="headerlink" title="2 Hive实现WordCount"></a>2 Hive实现WordCount</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">  // 创建一个数据库</span><br><span class="line">  <span class="keyword">create</span> <span class="keyword">database</span> wordcount;</span><br><span class="line">  //选择这个数据库</span><br><span class="line">  <span class="keyword">use</span> wordcount;</span><br><span class="line"></span><br><span class="line">  //创建一个外部表，数据存在HDFS下的worddata目录</span><br><span class="line">  <span class="keyword">create</span> <span class="keyword">external</span> <span class="keyword">table</span> word_data(line <span class="keyword">string</span>) <span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">'\n'</span> <span class="keyword">stored</span> <span class="keyword">as</span> textfile location <span class="string">'/worddata'</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">create</span> <span class="keyword">table</span> words(word <span class="keyword">string</span>);</span><br><span class="line"></span><br><span class="line">    //根据MapReduce的规则，我们需要进行拆分，把每行数据拆分成单词，这里需要用到一个hive的内置表生成函数（UDTF）：explode(array)，参数是array，其实就是行变多列：</span><br><span class="line">    //split是拆分函数，跟java的split功能一样，这里是按照空格拆分，所以执行完hql语句，words表里面就全部保存的单个单词</span><br><span class="line">    这样基本实现了，因为hql可以group by，所以最后统计语句为：</span><br><span class="line"></span><br><span class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> <span class="keyword">table</span> words <span class="keyword">select</span> explode(<span class="keyword">split</span>(line, <span class="string">" "</span>)) <span class="keyword">as</span> word <span class="keyword">from</span> word_data;</span><br><span class="line"></span><br><span class="line">//wordcount.words 库名称.表名称，group by word这个word是<span class="keyword">create</span> <span class="keyword">table</span> words(word <span class="keyword">string</span>) 命令创建的word <span class="keyword">string</span></span><br><span class="line">    <span class="keyword">select</span> word, <span class="keyword">count</span>(*) <span class="keyword">from</span> wordcount.words <span class="keyword">group</span> <span class="keyword">by</span> word;</span><br></pre></td></tr></table></figure>
+        <h1 id="1-解压Spark，配置环境变量"><a href="#1-解压Spark，配置环境变量" class="headerlink" title="1.解压Spark，配置环境变量"></a>1.解压Spark，配置环境变量</h1><blockquote>
+<p>export SPARK_HOME=/usr/soft/spark2.1<br>export PATH=$PATH:${SPARK_HOME}/bin:</p>
+</blockquote>
+<h1 id="2-配置-slaves-conf目录下）"><a href="#2-配置-slaves-conf目录下）" class="headerlink" title="2.配置 slaves(conf目录下）"></a>2.配置 slaves(conf目录下）</h1><blockquote>
+<p>cp slaves.template slaves<br>vim slaves<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node1</span><br><span class="line">node2</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h1 id="3-配置-spark-defaults-conf（配置historyServer必须配置这个，如果无须配置这个可以不用配置）"><a href="#3-配置-spark-defaults-conf（配置historyServer必须配置这个，如果无须配置这个可以不用配置）" class="headerlink" title="3.配置 spark-defaults.conf（配置historyServer必须配置这个，如果无须配置这个可以不用配置）"></a>3.配置 spark-defaults.conf（配置historyServer必须配置这个，如果无须配置这个可以不用配置）</h1><p>cp spark-defaults.conf.template spark-defaults.conf<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">spark.executor.extraJavaOptions  -XX:+PrintGCDetails -Dkey=value -Dnumbers=&quot;one two three&quot;</span><br><span class="line">spark.eventLog.enabled           true</span><br><span class="line">spark.eventLog.dir               hdfs://master:9000/historyServerforSpark</span><br><span class="line">spark.yarn.historyServer.address work1:18080</span><br><span class="line">spark.history.fs.logDirectory    hdfs://master:9000/historyServerforSpark</span><br></pre></td></tr></table></figure></p>
+<h1 id="4-配置-spark-env-sh"><a href="#4-配置-spark-env-sh" class="headerlink" title="4.配置  spark-env.sh"></a>4.配置  spark-env.sh</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">export SCALA_HOME=/usr/soft/scala-2.11.8</span><br><span class="line">export JAVA_HOME=/usr/soft/jdk1.8</span><br><span class="line">export SPARK_MASTER_IP=master</span><br><span class="line">export SPARK_WORKER_MEMORY=1g</span><br><span class="line">export HADOOP_HOME=/usr/soft/hadoop2.6</span><br><span class="line">export HADOOP_CONF_DIR=/usr/soft/hadoop2.6/etc/hadoop</span><br></pre></td></tr></table></figure>
+<h1 id="5-拷贝文件"><a href="#5-拷贝文件" class="headerlink" title="5.拷贝文件"></a>5.拷贝文件</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">scp /usr/soft/spark2.1/conf/spark-env.sh root@node1:/usr/soft/spark2.1/conf/</span><br><span class="line">scp /usr/soft/spark2.1/conf/spark-env.sh root@node2:/usr/soft/spark2.1/conf/</span><br><span class="line"></span><br><span class="line">scp /usr/soft/spark2.1/conf/slaves root@node1:/usr/soft/spark2.1/conf/</span><br><span class="line">scp /usr/soft/spark2.1/conf/slaves root@node2:/usr/soft/spark2.1/conf/</span><br></pre></td></tr></table></figure>
+<h1 id="6-启动"><a href="#6-启动" class="headerlink" title="6.启动"></a>6.启动</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/usr/soft/spark2.1/sbin/start-master.sh</span><br><span class="line">/usr/soft/spark2.1/sbin/start-slaves.sh</span><br><span class="line"></span><br><span class="line">/usr/soft/spark2.1/sbin/stop-all.sh</span><br></pre></td></tr></table></figure>
+<h1 id="创建历史记录目录"><a href="#创建历史记录目录" class="headerlink" title="创建历史记录目录"></a>创建历史记录目录</h1><blockquote>
+<p>hadoop fs -mkdir /historyServerforSpark<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">　　hadoop fs -mkdir -p /Hadoop/Input（在HDFS创建目录）</span><br><span class="line">　　hadoop fs -put hello.txt /Hadoop/Input（将hello.txt文件上传到HDFS）</span><br><span class="line">　　hadoop fs -ls /Hadoop/Input （查看上传的文件）</span><br><span class="line">　　hadoop fs -text /Hadoop/Input/hello.txt （查看文件内容）</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h1 id="启动spark-shell测试"><a href="#启动spark-shell测试" class="headerlink" title="启动spark-shell测试"></a>启动spark-shell测试</h1><p>创建测试数据</p>
+<blockquote>
+<p>hadoop fs -mkdir /testdata<br>hadoop fs -put $SPARK_HOME/LICENSE /testdata</p>
+</blockquote>
+<p>启动spark-shell</p>
+<blockquote>
+<p>/usr/soft/spark2.1/bin/spark-shell –master spark://master:7077</p>
+</blockquote>
+<p>spark wordcount<br>注意：如果是读本地文件，集群中的各节点都需要有这个文件，不然会提示找不到文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">val file=sc.textFile(&quot;file:/usr/soft/spark-2.1.0-bin-hadoop2.6/README.md&quot;)</span><br><span class="line">val file=sc.textFile(&quot;/usr/soft/spark-2.1.0-bin-hadoop2.6/README.md&quot;)</span><br><span class="line">val file=sc.textFile(&quot;hdsf://master:9000/testdata/README.md&quot;)</span><br><span class="line"></span><br><span class="line">//val rdd = file.flatMap(line =&gt; line.split(&quot; &quot;)).map(word =&gt; (word,1)).reduceByKey(_+_)</span><br><span class="line"></span><br><span class="line">val words = file.flatMap(line =&gt; line.split(&quot; &quot;))</span><br><span class="line">val pairs = words.map(word =&gt; (words,1))</span><br><span class="line"></span><br><span class="line">//val wordcount = pairs.reduceByKey((v1,v2) =&gt; v1+v2)</span><br><span class="line">val wordcount = pairs.reduceByKey(_+_)</span><br><span class="line"></span><br><span class="line">wordcount.collect().foreach(println)</span><br><span class="line"></span><br><span class="line">val rddTotal = rdd.collect()</span><br><span class="line">rddTotal.foreach(println)</span><br></pre></td></tr></table></figure>
+<p>wordcount升级版，增加排序<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">val file=sc.textFile(&quot;hdfs://master:9000/testdata/LICENSE&quot;)</span><br><span class="line">val rdd = file.flatMap(line=&gt;line.split(&quot; &quot;)).map(word =&gt; (word,1)).reduceByKey(_+_).map(tp=&gt;(tp._2,tp._1)).sortByKey(false).map(item=&gt;(item._2,item._1)).collect</span><br><span class="line">rdd.foreach(println)</span><br></pre></td></tr></table></figure></p>
 
       
 
@@ -1023,7 +1110,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Hive</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">集群</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
         		</li>
       		
 		</ul>
@@ -1044,7 +1135,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/16/bigdata-hive-01/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/08/16/bigdata-evn-spark/">展开全文 >></a>
         </p>
       
 
@@ -1141,109 +1232,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/08/08/tools-atom-01/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-skill-communication" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/07/skill-communication/">有效沟通笔记</a>
-    </h1>
-  
-
-        
-        <a href="/2018/08/07/skill-communication/" class="archive-article-date">
-  	<time datetime="2018-08-07T07:48:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="0-概述"><a href="#0-概述" class="headerlink" title="0.概述"></a>0.概述</h1><h1 id="1-为何我们不会好好沟通"><a href="#1-为何我们不会好好沟通" class="headerlink" title="1.为何我们不会好好沟通"></a>1.为何我们不会好好沟通</h1><h2 id="三种常见认知偏差"><a href="#三种常见认知偏差" class="headerlink" title="三种常见认知偏差"></a>三种常见认知偏差</h2><h3 id="1）基本归因错误"><a href="#1）基本归因错误" class="headerlink" title="1）基本归因错误"></a>1）基本归因错误</h3><p>我们往往将行为归因于人的性格和态度，而忽视、或者不去了解外部的环境因素。</p>
-<h3 id="2）行动者-观察者偏差"><a href="#2）行动者-观察者偏差" class="headerlink" title="2）行动者-观察者偏差"></a>2）行动者-观察者偏差</h3><blockquote>
-<p>举个例子，你上班迟到是因为懒，我上班迟到是因为压力大；你忘了订机票是因为不负责任，我忘了订机票是工作太忙。典型的双重标准。</p>
-<p>如果我们是行动者，我们倾向于把自己的行为归因于外部环境；如果我们是观察者，则会将其他人（行动者）的行为归因于性格和态度。</p>
-</blockquote>
-<h3 id="3-自利偏差"><a href="#3-自利偏差" class="headerlink" title="3.自利偏差"></a>3.自利偏差</h3><blockquote>
-<p>以和朋友打羽毛球为例，如果你赢了，你会觉得是自己水平比较高；如果你输了，你会觉得是状态不好或者运气不佳。</p>
-<p>在进行归因时，人们尽量使自己处于有利的地位，将积极的结果归因于自己，将消极的结果归因于环境。</p>
-</blockquote>
-<blockquote>
-<p>归因偏差是人之常情，但在了解之后，我们就可以尽量避免认知偏差对我们造成负面影响。</p>
-</blockquote>
-<p><img src="/assets/img/skill-bz01.png" alt="沟通本质"></p>
-<h2 id="沟通陷阱"><a href="#沟通陷阱" class="headerlink" title="沟通陷阱"></a>沟通陷阱</h2><p><img src="/assets/img/skill-xj01.png" alt="锦囊"></p>
-<h2 id="三个锦囊"><a href="#三个锦囊" class="headerlink" title="三个锦囊"></a>三个锦囊</h2><p><img src="/assets/img/skill-jn1.jpg" alt="锦囊一"><br><img src="/assets/img/skill-jn2.jpg" alt="锦囊二"><br><img src="/assets/img/skill-jn3.jpg" alt="锦囊三"></p>
-<h1 id="2-让坏情绪不再影响沟通"><a href="#2-让坏情绪不再影响沟通" class="headerlink" title="2.让坏情绪不再影响沟通"></a>2.让坏情绪不再影响沟通</h1><h1 id="3-开口前，先弄清你的对话目的"><a href="#3-开口前，先弄清你的对话目的" class="headerlink" title="3.开口前，先弄清你的对话目的"></a>3.开口前，先弄清你的对话目的</h1><h1 id="4-对话中，建立双方的共同目的"><a href="#4-对话中，建立双方的共同目的" class="headerlink" title="4.对话中，建立双方的共同目的"></a>4.对话中，建立双方的共同目的</h1><h1 id="5-表达三步走"><a href="#5-表达三步走" class="headerlink" title="5.表达三步走"></a>5.表达三步走</h1><h1 id="6-倾听四部曲"><a href="#6-倾听四部曲" class="headerlink" title="6.倾听四部曲"></a>6.倾听四部曲</h1><h1 id="7-让对话推动决策"><a href="#7-让对话推动决策" class="headerlink" title="7.让对话推动决策"></a>7.让对话推动决策</h1>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">沟通</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/技能//" class="article-tag-list-link color3">技能</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/技能/沟通//" class="article-tag-list-link color3">沟通</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/07/skill-communication/">展开全文 >></a>
         </p>
       
 
@@ -1378,22 +1366,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hive</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Spark</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hive</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Hadoop</a>
               </li>
              
@@ -1402,7 +1374,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Kafka</a>
+                <a href="javascript:void(0)" class="js-tag color1">Spark</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hive</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hive</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1434,6 +1418,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Kafka</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">MySql</a>
               </li>
              
@@ -1443,6 +1431,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">SQL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">自定义函数</a>
               </li>
             
             <div class="clearfix"></div>
