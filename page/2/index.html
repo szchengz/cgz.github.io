@@ -134,19 +134,19 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-bigdata-evn-hadoop" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-bigdata-evn-spark" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/16/bigdata-evn-hadoop/">Hadoop环境集群环境配置</a>
+      <a class="article-title" href="/2018/08/16/bigdata-evn-spark/">Spark环境集群环境配置</a>
     </h1>
   
 
         
-        <a href="/2018/08/16/bigdata-evn-hadoop/" class="archive-article-date">
+        <a href="/2018/08/16/bigdata-evn-spark/" class="archive-article-date">
   	<time datetime="2018-08-16T09:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-16</time>
 </a>
         
@@ -154,75 +154,30 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="0-安装VMware和Ubuntn"><a href="#0-安装VMware和Ubuntn" class="headerlink" title="0. 安装VMware和Ubuntn"></a>0. 安装VMware和Ubuntn</h1><p>略</p>
-<h1 id="1-Linux环境设置"><a href="#1-Linux环境设置" class="headerlink" title="1.Linux环境设置"></a>1.Linux环境设置</h1><h2 id="1-1-安装配置SSH"><a href="#1-1-安装配置SSH" class="headerlink" title="1.1 安装配置SSH"></a>1.1 安装配置SSH</h2><h3 id="1-1-1-安装"><a href="#1-1-1-安装" class="headerlink" title="1.1.1 安装"></a>1.1.1 安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install openssh-server openssh-client</span><br></pre></td></tr></table></figure>
-<p>查看SSH是否启动</p>
+        <h1 id="1-解压Spark，配置环境变量"><a href="#1-解压Spark，配置环境变量" class="headerlink" title="1.解压Spark，配置环境变量"></a>1.解压Spark，配置环境变量</h1><blockquote>
+<p>export SPARK_HOME=/usr/soft/spark2.1<br>export PATH=$PATH:${SPARK_HOME}/bin:</p>
+</blockquote>
+<h1 id="2-配置-slaves-conf目录下）"><a href="#2-配置-slaves-conf目录下）" class="headerlink" title="2.配置 slaves(conf目录下）"></a>2.配置 slaves(conf目录下）</h1><blockquote>
+<p>cp slaves.template slaves<br>vim slaves<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node1</span><br><span class="line">node2</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h1 id="3-配置-spark-defaults-conf（配置historyServer必须配置这个，如果无须配置这个可以不用配置）"><a href="#3-配置-spark-defaults-conf（配置historyServer必须配置这个，如果无须配置这个可以不用配置）" class="headerlink" title="3.配置 spark-defaults.conf（配置historyServer必须配置这个，如果无须配置这个可以不用配置）"></a>3.配置 spark-defaults.conf（配置historyServer必须配置这个，如果无须配置这个可以不用配置）</h1><p>cp spark-defaults.conf.template spark-defaults.conf<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">spark.executor.extraJavaOptions  -XX:+PrintGCDetails -Dkey=value -Dnumbers=&quot;one two three&quot;</span><br><span class="line">spark.eventLog.enabled           true</span><br><span class="line">spark.eventLog.dir               hdfs://master:9000/historyServerforSpark</span><br><span class="line">spark.yarn.historyServer.address work1:18080</span><br><span class="line">spark.history.fs.logDirectory    hdfs://master:9000/historyServerforSpark</span><br></pre></td></tr></table></figure></p>
+<h1 id="4-配置-spark-env-sh"><a href="#4-配置-spark-env-sh" class="headerlink" title="4.配置  spark-env.sh"></a>4.配置  spark-env.sh</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">export SCALA_HOME=/usr/soft/scala-2.11.8</span><br><span class="line">export JAVA_HOME=/usr/soft/jdk1.8</span><br><span class="line">export SPARK_MASTER_IP=master</span><br><span class="line">export SPARK_WORKER_MEMORY=1g</span><br><span class="line">export HADOOP_HOME=/usr/soft/hadoop2.6</span><br><span class="line">export HADOOP_CONF_DIR=/usr/soft/hadoop2.6/etc/hadoop</span><br></pre></td></tr></table></figure>
+<h1 id="5-拷贝文件"><a href="#5-拷贝文件" class="headerlink" title="5.拷贝文件"></a>5.拷贝文件</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">scp /usr/soft/spark2.1/conf/spark-env.sh root@node1:/usr/soft/spark2.1/conf/</span><br><span class="line">scp /usr/soft/spark2.1/conf/spark-env.sh root@node2:/usr/soft/spark2.1/conf/</span><br><span class="line"></span><br><span class="line">scp /usr/soft/spark2.1/conf/slaves root@node1:/usr/soft/spark2.1/conf/</span><br><span class="line">scp /usr/soft/spark2.1/conf/slaves root@node2:/usr/soft/spark2.1/conf/</span><br></pre></td></tr></table></figure>
+<h1 id="6-启动"><a href="#6-启动" class="headerlink" title="6.启动"></a>6.启动</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/usr/soft/spark2.1/sbin/start-master.sh</span><br><span class="line">/usr/soft/spark2.1/sbin/start-slaves.sh</span><br><span class="line"></span><br><span class="line">/usr/soft/spark2.1/sbin/stop-all.sh</span><br></pre></td></tr></table></figure>
+<h1 id="创建历史记录目录"><a href="#创建历史记录目录" class="headerlink" title="创建历史记录目录"></a>创建历史记录目录</h1><blockquote>
+<p>hadoop fs -mkdir /historyServerforSpark<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">　　hadoop fs -mkdir -p /Hadoop/Input（在HDFS创建目录）</span><br><span class="line">　　hadoop fs -put hello.txt /Hadoop/Input（将hello.txt文件上传到HDFS）</span><br><span class="line">　　hadoop fs -ls /Hadoop/Input （查看上传的文件）</span><br><span class="line">　　hadoop fs -text /Hadoop/Input/hello.txt （查看文件内容）</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h1 id="启动spark-shell测试"><a href="#启动spark-shell测试" class="headerlink" title="启动spark-shell测试"></a>启动spark-shell测试</h1><p>创建测试数据</p>
 <blockquote>
-<p>sudo ps -e |grep ssh<br>运行上面命令，如果有sshd，则表示ssh服务已经启动。没有启动，运行如下<br>sudo service ssh start</p>
+<p>hadoop fs -mkdir /testdata<br>hadoop fs -put $SPARK_HOME/LICENSE /testdata</p>
 </blockquote>
-<p>设置允许Root用户登录</p>
+<p>启动spark-shell</p>
 <blockquote>
-<p>sudo gedit /etc/ssh/sshd_config</p>
+<p>/usr/soft/spark2.1/bin/spark-shell –master spark://master:7077</p>
 </blockquote>
-<p>修改如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PermitRootLogin yes</span><br></pre></td></tr></table></figure></p>
-<p>重启SSH</p>
-<blockquote>
-<p>sudo /etc/init.d/ssh restart</p>
-</blockquote>
-<h3 id="1-1-2-配置ssh无需密码访问"><a href="#1-1-2-配置ssh无需密码访问" class="headerlink" title="1.1.2 配置ssh无需密码访问"></a>1.1.2 配置ssh无需密码访问</h3><p>生成key</p>
-<blockquote>
-<p>ssh-keygen -t dsa -P ‘’ -f ~/.ssh/id_dsa</p>
-</blockquote>
-<p>拷贝所有从机的公钥到master</p>
-<p>在node1上操作</p>
-<blockquote>
-<p>scp ~/.ssh/id_dsa.pub hadoop@master:/home/hadoop/.ssh/id_dsa.pub.node1</p>
-</blockquote>
-<p>在node2上操作</p>
-<blockquote>
-<p>scp ~/.ssh/id_dsa.pub hadoop@master:/home/hadoop/.ssh/id_dsa.pub.node2</p>
-</blockquote>
-<p>所有公钥文件追加到authorized_keys</p>
-<blockquote>
-<p>cat ~/.ssh/id_dsa.pub &gt;&gt; ~/.ssh/authorized_keys<br>cat id_dsa.pub.node1 &gt;&gt; authorized_keys<br>cat id_dsa.pub.node2 &gt;&gt; authorized_keys</p>
-</blockquote>
-<p>生成的公钥文件拷贝到各机</p>
-<p>scp authorized_keys hadoop@node1:/home/hadoop/.ssh/authorized_keys<br>scp authorized_keys hadoop@node2:/home/hadoop/.ssh/authorized_keys</p>
-<h2 id="修改主机名"><a href="#修改主机名" class="headerlink" title="修改主机名"></a>修改主机名</h2><blockquote>
-<p>sudo vim /etc/hostname</p>
-</blockquote>
-<h2 id="修改hosts文件"><a href="#修改hosts文件" class="headerlink" title="修改hosts文件"></a>修改hosts文件</h2><blockquote>
-<p>sudo vim /etc/hosts</p>
-</blockquote>
-<h1 id="2-JDK安装配置"><a href="#2-JDK安装配置" class="headerlink" title="2.JDK安装配置"></a>2.JDK安装配置</h1><p>解压安装包，修改环境变量</p>
-<blockquote>
-<p>sudo vim /etc/profile</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME=/usr/soft/jdk1.8</span><br><span class="line">export PATH=$PATH:$&#123;JAVA_HOME&#125;/bin:</span><br></pre></td></tr></table></figure>
-<h1 id="3-Scala安装配置"><a href="#3-Scala安装配置" class="headerlink" title="3.Scala安装配置"></a>3.Scala安装配置</h1><h1 id="4-Hadoop安装配置"><a href="#4-Hadoop安装配置" class="headerlink" title="4.Hadoop安装配置"></a>4.Hadoop安装配置</h1><h2 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h2><blockquote>
-<p>sodu vim /etc/profile</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export HADOOP_HOME=/usr/soft/hadoop-2.6.0</span><br><span class="line">export PATH=$PATH:$&#123;HADOOP_HOME&#125;/bin:</span><br></pre></td></tr></table></figure>
-<h2 id="配置hadoop-env-sh"><a href="#配置hadoop-env-sh" class="headerlink" title="配置hadoop-env.sh"></a>配置hadoop-env.sh</h2><blockquote>
-<p>vim /usr/soft/hadoop-2.6.0/etc/hadoop/hadoop-env.sh</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME=/usr/soft/jdk1.8</span><br><span class="line">export HADOOP_PREFIX=/usr/soft/hadoop-2.6.0</span><br></pre></td></tr></table></figure>
-<h2 id="配置-core-site-xml"><a href="#配置-core-site-xml" class="headerlink" title="配置 core-site.xml"></a>配置 core-site.xml</h2><blockquote>
-<p>vim /usr/soft/hadoop-2.6.0/etc/hadoop/core-site.xml</p>
-</blockquote>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>fs.defaultFS<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>hdfs://master:9000<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.tmp.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/usr/soft/hadoop-2.6.0/tmp<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="配置-hdfs-site-xml"><a href="#配置-hdfs-site-xml" class="headerlink" title="配置 hdfs-site.xml"></a>配置 hdfs-site.xml</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.secondary.http-address<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>master:9001<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.name.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">value</span>&gt;</span>file:/usr/soft/hadoop-2.6.0/dfs/name<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.datanode.data.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>file:/usr/soft/hadoop-2.6.0/dfs/data<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.replication<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>2<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.webhdfs.enabled<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="配置-mapred-site-xml"><a href="#配置-mapred-site-xml" class="headerlink" title="配置 mapred-site.xml"></a>配置 mapred-site.xml</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.framework.name<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>yarn<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="配置yarn-env-sh"><a href="#配置yarn-env-sh" class="headerlink" title="配置yarn-env.sh"></a>配置yarn-env.sh</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME=/usr/soft/jdk1.8</span><br></pre></td></tr></table></figure>
-<h2 id="配置yarn-site-xml"><a href="#配置yarn-site-xml" class="headerlink" title="配置yarn-site.xml"></a>配置yarn-site.xml</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.aux-services<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>mapreduce_shuffle<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.hostname<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>master<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="配置-slaves"><a href="#配置-slaves" class="headerlink" title="配置 slaves"></a>配置 slaves</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node1</span><br><span class="line">node2</span><br></pre></td></tr></table></figure>
-<h2 id="将配置文件拷贝到各机器"><a href="#将配置文件拷贝到各机器" class="headerlink" title="将配置文件拷贝到各机器"></a>将配置文件拷贝到各机器</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/hadoop-env.sh hadoop@node1:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/hadoop-env.sh hadoop@node2:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line"></span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/core-site.xml hadoop@node1:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/core-site.xml hadoop@node2:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line"></span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/hdfs-site.xml hadoop@node1:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/hdfs-site.xml hadoop@node2:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line"></span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/mapred-site.xml hadoop@node1:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/mapred-site.xml hadoop@node2:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line"></span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/yarn-site.xml hadoop@node1:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/yarn-site.xml hadoop@node2:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line"></span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/slaves hadoop@node1:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br><span class="line">scp /usr/soft/hadoop-2.6.0/etc/hadoop/slaves hadoop@node1:/usr/soft/hadoop-2.6.0/etc/hadoop/</span><br></pre></td></tr></table></figure>
-<h2 id="格式化hdfs"><a href="#格式化hdfs" class="headerlink" title="格式化hdfs"></a>格式化hdfs</h2><blockquote>
-<p>/usr/soft/hadoop-2.6.0/bin/hdfs namenode -format</p>
-</blockquote>
-<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><blockquote>
-<p>/usr/soft/hadoop-2.6.0/sbin/start-dfs.sh<br>/usr/soft/hadoop-2.6.0/sbin/stop-dfs.sh</p>
-</blockquote>
+<p>spark wordcount<br>注意：如果是读本地文件，集群中的各节点都需要有这个文件，不然会提示找不到文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">val file=sc.textFile(&quot;file:/usr/soft/spark-2.1.0-bin-hadoop2.6/README.md&quot;)</span><br><span class="line">val file=sc.textFile(&quot;/usr/soft/spark-2.1.0-bin-hadoop2.6/README.md&quot;)</span><br><span class="line">val file=sc.textFile(&quot;hdsf://master:9000/testdata/README.md&quot;)</span><br><span class="line"></span><br><span class="line">//val rdd = file.flatMap(line =&gt; line.split(&quot; &quot;)).map(word =&gt; (word,1)).reduceByKey(_+_)</span><br><span class="line"></span><br><span class="line">val words = file.flatMap(line =&gt; line.split(&quot; &quot;))</span><br><span class="line">val pairs = words.map(word =&gt; (words,1))</span><br><span class="line"></span><br><span class="line">//val wordcount = pairs.reduceByKey((v1,v2) =&gt; v1+v2)</span><br><span class="line">val wordcount = pairs.reduceByKey(_+_)</span><br><span class="line"></span><br><span class="line">wordcount.collect().foreach(println)</span><br><span class="line"></span><br><span class="line">val rddTotal = rdd.collect()</span><br><span class="line">rddTotal.foreach(println)</span><br></pre></td></tr></table></figure>
+<p>wordcount升级版，增加排序<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">val file=sc.textFile(&quot;hdfs://master:9000/testdata/LICENSE&quot;)</span><br><span class="line">val rdd = file.flatMap(line=&gt;line.split(&quot; &quot;)).map(word =&gt; (word,1)).reduceByKey(_+_).map(tp=&gt;(tp._2,tp._1)).sortByKey(false).map(item=&gt;(item._2,item._1)).collect</span><br><span class="line">rdd.foreach(println)</span><br></pre></td></tr></table></figure></p>
 
       
 
@@ -236,11 +191,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Hadoop</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">集群</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">集群</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
         		</li>
       		
 		</ul>
@@ -261,7 +216,92 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/16/bigdata-evn-hadoop/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/08/16/bigdata-evn-spark/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-struct-01" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/16/struct-01/">数据结构学习路线图</a>
+    </h1>
+  
+
+        
+        <a href="/2018/08/16/struct-01/" class="archive-article-date">
+  	<time datetime="2018-08-16T09:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="线路图"><a href="#线路图" class="headerlink" title="线路图"></a>线路图</h1><p><img src="/assets/img/stuct-01.jpg" alt="操作流程"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据结构</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/数据结构与算法//" class="article-tag-list-link color3">数据结构与算法</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/08/16/struct-01/">展开全文 >></a>
         </p>
       
 
