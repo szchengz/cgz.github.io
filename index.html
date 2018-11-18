@@ -141,7 +141,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/11/18/tools-hexo-01/">hexo笔记</a>
+      <a class="article-title" href="/2018/11/18/tools-hexo-01/">hexo安装使用笔记</a>
     </h1>
   
 
@@ -161,6 +161,45 @@
 </ul>
 <h2 id="1-安装hexo"><a href="#1-安装hexo" class="headerlink" title="1.安装hexo"></a>1.安装hexo</h2><p>(使用nodejs安装hexo)</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ cd d:/hexo</span><br><span class="line">$ npm install hexo-cli -g</span><br><span class="line">$ hexo init blog</span><br><span class="line">$ cd blog</span><br><span class="line">$ npm install</span><br><span class="line">$ hexo g # 或者hexo generate</span><br><span class="line">$ hexo s # 或者hexo server，可以在http://localhost:4000/ 查看</span><br></pre></td></tr></table></figure>
+<p>hexo常用命令</p>
+<p>创建一篇新文章</p>
+<blockquote>
+<p>hexo new [layout] <title></title></p>
+</blockquote>
+<p>布局（layout），默认为 post，可以通过修改 _config.yml 中的 default_layout 参数来指定默认布局<br>Hexo 有三种默认布局：post、page 和 draft，它们分别对应不同的路径，而您自定义的其他布局和 post 相同，都将储存到 source/_posts 文件夹。</p>
+<ul>
+<li><p>创建一文章</p>
+<blockquote>
+<p>hexo new helloworld<br>或<br>hexo new post helloworld</p>
+</blockquote>
+</li>
+<li><p>创建一草稿</p>
+<blockquote>
+<p>hexo new draft helloworld</p>
+</blockquote>
+</li>
+<li><p>发表草稿<br>将草稿文件目录_draft移动到文章目录_posts</p>
+<blockquote>
+<p>hexo publish helloworld</p>
+</blockquote>
+</li>
+<li><p>将MD格式生成静态文件</p>
+<blockquote>
+<p>hexo generate<br>可以简写为<br>hexo g</p>
+</blockquote>
+</li>
+<li><p>启动服务器</p>
+<blockquote>
+<p>hexo deploy<br>可以简写为<br>hexo d</p>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li>部署到服务器<blockquote>
+<p>hexo server</p>
+</blockquote>
+</li>
+</ul>
 <p> 附:hexo常用命令 <a href="https://blog.csdn.net/qq_26975307/article/details/62447489" target="_blank" rel="noopener">点这里链接</a></p>
 <h2 id="2-安装配置git"><a href="#2-安装配置git" class="headerlink" title="2.安装配置git"></a>2.安装配置git</h2><p>下载git 我使用的版本是：Git-2.7.1.2-64-bit<br> 配置<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">git config --global user.name &quot;youname&quot;</span><br><span class="line">git config --global user.email &quot;youname@xxx.com&quot;</span><br><span class="line"></span><br><span class="line">git config --global core.quotepath false   # 显示 status 编码</span><br><span class="line">git config --global gui.encoding utf-8   # 图形界面编码</span><br><span class="line">git config --global i18n.commit.encoding utf-8   # 提交信息编码</span><br><span class="line">git config --global i18n.logoutputencoding utf-8 # 输出 log 编码</span><br><span class="line">export LESSCHARSET=utf-8</span><br><span class="line"></span><br><span class="line"># 查看你的git配置</span><br><span class="line">git config --list</span><br></pre></td></tr></table></figure></p>
 <p>生成秘钥<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;youname@xxxx.com&quot;</span><br></pre></td></tr></table></figure></p>
@@ -195,6 +234,17 @@
 	</div>
 
       
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/工具//" class="article-tag-list-link color3">工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
 
       
         <p class="article-more-link">
@@ -1332,11 +1382,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
              
               <li class="article-tag-list-item">
