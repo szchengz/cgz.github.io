@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://szchengz.github.io">
-  <title>Tag: 集群 | 陈国中的博客空间</title>
+  <title>CentOS6.8安装SSH | 陈国中的博客空间</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="陈国中的博客空间">
-<meta property="og:url" content="https://szchengz.github.io/tags/集群/index.html">
+  <meta name="description" content="CentOS6.8安装SSH">
+<meta name="keywords" content="hexo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS6.8安装SSH">
+<meta property="og:url" content="https://szchengz.github.io/2018/08/16/os-centos6-ssh/index.html">
 <meta property="og:site_name" content="陈国中的博客空间">
+<meta property="og:description" content="CentOS6.8安装SSH">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-11-25T09:22:48.217Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="陈国中的博客空间">
+<meta name="twitter:title" content="CentOS6.8安装SSH">
+<meta name="twitter:description" content="CentOS6.8安装SSH">
   
     <link rel="alternative" href="/atom.xml" title="陈国中的博客空间" type="application/atom+xml">
   
@@ -132,287 +137,150 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-os-centos6-ssh" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      CentOS6.8安装SSH
+    </h1>
+  
+
+        
+        <a href="/2018/08/16/os-centos6-ssh/" class="archive-article-date">
+  	<time datetime="2018-08-16T09:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-16</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-1-网络配置"><a href="#1-1-网络配置" class="headerlink" title="1.1 网络配置"></a>1.1 网络配置</h2><p>设置机器名称(分别修改为o1,o2,o3)</p>
+<blockquote>
+<p>sudo vim /etc/sysconfig/network</p>
+</blockquote>
+<p>设置host</p>
+<blockquote>
+<p>sudo vim /etc/hosts</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">192.168.126.134 o1</span><br><span class="line">192.168.126.135 o2</span><br><span class="line">192.168.126.136 o3</span><br></pre></td></tr></table></figure>
+<h2 id="hadoop用户SSH免密登录"><a href="#hadoop用户SSH免密登录" class="headerlink" title="hadoop用户SSH免密登录"></a>hadoop用户SSH免密登录</h2><p>在三台机器上生成密钥</p>
+<blockquote>
+<p>ssh-keygen -t dsa -P ‘’ -f ~/.ssh/id_dsa</p>
+</blockquote>
+<blockquote>
+<p>ssh-keygen -t dsa -P ‘’ -f /root/.ssh/id_dsa</p>
+</blockquote>
+<p>拷贝两台机器的公钥到第一台</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scp ~/.ssh/id_dsa.pub hadoop@o1:/home/hadoop/.ssh/id_dsa.pub.o2</span><br><span class="line">scp ~/.ssh/id_dsa.pub hadoop@o1:/home/hadoop/.ssh/id_dsa.pub.o3</span><br></pre></td></tr></table></figure>
+<p>将3台机器的公钥合在一起<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cat ~/.ssh/id_dsa.pub &gt;&gt; ~/.ssh/authorized_keys</span><br><span class="line">cat ~/.ssh/id_dsa.pub.o2 &gt;&gt; ~/.ssh/authorized_keys</span><br><span class="line">cat ~/.ssh/id_dsa.pub.o3 &gt;&gt; ~/.ssh/authorized_keys</span><br></pre></td></tr></table></figure></p>
+<p>将公钥信息拷贝到其他两台机器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">scp /home/hadoop/.ssh/authorized_keys hadoop@o2:/home/hadoop/.ssh/authorized_keys</span><br><span class="line">scp /home/hadoop/.ssh/authorized_keys hadoop@o3:/home/hadoop/.ssh/authorized_keys</span><br><span class="line"></span><br><span class="line">chmod 600 /home/hadoop/.ssh/authorized_keys</span><br><span class="line"></span><br><span class="line">chown hadoop:hadoop /home/hadoop/.ssh/authorized_keys</span><br></pre></td></tr></table></figure></p>
+<p>查看ssh的配置文件</p>
+<blockquote>
+<p>sudo vim /etc/ssh/sshd_config</p>
+</blockquote>
+<p>要确保下面这三个项目前面没有#<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">RSAAuthentication yes</span><br><span class="line">PubkeyAuthentication yes</span><br><span class="line">AuthorizedKeysFile %h/.ssh/authorized_keys</span><br><span class="line"></span><br><span class="line">#为了安全性，可以修改SSH端口</span><br><span class="line">Port 222</span><br><span class="line"></span><br><span class="line">#禁用root账户登录，非必要，但为了安全性，请配置</span><br><span class="line">PermitRootLogin no</span><br><span class="line"></span><br><span class="line">#有了证书登录了，就禁用密码登录吧，安全要紧</span><br><span class="line">PasswordAuthentication no</span><br></pre></td></tr></table></figure></p>
+<p>重启一下ssh服务，这样ssh配置才能生效：<br>sudo /sbin/service sshd restart</p>
+<p>遇到坑1：配置ssh免密码登录后，仍提示输入密码<br>解决方法：</p>
+<p>首先我们就要去查看系统的日志文件</p>
+<blockquote>
+<p>tail /var/log/secure -n 20</p>
+</blockquote>
+<p>发现问题的所在：Authentication refused: bad ownership or modes for file<br>从字面上可以看出是目录的属主和权限配置不当，查找资料得知：SSH不希望home目录和~/.ssh目录对组有写权限，通过下面几条命令改下</p>
+<blockquote>
+<p>chmod g-w /home/hadoop<br>chmod 700 /home/hadoop/.ssh<br>chmod 600 /home/hadoop/.ssh/authorized_keys</p>
+</blockquote>
+<p>然后我们再去登录，就能不用密码进入了。<br>有木有很高兴呀！</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/08/16/bigdata-evn-hadoop/" class="archive-article-date">
-  	<time datetime="2018-08-16T09:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/08/16/bigdata-evn-hadoop/">Hadoop环境集群环境配置</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Hadoop</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">集群</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
+        			<a href="/categories/操作系统//" class="article-tag-list-link color5">操作系统</a>
         		</li>
       		
 		</ul>
 	</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/08/16/bigdata-evn-kafka/" class="archive-article-date">
-  	<time datetime="2018-08-16T09:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-16</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2018/08/16/bigdata-evn-hadoop/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Hadoop环境集群环境配置
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/08/16/python-evn-centos01/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Centos升级python版本</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/08/16/bigdata-evn-kafka/">配置Kafka集群</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">集群</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Kafka</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
-        		</li>
-      		
-		</ul>
-	</div>
+        
+        
+    </div>
+</aside>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/08/16/bigdata-evn-spark/" class="archive-article-date">
-  	<time datetime="2018-08-16T09:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/08/16/bigdata-evn-spark/">Spark环境集群环境配置</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">集群</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/08/16/bigdata-evn-zk/" class="archive-article-date">
-  	<time datetime="2018-08-16T09:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/08/16/bigdata-evn-zk/">zookeeper集群配置</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">集群</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">zookeeper</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/08/16/bigdata-evn-hive/" class="archive-article-date">
-  	<time datetime="2018-08-16T09:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/08/16/bigdata-evn-hive/">Hive集群环境配置</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">集群</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Hive</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
   
-    </div></section>
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -435,9 +303,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
