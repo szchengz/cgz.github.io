@@ -1,10 +1,12 @@
 ---
-  title: 将hexo博客备份至GitHub的操作过程
-  date: 2018-08-16 17:20:00
-  categories: 工具
-  tags: [hexo]
-  description: 将hexo博客备份至GitHub的操作过程
+title: 将hexo博客备份至GitHub的操作过程
+categories: 工具
+tags:
+  - hexo
+description: 将hexo博客备份至GitHub的操作过程
+date: 2018-08-16 17:20:00
 ---
+
 
 
 ## 0.前言
@@ -12,7 +14,15 @@
 之前在github已经搭建了hexo的博客，但是只能在家里的电脑上操作，后来换了一台电脑就想能不能弄成多台电脑都可以操作。比如在公司在家都可以用。所以就研究了一下如何弄了。
 
 ## 1.操作流程
+```mermaid
+graph TD
 
+A[从Github下载工程master] -->B(本地建git分支hexo)
+B --> C{分支}
+C -->|master分支| D[存放生成的html]
+C -->|hexo分支| E[存放源文件]
+
+```
 
 ## 2.操作步骤
 
@@ -28,8 +38,7 @@
 scaffolds/
 source/
 themes/
-.git/   （没有这个文件）
-.gitignore
+.gitignore  （这个文件配置哪些文件不上传到github）
 _config.yml
 package.json
 ```
@@ -94,5 +103,6 @@ hexo clean
 npm ls --depth 0
 
 $ git remote update  --更新远程仓储
-# 下载远程仓库的所有变动
+
+下载远程仓库的所有变动
 $ git fetch [remote]
