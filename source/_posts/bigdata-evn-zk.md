@@ -14,6 +14,11 @@ export ZOOKEEPER_HOME=/usr/soft/zookeeper-3.4.9
 export PATH=$PATH:${ZOOKEEPER_HOME}/bin:
 ```
 
+-
+创建符号链接
+> ln -s zookeeper-3.4.13 zookeeper
+
+
 # 2.配置zoo.cfg
 
 > cp conf/zoo_sample.cfg conf/zoo.cfg
@@ -42,13 +47,13 @@ server.2=node2:2888:3888
 # 4.启动
 
 在所有机器上启动zookeeper
-> /usr/soft/zookeeper-3.4.9/bin/zkServer.sh start
+> /opt/soft/zookeeper/bin/zkServer.sh start
 
 查询状态
-> /usr/soft/zookeeper-3.4.9/bin/zkServer.sh status
+> /opt/soft/zookeeper/bin/zkServer.sh status
 
 停止
-> /usr/soft/zookeeper-3.4.9/bin/zkServer.sh stop
+> /opt/soft/zookeeper/bin/zkServer.sh stop
 
 jps
 多了一个进程   QuorumPeerMain
