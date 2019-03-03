@@ -26,10 +26,10 @@ tags:
 > Retrying of failed jobs(失败作业的重试)
 
 - Azkaban三种部署模式
-solo-server模式
+solo-server模式 单机模式
 > DB使用的是一个内嵌的H2，Web Server和Executor Server运行在同一个进程里。这种模式包含Azkaban的所有特性，但一般用来学习和测试。
 
-two-server模式
+two-server模式 集群模式
 > DB使用的是MySQL，MySQL支持master-slave架构，Web Server和Executor Server运行在不同的进程中。
 
 multiple-executor模式
@@ -46,3 +46,22 @@ multiple-executor模式
 > tar -zxvf azkaban-3.42.0.tar.gz
 
 > ./gradlew build installDist -x test #Gradle是一个基于Apache Ant和Apache Maven的项目自动化构建工具。-x test 跳过测试
+
+
+
+
+
+
+
+
+# 异常情况
+
+- Could not find Linker 'g++' in system path
+解决方法：
+sudo yum install g++
+sudo yum install -y gcc-c++*
+
+
+还出现了以下的异常，照着他的方法解决了。
+
+https://yq.aliyun.com/articles/648399
