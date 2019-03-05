@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="hexo的安装摘要，使用笔记">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-05T05:41:33.840Z">
+<meta property="og:updated_time" content="2019-03-05T03:35:57.832Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hexo安装使用笔记">
 <meta name="twitter:description" content="hexo的安装摘要，使用笔记">
@@ -158,6 +158,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h1 id="0-目录"><a href="#0-目录" class="headerlink" title="0.目录"></a>0.目录</h1><ul>
+<li>安装Nodejs</li>
 <li>安装hexo</li>
 <li>安装配置git</li>
 <li>github设置</li>
@@ -207,7 +208,8 @@
 <h2 id="2-安装配置git"><a href="#2-安装配置git" class="headerlink" title="2.安装配置git"></a>2.安装配置git</h2><p>下载git 我使用的版本是：Git-2.7.1.2-64-bit<br> 配置<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">git config --global user.name &quot;youname&quot;</span><br><span class="line">git config --global user.email &quot;youname@xxx.com&quot;</span><br><span class="line"></span><br><span class="line">git config --global core.quotepath false   # 显示 status 编码</span><br><span class="line">git config --global gui.encoding utf-8   # 图形界面编码</span><br><span class="line">git config --global i18n.commit.encoding utf-8   # 提交信息编码</span><br><span class="line">git config --global i18n.logoutputencoding utf-8 # 输出 log 编码</span><br><span class="line">export LESSCHARSET=utf-8</span><br><span class="line"></span><br><span class="line"># 查看你的git配置</span><br><span class="line">git config --list</span><br></pre></td></tr></table></figure></p>
 <p>生成秘钥<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;youname@xxxx.com&quot;</span><br></pre></td></tr></table></figure></p>
 <p>我本地成的位置在：C:\Users\ThinkPad.ssh</p>
-<h1 id="3-github设置"><a href="#3-github设置" class="headerlink" title="3.github设置"></a>3.github设置</h1><h3 id="repositories设置"><a href="#repositories设置" class="headerlink" title="repositories设置"></a>repositories设置</h3><p>必须是与用户名一致的repositories</p>
+<h1 id="3-github设置"><a href="#3-github设置" class="headerlink" title="3.github设置"></a>3.github设置</h1><p>（登录到GitHub）</p>
+<h3 id="repositories设置"><a href="#repositories设置" class="headerlink" title="repositories设置"></a>repositories设置</h3><p>必须是与用户名一致的repositories</p>
 <h3 id="SSH设置"><a href="#SSH设置" class="headerlink" title="SSH设置"></a>SSH设置</h3><p>settings -&gt; ssh and Gpd keys<br>增加本地生成的公钥<br>（如果需要多台电脑编辑，需要在多台电脑上生成公钥必在这添加）</p>
 
       
@@ -260,18 +262,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2018/12/09/mysql-01/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/11/18/tools-gradle-01/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          MySql笔记
+          gradle
         
       </div>
     </a>
   
   
-    <a href="/2018/10/11/bigdata-ignite-01/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">ignite学习笔记</div>
+    <a href="/2018/10/11/bigdata-ignite-02/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">ignite学习笔记02</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -401,15 +403,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ignite</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">go</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+                <a href="javascript:void(0)" class="js-tag color3">笔记</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -421,23 +419,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">笔记</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Hadoop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">集群</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">centos6.5</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -445,7 +431,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hive</a>
+                <a href="javascript:void(0)" class="js-tag color3">集群</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Hadoop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ignite</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -453,11 +447,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Hive</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+                <a href="javascript:void(0)" class="js-tag color5">hive</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">centos6.5</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -473,7 +475,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">MySql</a>
+                <a href="javascript:void(0)" class="js-tag color3">HDFS问题集</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -481,11 +483,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">HDFS问题集</a>
+                <a href="javascript:void(0)" class="js-tag color3">MySql笔记-错误编号和SQLSTATE码</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">MySql笔记-错误编号和SQLSTATE码</a>
+                <a href="javascript:void(0)" class="js-tag color1">MySql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">沟通</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -497,7 +503,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">沟通</a>
+                <a href="javascript:void(0)" class="js-tag color2">github</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">yilia</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -506,22 +516,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">azkaban</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Gradle</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">github</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">yilia</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -537,11 +531,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">存储过程</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">SQL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Gradle</a>
               </li>
             
             <div class="clearfix"></div>

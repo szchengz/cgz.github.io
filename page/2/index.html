@@ -134,19 +134,19 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-bigdata-hive-06" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+    <article id="post-bigdata-hive-join" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/12/18/bigdata-hive-06/">Hive笔记-Ntile使用</a>
+      <a class="article-title" href="/2018/12/18/bigdata-hive-join/">Hive的Join操作</a>
     </h1>
   
 
         
-        <a href="/2018/12/18/bigdata-hive-06/" class="archive-article-date">
+        <a href="/2018/12/18/bigdata-hive-join/" class="archive-article-date">
   	<time datetime="2018-12-18T03:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-18</time>
 </a>
         
@@ -154,16 +154,242 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="0-概述"><a href="#0-概述" class="headerlink" title="0.概述"></a>0.概述</h1><p>可以看成是：它把有序的数据集合平均分配到指定的数量（num）个桶中, 将桶号分配给每一行。如果不能平均分配，则优先分配较小编号的桶，并且各个桶中能放的行数最多相差1。<br>语法是：ntile (num)  over ([partition_clause]  order_by_clause)  as your_bucket_num<br>然后可以根据桶号，选取前或后 n分之几的数据。<br>数据会完整展示出来，只是给相应的数据打标签；具体要取几分之几的数据，需要再嵌套一层根据标签取出。</p>
-<h1 id="1-案例说明"><a href="#1-案例说明" class="headerlink" title="1.案例说明"></a>1.案例说明</h1><h2 id="1-1-准备数据"><a href="#1-1-准备数据" class="headerlink" title="1.1 准备数据"></a>1.1 准备数据</h2><p>id 用户ID<br>name 消费类型名称<br>sal 消费金额<br>+————+————–+————-+<br>| salary.id  | salary.name  | salary.sal  |<br>+————+————–+————-+<br>| 1          | a            | 10          |<br>| 2          | a            | 12          |<br>| 3          | b            | 13          |<br>| 4          | b            | 12          |<br>| 5          | a            | 14          |<br>| 6          | a            | 15          |<br>| 7          | a            | 13          |<br>| 8          | b            | 11          |<br>| 9          | a            | 16          |<br>| 10         | b            | 17          |<br>| 11         | a            | 14          |<br>+————+————–+————-+</p>
+        <h2 id="0-构造数据"><a href="#0-构造数据" class="headerlink" title="0.构造数据"></a>0.构造数据</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> a(<span class="keyword">id</span> <span class="built_in">int</span>, <span class="keyword">name</span> <span class="keyword">string</span>)</span><br><span class="line">  <span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">','</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> b(<span class="keyword">id</span> <span class="built_in">int</span>, <span class="keyword">name</span> <span class="keyword">string</span>)</span><br><span class="line">  <span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">','</span>;</span><br></pre></td></tr></table></figure>
+<p>导入数据<br>load data local inpath ‘/home/hadoop/a.txt’ overwrite into table a;<br>load data local inpath ‘/home/hadoop/b.txt’ overwrite into table b;</p>
+<p>a.txt<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1,a</span><br><span class="line">2,b</span><br><span class="line">3,c</span><br><span class="line">4,d</span><br></pre></td></tr></table></figure></p>
+<p>b.txt<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">2,bb</span><br><span class="line">3,cc</span><br><span class="line">4,dd</span><br><span class="line">5,ee</span><br><span class="line">6,ff</span><br></pre></td></tr></table></figure></p>
+<h2 id="1-inner-join"><a href="#1-inner-join" class="headerlink" title="1.inner join"></a>1.inner join</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> a <span class="keyword">inner</span> <span class="keyword">join</span> b <span class="keyword">on</span> a.id=b.id;</span><br></pre></td></tr></table></figure>
+<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+-------+---------+</span><br><span class="line">| a.id  | a.name  |</span><br><span class="line">+-------+---------+</span><br><span class="line">| 2     | b       |</span><br><span class="line">| 3     | c       |</span><br><span class="line">| 4     | d       |</span><br><span class="line">+-------+---------+</span><br></pre></td></tr></table></figure></p>
+<h2 id="2-left-join"><a href="#2-left-join" class="headerlink" title="2.left join"></a>2.left join</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> a <span class="keyword">left</span> <span class="keyword">join</span> b <span class="keyword">on</span> a.id=b.id;</span><br></pre></td></tr></table></figure>
+<p>输出结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">+-------+---------+-------+---------+</span><br><span class="line">| a.id  | a.name  | b.id  | b.name  |</span><br><span class="line">+-------+---------+-------+---------+</span><br><span class="line">| 1     | a       | NULL  | NULL    |</span><br><span class="line">| 2     | b       | 2     | bb      |</span><br><span class="line">| 3     | c       | 3     | cc      |</span><br><span class="line">| 4     | d       | 4     | dd      |</span><br><span class="line">+-------+---------+-------+---------+</span><br></pre></td></tr></table></figure></p>
+<h2 id="3-right-join"><a href="#3-right-join" class="headerlink" title="3.right join"></a>3.right join</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> a <span class="keyword">right</span> <span class="keyword">join</span> b <span class="keyword">on</span> a.id=b.id;</span><br></pre></td></tr></table></figure>
+<p>输出结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">+-------+---------+-------+---------+</span><br><span class="line">| a.id  | a.name  | b.id  | b.name  |</span><br><span class="line">+-------+---------+-------+---------+</span><br><span class="line">| 2     | b       | 2     | bb      |</span><br><span class="line">| 3     | c       | 3     | cc      |</span><br><span class="line">| 4     | d       | 4     | dd      |</span><br><span class="line">| NULL  | NULL    | 5     | ee      |</span><br><span class="line">| NULL  | NULL    | 6     | ff      |</span><br><span class="line">+-------+---------+-------+---------+</span><br></pre></td></tr></table></figure></p>
+<h2 id="3-full-outer-join"><a href="#3-full-outer-join" class="headerlink" title="3.full outer join"></a>3.full outer join</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> a <span class="keyword">full</span> <span class="keyword">outer</span> <span class="keyword">join</span> b <span class="keyword">on</span> a.id=b.id;</span><br></pre></td></tr></table></figure>
+<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">+-------+---------+-------+---------+</span><br><span class="line">| a.id  | a.name  | b.id  | b.name  |</span><br><span class="line">+-------+---------+-------+---------+</span><br><span class="line">| 1     | a       | NULL  | NULL    |</span><br><span class="line">| 2     | b       | 2     | bb      |</span><br><span class="line">| 3     | c       | 3     | cc      |</span><br><span class="line">| 4     | d       | 4     | dd      |</span><br><span class="line">| NULL  | NULL    | 5     | ee      |</span><br><span class="line">| NULL  | NULL    | 6     | ff      |</span><br><span class="line">+-------+---------+-------+---------+</span><br></pre></td></tr></table></figure></p>
+<h2 id="4-left-semi-join"><a href="#4-left-semi-join" class="headerlink" title="4.left semi join"></a>4.left semi join</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> a <span class="keyword">left</span> semi <span class="keyword">join</span> b <span class="keyword">on</span> a.id=b.id;</span><br></pre></td></tr></table></figure>
+<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+-------+---------+</span><br><span class="line">| a.id  | a.name  |</span><br><span class="line">+-------+---------+</span><br><span class="line">| 2     | b       |</span><br><span class="line">| 3     | c       |</span><br><span class="line">| 4     | d       |</span><br><span class="line">+-------+---------+</span><br></pre></td></tr></table></figure></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Hive</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/12/18/bigdata-hive-join/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-bigdata-hive-04" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/12/18/bigdata-hive-04/">Hive笔记-hive中的窗口函数</a>
+    </h1>
+  
+
+        
+        <a href="/2018/12/18/bigdata-hive-04/" class="archive-article-date">
+  	<time datetime="2018-12-18T03:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="row-number-over-partition-by-xx-的使用"><a href="#row-number-over-partition-by-xx-的使用" class="headerlink" title="row_number()over(partition by xx)的使用"></a>row_number()over(partition by xx)的使用</h2><p>vim student.txt<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1,1,88</span><br><span class="line">2,1,66</span><br><span class="line">3,1,75</span><br><span class="line">4,2,30</span><br><span class="line">5,2,70</span><br><span class="line">6,2,80</span><br><span class="line">7,2,60</span><br><span class="line">8,3,90</span><br><span class="line">9,3,70</span><br><span class="line">10,3,80</span><br><span class="line">11,3,80</span><br></pre></td></tr></table></figure></p>
+<p>学生成绩表<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">table</span> <span class="keyword">if</span> <span class="keyword">exists</span> student;</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> student(<span class="keyword">id</span> <span class="built_in">int</span>, grade <span class="built_in">int</span>, score <span class="built_in">int</span>)</span><br><span class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">','</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 导入数据</span></span><br><span class="line"><span class="keyword">load</span> <span class="keyword">data</span> <span class="keyword">local</span> inpath <span class="string">'/home/hadoop/student.txt'</span> <span class="keyword">into</span> <span class="keyword">table</span> student;</span><br></pre></td></tr></table></figure></p>
+<p>##</p>
 <ul>
-<li>找出消费前50%的记录</li>
+<li>1.不分班按学生成绩排名<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> *,row_number() <span class="keyword">over</span>(<span class="keyword">order</span> <span class="keyword">by</span> Score <span class="keyword">desc</span>) <span class="keyword">as</span> <span class="keyword">Sequence</span> <span class="keyword">from</span> student;</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
-<p>根据sal这个字段排序，将记录分成2个桶，第一个桶的记录即是前50%</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span>  <span class="keyword">id</span>, <span class="keyword">name</span>, sal</span><br><span class="line">,ntile(<span class="number">2</span>) <span class="keyword">over</span> (<span class="keyword">order</span> <span class="keyword">by</span> sal <span class="keyword">desc</span>) <span class="keyword">as</span> <span class="keyword">num</span></span><br><span class="line"><span class="keyword">from</span> salary;</span><br></pre></td></tr></table></figure>
-<p>输出记录<br>+—–+——-+——+—-+<br>| id  | name  | sal  | num  |<br>+—–+——-+——+—-+<br>| 10  | b     | 17   | 1  |<br>| 9   | a     | 16   | 1  |<br>| 6   | a     | 15   | 1  |<br>| 11  | a     | 14   | 1  |<br>| 5   | a     | 14   | 1  |<br>| 7   | a     | 13   | 1  |<br>| 3   | b     | 13   | 2  |<br>| 4   | b     | 12   | 2  |<br>| 2   | a     | 12   | 2  |<br>| 8   | b     | 11   | 2  |<br>| 1   | a     | 10   | 2  |<br>+—–+——-+——+—-+<br>由上记录可看num=1的记录即是前50%的记录，要前50%的即加一个字查询把num=1的记录选出来即可。<br>(不过这样的做法如果刚好有中间的记录是一样的，会分中间的记录，比如上面sal=13的记录。第一条分到了第一个桶，第二条分到了第2个桶)<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span></span><br><span class="line">(</span><br><span class="line">  <span class="keyword">select</span>  <span class="keyword">id</span>, <span class="keyword">name</span>, sal</span><br><span class="line">  ,ntile(<span class="number">2</span>) <span class="keyword">over</span> (<span class="keyword">order</span> <span class="keyword">by</span> sal <span class="keyword">desc</span>) <span class="keyword">as</span> <span class="keyword">num</span></span><br><span class="line">  <span class="keyword">from</span> salary</span><br><span class="line">) <span class="keyword">as</span> a <span class="keyword">where</span> a.num=<span class="number">1</span>;</span><br></pre></td></tr></table></figure></p>
+<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">+-------------+----------------+----------------+-----------+</span><br><span class="line">| student.id  | student.grade  | student.score  | sequence  |</span><br><span class="line">+-------------+----------------+----------------+-----------+</span><br><span class="line">| 8           | 3              | 90             | 1         |</span><br><span class="line">| 1           | 1              | 88             | 2         |</span><br><span class="line">| 11          | 3              | 80             | 3         |</span><br><span class="line">| 10          | 3              | 80             | 4         |</span><br><span class="line">| 6           | 2              | 80             | 5         |</span><br><span class="line">| 3           | 1              | 75             | 6         |</span><br><span class="line">| 9           | 3              | 70             | 7         |</span><br><span class="line">| 5           | 2              | 70             | 8         |</span><br><span class="line">| 2           | 1              | 66             | 9         |</span><br><span class="line">| 7           | 2              | 60             | 10        |</span><br><span class="line">| 4           | 2              | 30             | 11        |</span><br><span class="line">+-------------+----------------+----------------+-----------+</span><br></pre></td></tr></table></figure></p>
 <ul>
-<li>根据类型找出消费前50%的记录<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span></span><br><span class="line">(</span><br><span class="line">  <span class="keyword">select</span>  <span class="keyword">id</span>, <span class="keyword">name</span>, sal</span><br><span class="line">  ,ntile(<span class="number">2</span>) <span class="keyword">over</span> (<span class="keyword">partition</span> <span class="keyword">by</span> <span class="keyword">name</span> <span class="keyword">order</span> <span class="keyword">by</span> sal <span class="keyword">desc</span>) <span class="keyword">as</span> <span class="keyword">num</span></span><br><span class="line">  <span class="keyword">from</span> salary</span><br><span class="line">) <span class="keyword">as</span> a <span class="keyword">where</span> a.num=<span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<li>2.分班后按学生成绩排名</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> *,row_number() <span class="keyword">over</span>(<span class="keyword">PARTITION</span> <span class="keyword">BY</span> grade <span class="keyword">ORDER</span> <span class="keyword">BY</span> score <span class="keyword">desc</span>) <span class="keyword">as</span> <span class="keyword">sequence</span> <span class="keyword">from</span> Student;</span><br></pre></td></tr></table></figure>
+<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">+-------------+----------------+----------------+-----------+</span><br><span class="line">| student.id  | student.grade  | student.score  | sequence  |</span><br><span class="line">+-------------+----------------+----------------+-----------+</span><br><span class="line">| 1           | 1              | 88             | 1         |</span><br><span class="line">| 3           | 1              | 75             | 2         |</span><br><span class="line">| 2           | 1              | 66             | 3         |</span><br><span class="line">| 6           | 2              | 80             | 1         |</span><br><span class="line">| 5           | 2              | 70             | 2         |</span><br><span class="line">| 7           | 2              | 60             | 3         |</span><br><span class="line">| 4           | 2              | 30             | 4         |</span><br><span class="line">| 8           | 3              | 90             | 1         |</span><br><span class="line">| 11          | 3              | 80             | 2         |</span><br><span class="line">| 10          | 3              | 80             | 3         |</span><br><span class="line">| 9           | 3              | 70             | 4         |</span><br><span class="line">+-------------+----------------+----------------+-----------+</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>3.获取每个班的前1(几)名<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span></span><br><span class="line">(</span><br><span class="line">  <span class="keyword">select</span> *,row_number() <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> Grade <span class="keyword">order</span> <span class="keyword">by</span> Score <span class="keyword">desc</span>) <span class="keyword">as</span> <span class="keyword">Sequence</span> <span class="keyword">from</span> Student</span><br><span class="line">)T <span class="keyword">where</span> T.Sequence&lt;=<span class="number">1</span></span><br><span class="line">;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+-------+----------+----------+-------------+</span><br><span class="line">| t.id  | t.grade  | t.score  | t.sequence  |</span><br><span class="line">+-------+----------+----------+-------------+</span><br><span class="line">| 1     | 1        | 88       | 1           |</span><br><span class="line">| 6     | 2        | 80       | 1           |</span><br><span class="line">| 8     | 3        | 90       | 1           |</span><br><span class="line">+-------+----------+----------+-------------+</span><br></pre></td></tr></table></figure></p>
+<h2 id="分区函数Partition-By与排序rank-的用法"><a href="#分区函数Partition-By与排序rank-的用法" class="headerlink" title="分区函数Partition By与排序rank()的用法"></a>分区函数Partition By与排序rank()的用法</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">select</span> *, <span class="keyword">rank</span>() <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> Grade <span class="keyword">order</span> <span class="keyword">by</span> Score <span class="keyword">desc</span>) <span class="keyword">as</span> <span class="keyword">Sequence</span> <span class="keyword">from</span> Student</span><br><span class="line">;</span><br></pre></td></tr></table></figure>
+<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">+-------------+----------------+----------------+-----------+</span><br><span class="line">| student.id  | student.grade  | student.score  | sequence  |</span><br><span class="line">+-------------+----------------+----------------+-----------+</span><br><span class="line">| 1           | 1              | 88             | 1         |</span><br><span class="line">| 3           | 1              | 75             | 2         |</span><br><span class="line">| 2           | 1              | 66             | 3         |</span><br><span class="line">| 6           | 2              | 80             | 1         |</span><br><span class="line">| 5           | 2              | 70             | 2         |</span><br><span class="line">| 7           | 2              | 60             | 3         |</span><br><span class="line">| 4           | 2              | 30             | 4         |</span><br><span class="line">| 8           | 3              | 90             | 1         |</span><br><span class="line">| 11          | 3              | 80             | 2         |</span><br><span class="line">| 10          | 3              | 80             | 2         |</span><br><span class="line">| 9           | 3              | 70             | 4         |</span><br><span class="line">+-------------+----------------+----------------+-----------+</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span></span><br><span class="line">(</span><br><span class="line">  <span class="keyword">select</span> *,<span class="keyword">rank</span>() <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> Grade <span class="keyword">order</span> <span class="keyword">by</span> Score <span class="keyword">desc</span>) <span class="keyword">as</span> <span class="keyword">Sequence</span> <span class="keyword">from</span> Student</span><br><span class="line">)T <span class="keyword">where</span> T.Sequence&lt;=<span class="number">2</span></span><br><span class="line">;</span><br></pre></td></tr></table></figure>
+<h1 id="hive中取top-n时常用方法row-number-rank-dense-rank"><a href="#hive中取top-n时常用方法row-number-rank-dense-rank" class="headerlink" title="hive中取top n时常用方法row_number,rank,dense_rank"></a>hive中取top n时常用方法row_number,rank,dense_rank</h1><p>vim /home/hadoop/salary.txt<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1,a,10</span><br><span class="line">2,a,12</span><br><span class="line">3,b,13</span><br><span class="line">4,b,12</span><br><span class="line">5,a,14</span><br><span class="line">6,a,15</span><br><span class="line">7,a,13</span><br><span class="line">8,b,11</span><br><span class="line">9,a,16</span><br><span class="line">10,b,17</span><br><span class="line">11,a,14</span><br></pre></td></tr></table></figure></p>
+<p>建表，导入数据<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> salary(<span class="keyword">id</span> <span class="built_in">int</span>, <span class="keyword">name</span> <span class="keyword">string</span>, sal <span class="built_in">int</span>)</span><br><span class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">','</span></span><br><span class="line">;</span><br><span class="line"><span class="comment">-- 加载数据</span></span><br><span class="line"><span class="keyword">load</span>  <span class="keyword">data</span> <span class="keyword">local</span> inpath <span class="string">'/home/hadoop/salary.txt'</span> <span class="keyword">into</span> <span class="keyword">table</span> salary;</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">id</span>,<span class="keyword">name</span>,sal,</span><br><span class="line"><span class="keyword">rank</span>()<span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> <span class="keyword">name</span> <span class="keyword">order</span> <span class="keyword">by</span> sal <span class="keyword">desc</span> ) <span class="keyword">rank</span>,</span><br><span class="line"><span class="keyword">dense_rank</span>() <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> <span class="keyword">name</span> <span class="keyword">order</span> <span class="keyword">by</span> sal <span class="keyword">desc</span> ) <span class="keyword">dense_rank</span>,</span><br><span class="line">row_number()<span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> <span class="keyword">name</span> <span class="keyword">order</span> <span class="keyword">by</span> sal <span class="keyword">desc</span>) row_number</span><br><span class="line"><span class="keyword">from</span> salary</span><br></pre></td></tr></table></figure></p>
+<p>输出数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">+-----+-------+------+-------+-------------+-------------+</span><br><span class="line">| id  | name  | sal  | rank  | dense_rank  | row_number  |</span><br><span class="line">+-----+-------+------+-------+-------------+-------------+</span><br><span class="line">| 9   | a     | 16   | 1     | 1           | 1           |</span><br><span class="line">| 6   | a     | 15   | 2     | 2           | 2           |</span><br><span class="line">| 11  | a     | 14   | 3     | 3           | 3           |</span><br><span class="line">| 5   | a     | 14   | 3     | 3           | 4           |</span><br><span class="line">| 7   | a     | 13   | 5     | 4           | 5           |</span><br><span class="line">| 2   | a     | 12   | 6     | 5           | 6           |</span><br><span class="line">| 1   | a     | 10   | 7     | 6           | 7           |</span><br><span class="line">| 10  | b     | 17   | 1     | 1           | 1           |</span><br><span class="line">| 3   | b     | 13   | 2     | 2           | 2           |</span><br><span class="line">| 4   | b     | 12   | 3     | 3           | 3           |</span><br><span class="line">| 8   | b     | 11   | 4     | 4           | 4           |</span><br><span class="line">+-----+-------+------+-------+-------------+-------------+</span><br></pre></td></tr></table></figure></p>
+<p>结论：</p>
+<blockquote>
+<p>rank() -排序相同时会重复，总数不会变  （有并列，并列的下一名空开）<br>dense_rank() -排序相同时会重复，总数会减少（有并列，并列的下一名不空开）<br>row_number() -会根据顺序计算  (没有并列)</p>
+</blockquote>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Hive</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/12/18/bigdata-hive-04/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-bigdata-hive-05" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/12/18/bigdata-hive-05/">Hive案例-添加新增数据到Hive表</a>
+    </h1>
+  
+
+        
+        <a href="/2018/12/18/bigdata-hive-05/" class="archive-article-date">
+  	<time datetime="2018-12-18T03:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="0-准备数据"><a href="#0-准备数据" class="headerlink" title="0.准备数据"></a>0.准备数据</h1><ul>
+<li><p>构造一个车辆识别的业务</p>
+</li>
+<li><p>字段说明<br>car_no 车牌<br>car_color 车辆颜色<br>score 识别度</p>
+</li>
+<li><p>建表语句</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 增量数据</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> t_kfk(<span class="keyword">id</span> <span class="keyword">string</span>, car_no <span class="keyword">string</span>, car_color <span class="keyword">string</span>, score <span class="built_in">DECIMAL</span>(<span class="number">10</span>,<span class="number">5</span>))</span><br><span class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">','</span></span><br><span class="line"><span class="keyword">stored</span> <span class="keyword">as</span> textfile;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 原数据</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> t_info(<span class="keyword">id</span> <span class="keyword">string</span>, car_no <span class="keyword">string</span>, car_color <span class="keyword">string</span>)</span><br><span class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">','</span></span><br><span class="line"><span class="keyword">stored</span> <span class="keyword">as</span> textfile;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>构造数据</p>
+</li>
+</ul>
+<p>vim /home/hadoop/t_kfk.txt<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1,a,红色,0.3</span><br><span class="line">2,a,蓝色,0.6</span><br><span class="line">3,a,白色,0.4</span><br><span class="line">4,b,灰色,0.5</span><br><span class="line">5,b,红色,0.8</span><br><span class="line">6,b,黄色,0.4</span><br><span class="line">7,c,蓝色,0.5</span><br><span class="line">8,c,黑色,0.4</span><br><span class="line">9,c,绿色,0.2</span><br></pre></td></tr></table></figure></p>
+<p>vim /home/hadoop/t_info.txt<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1,a,蓝色</span><br><span class="line">10,aa,军色</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>导入数据</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">load</span> <span class="keyword">data</span> <span class="keyword">local</span> inpath <span class="string">'/home/hadoop/t_kfk.txt'</span> overwrite <span class="keyword">into</span> <span class="keyword">table</span> t_kfk;</span><br><span class="line"><span class="keyword">load</span> <span class="keyword">data</span> <span class="keyword">local</span> inpath <span class="string">'/home/hadoop/t_info.txt'</span> overwrite <span class="keyword">into</span> <span class="keyword">table</span> t_info;</span><br></pre></td></tr></table></figure>
+<h1 id="1-ETL过程"><a href="#1-ETL过程" class="headerlink" title="1.ETL过程"></a>1.ETL过程</h1><ul>
+<li><p>1.1 新增的数据取出最高分的放入临时表tmp_kfk</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">table</span> <span class="keyword">if</span> <span class="keyword">exists</span> tmp_kfk;</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> tmp_kfk</span><br><span class="line"><span class="keyword">as</span></span><br><span class="line"><span class="keyword">select</span> t1.id,t1.car_no,t1.car_color <span class="keyword">from</span></span><br><span class="line">(</span><br><span class="line">  <span class="keyword">select</span> <span class="keyword">id</span>,car_no,car_color,score, row_number() <span class="keyword">over</span> (<span class="keyword">partition</span> <span class="keyword">by</span> car_no <span class="keyword">order</span> <span class="keyword">by</span> score <span class="keyword">desc</span> ) ind</span><br><span class="line">  <span class="keyword">from</span> t_kfk</span><br><span class="line">) <span class="keyword">as</span> t1 <span class="keyword">where</span> t1.ind=<span class="number">1</span></span><br><span class="line">;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>1.2 最高分的和旧数据合在一起<br>（新的数据与旧的数据一样用新的覆盖旧的）</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">table</span> <span class="keyword">if</span> <span class="keyword">exists</span> tmp_all;</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> tmp_all</span><br><span class="line"><span class="keyword">as</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> tmp_kfk  </span><br><span class="line"></span><br><span class="line"><span class="keyword">union</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 找出旧数据中不存在新的</span></span><br><span class="line"><span class="keyword">select</span> info.* <span class="keyword">from</span> t_info info</span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> tmp_kfk kfk <span class="keyword">on</span> kfk.car_no=info.car_no</span><br><span class="line"><span class="keyword">where</span> kfk.car_no <span class="keyword">is</span> <span class="literal">null</span></span><br><span class="line">;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>1.3 从临时表导入到正式表</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> overwrite <span class="keyword">table</span> t_info</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> tmp_all;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 
@@ -200,7 +426,92 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/12/18/bigdata-hive-06/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/12/18/bigdata-hive-05/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-bigdata-hive-02" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/12/18/bigdata-hive-02/">Hive中的默认分隔符及其表示</a>
+    </h1>
+  
+
+        
+        <a href="/2018/12/18/bigdata-hive-02/" class="archive-article-date">
+  	<time datetime="2018-12-18T03:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">\n    每行一条记录</span><br><span class="line">^A    分隔列（八进制 \001）</span><br><span class="line">^B    分隔ARRAY或者STRUCT中的元素，或者MAP中多个键值对之间分隔（八进制 \002）</span><br><span class="line">^C    分隔MAP中键值对的“键”和“值”（八进制 \003）</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Hive</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/12/18/bigdata-hive-02/">展开全文 >></a>
         </p>
       
 
@@ -516,84 +827,6 @@
 
 
   
-    <article id="post-hdfs-question-01" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/12/09/hdfs-question-01/">bigdata-cm-01</a>
-    </h1>
-  
-
-        
-        <a href="/2018/12/09/hdfs-question-01/" class="archive-article-date">
-  	<time datetime="2018-12-09T03:12:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="问题1：hadoop-出现-failed-to-create-file-because-current-leaseholder-is-trying-to-recreate-file"><a href="#问题1：hadoop-出现-failed-to-create-file-because-current-leaseholder-is-trying-to-recreate-file" class="headerlink" title="问题1：hadoop 出现 failed to create file because current leaseholder is trying to recreate file."></a>问题1：hadoop 出现 failed to create file because current leaseholder is trying to recreate file.</h2><p>以多线程的方式从Kafka读取消息后保存到HDFS时报以下错误。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">org.apache.hadoop.ipc.RemoteException(org.apache.hadoop.hdfs.protocol.AlreadyBeingCreatedException): failed to create file /bdp/data/external/t_park_in/data_key=20181228/hour_key=11/data0.txt for DFSClient_NONMAPREDUCE_815471739_12 for client 10.10.203.1 because current leaseholder is trying to recreate file.</span><br><span class="line">	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.recoverLeaseInternal(FSNamesystem.java:3294)</span><br><span class="line">	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.appendFileInternal(FSNamesystem.java:3124)</span><br><span class="line">	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.appendFileInt(FSNamesystem.java:3409)</span><br><span class="line">	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.appendFile(FSNamesystem.java:3373)</span><br><span class="line">	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.append(NameNodeRpcServer.java:629)</span><br><span class="line">	at org.apache.hadoop.hdfs.server.namenode.AuthorizationProviderProxyClientProtocol.append(AuthorizationProviderProxyClientProtocol.java:131)</span><br><span class="line">	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.append(ClientNamenodeProtocolServerSideTranslatorPB.java:434)</span><br><span class="line">	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)</span><br><span class="line">	at org.apache.hadoop.ipc.ProtobufRpcEngine$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine.java:617)</span><br><span class="line">	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1073)</span><br><span class="line">	at org.apache.hadoop.ipc.Server$Handler$1.run(Server.java:2281)</span><br><span class="line">	at org.apache.hadoop.ipc.Server$Handler$1.run(Server.java:2277)</span><br><span class="line">	at java.security.AccessController.doPrivileged(Native Method)</span><br><span class="line">	at javax.security.auth.Subject.doAs(Subject.java:422)</span><br><span class="line">	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1924)</span><br><span class="line">	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:2275)</span><br><span class="line"></span><br><span class="line">	at org.apache.hadoop.ipc.Client.call(Client.java:1504)</span><br><span class="line">	at org.apache.hadoop.ipc.Client.call(Client.java:1441)</span><br><span class="line">	at org.apache.hadoop.ipc.ProtobufRpcEngine$Invoker.invoke(ProtobufRpcEngine.java:230)</span><br><span class="line">	at com.sun.proxy.$Proxy11.append(Unknown Source)</span><br><span class="line">	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolTranslatorPB.append(ClientNamenodeProtocolTranslatorPB.java:331)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</span><br><span class="line">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</span><br><span class="line">	at java.lang.reflect.Method.invoke(Method.java:497)</span><br><span class="line">	at org.apache.hadoop.io.retry.RetryInvocationHandler.invokeMethod(RetryInvocationHandler.java:258)</span><br><span class="line">	at org.apache.hadoop.io.retry.RetryInvocationHandler.invoke(RetryInvocationHandler.java:104)</span><br><span class="line">	at com.sun.proxy.$Proxy12.append(Unknown Source)</span><br><span class="line">	at org.apache.hadoop.hdfs.DFSClient.callAppend(DFSClient.java:1909)</span><br><span class="line">	at org.apache.hadoop.hdfs.DFSClient.append(DFSClient.java:1951)</span><br><span class="line">	at org.apache.hadoop.hdfs.DFSClient.append(DFSClient.java:1944)</span><br><span class="line">	at org.apache.hadoop.hdfs.DistributedFileSystem$5.doCall(DistributedFileSystem.java:361)</span><br><span class="line">	at org.apache.hadoop.hdfs.DistributedFileSystem$5.doCall(DistributedFileSystem.java:357)</span><br><span class="line">	at org.apache.hadoop.fs.FileSystemLinkResolver.resolve(FileSystemLinkResolver.java:81)</span><br><span class="line">	at org.apache.hadoop.hdfs.DistributedFileSystem.append(DistributedFileSystem.java:357)</span><br><span class="line">	at org.apache.hadoop.fs.FileSystem.append(FileSystem.java:1181)</span><br><span class="line">	at cn.jieshun.bdp.analyse.util.HdfsFileUtil.appendFile(HdfsFileUtil.java:83)</span><br><span class="line">	at cn.jieshun.bdp.etl.kafka.ConsumerWorker.saveMessage(ConsumerWorker.java:155)</span><br><span class="line">	at cn.jieshun.bdp.etl.kafka.ConsumerWorker.run(ConsumerWorker.java:63)</span><br><span class="line">	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)</span><br><span class="line">	at java.util.concurrent.FutureTask.run(FutureTask.java:266)</span><br><span class="line">	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)</span><br><span class="line">	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)</span><br><span class="line">	at java.lang.Thread.run(Thread.java:745)</span><br></pre></td></tr></table></figure>
-<p>原因：是并发写导致的错误</p>
-<p>解决：以下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">synchronized (fs) &#123;</span><br><span class="line">                    try &#123;</span><br><span class="line">                        HdfsFileUtil.appendFile(fs, path1, sb.toString());</span><br><span class="line">                    &#125; catch (IOException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">//                &#125;</span><br></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">HDFS问题集</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/12/09/hdfs-question-01/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-mysql-01" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -676,19 +909,97 @@
 
 
   
-    <article id="post-tools-hexo-01" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+    <article id="post-hdfs-question-01" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/11/18/tools-hexo-01/">hexo安装使用笔记</a>
+      <a class="article-title" href="/2018/12/09/hdfs-question-01/">bigdata-cm-01</a>
     </h1>
   
 
         
-        <a href="/2018/11/18/tools-hexo-01/" class="archive-article-date">
+        <a href="/2018/12/09/hdfs-question-01/" class="archive-article-date">
+  	<time datetime="2018-12-09T03:12:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="问题1：hadoop-出现-failed-to-create-file-because-current-leaseholder-is-trying-to-recreate-file"><a href="#问题1：hadoop-出现-failed-to-create-file-because-current-leaseholder-is-trying-to-recreate-file" class="headerlink" title="问题1：hadoop 出现 failed to create file because current leaseholder is trying to recreate file."></a>问题1：hadoop 出现 failed to create file because current leaseholder is trying to recreate file.</h2><p>以多线程的方式从Kafka读取消息后保存到HDFS时报以下错误。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">org.apache.hadoop.ipc.RemoteException(org.apache.hadoop.hdfs.protocol.AlreadyBeingCreatedException): failed to create file /bdp/data/external/t_park_in/data_key=20181228/hour_key=11/data0.txt for DFSClient_NONMAPREDUCE_815471739_12 for client 10.10.203.1 because current leaseholder is trying to recreate file.</span><br><span class="line">	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.recoverLeaseInternal(FSNamesystem.java:3294)</span><br><span class="line">	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.appendFileInternal(FSNamesystem.java:3124)</span><br><span class="line">	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.appendFileInt(FSNamesystem.java:3409)</span><br><span class="line">	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.appendFile(FSNamesystem.java:3373)</span><br><span class="line">	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.append(NameNodeRpcServer.java:629)</span><br><span class="line">	at org.apache.hadoop.hdfs.server.namenode.AuthorizationProviderProxyClientProtocol.append(AuthorizationProviderProxyClientProtocol.java:131)</span><br><span class="line">	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.append(ClientNamenodeProtocolServerSideTranslatorPB.java:434)</span><br><span class="line">	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)</span><br><span class="line">	at org.apache.hadoop.ipc.ProtobufRpcEngine$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine.java:617)</span><br><span class="line">	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1073)</span><br><span class="line">	at org.apache.hadoop.ipc.Server$Handler$1.run(Server.java:2281)</span><br><span class="line">	at org.apache.hadoop.ipc.Server$Handler$1.run(Server.java:2277)</span><br><span class="line">	at java.security.AccessController.doPrivileged(Native Method)</span><br><span class="line">	at javax.security.auth.Subject.doAs(Subject.java:422)</span><br><span class="line">	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1924)</span><br><span class="line">	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:2275)</span><br><span class="line"></span><br><span class="line">	at org.apache.hadoop.ipc.Client.call(Client.java:1504)</span><br><span class="line">	at org.apache.hadoop.ipc.Client.call(Client.java:1441)</span><br><span class="line">	at org.apache.hadoop.ipc.ProtobufRpcEngine$Invoker.invoke(ProtobufRpcEngine.java:230)</span><br><span class="line">	at com.sun.proxy.$Proxy11.append(Unknown Source)</span><br><span class="line">	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolTranslatorPB.append(ClientNamenodeProtocolTranslatorPB.java:331)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</span><br><span class="line">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</span><br><span class="line">	at java.lang.reflect.Method.invoke(Method.java:497)</span><br><span class="line">	at org.apache.hadoop.io.retry.RetryInvocationHandler.invokeMethod(RetryInvocationHandler.java:258)</span><br><span class="line">	at org.apache.hadoop.io.retry.RetryInvocationHandler.invoke(RetryInvocationHandler.java:104)</span><br><span class="line">	at com.sun.proxy.$Proxy12.append(Unknown Source)</span><br><span class="line">	at org.apache.hadoop.hdfs.DFSClient.callAppend(DFSClient.java:1909)</span><br><span class="line">	at org.apache.hadoop.hdfs.DFSClient.append(DFSClient.java:1951)</span><br><span class="line">	at org.apache.hadoop.hdfs.DFSClient.append(DFSClient.java:1944)</span><br><span class="line">	at org.apache.hadoop.hdfs.DistributedFileSystem$5.doCall(DistributedFileSystem.java:361)</span><br><span class="line">	at org.apache.hadoop.hdfs.DistributedFileSystem$5.doCall(DistributedFileSystem.java:357)</span><br><span class="line">	at org.apache.hadoop.fs.FileSystemLinkResolver.resolve(FileSystemLinkResolver.java:81)</span><br><span class="line">	at org.apache.hadoop.hdfs.DistributedFileSystem.append(DistributedFileSystem.java:357)</span><br><span class="line">	at org.apache.hadoop.fs.FileSystem.append(FileSystem.java:1181)</span><br><span class="line">	at cn.jieshun.bdp.analyse.util.HdfsFileUtil.appendFile(HdfsFileUtil.java:83)</span><br><span class="line">	at cn.jieshun.bdp.etl.kafka.ConsumerWorker.saveMessage(ConsumerWorker.java:155)</span><br><span class="line">	at cn.jieshun.bdp.etl.kafka.ConsumerWorker.run(ConsumerWorker.java:63)</span><br><span class="line">	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)</span><br><span class="line">	at java.util.concurrent.FutureTask.run(FutureTask.java:266)</span><br><span class="line">	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)</span><br><span class="line">	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)</span><br><span class="line">	at java.lang.Thread.run(Thread.java:745)</span><br></pre></td></tr></table></figure>
+<p>原因：是并发写导致的错误</p>
+<p>解决：以下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">synchronized (fs) &#123;</span><br><span class="line">                    try &#123;</span><br><span class="line">                        HdfsFileUtil.appendFile(fs, path1, sb.toString());</span><br><span class="line">                    &#125; catch (IOException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">//                &#125;</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">HDFS问题集</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/12/09/hdfs-question-01/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-tools-gradle-01" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/11/18/tools-gradle-01/">gradle</a>
+    </h1>
+  
+
+        
+        <a href="/2018/11/18/tools-gradle-01/" class="archive-article-date">
   	<time datetime="2018-11-18T12:45:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-18</time>
 </a>
         
@@ -696,58 +1007,24 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="0-目录"><a href="#0-目录" class="headerlink" title="0.目录"></a>0.目录</h1><ul>
-<li>安装hexo</li>
-<li>安装配置git</li>
-<li>github设置</li>
+        <h1 id="0-手动安装"><a href="#0-手动安装" class="headerlink" title="0.手动安装"></a>0.手动安装</h1><ul>
+<li><p>下载<br><a href="https://gradle.org/releases/" target="_blank" rel="noopener">https://gradle.org/releases/</a><br>我下载的是4.9版本</p>
+</li>
+<li><p>解压到指定的目录<br>D:\soft\gradle-4.9</p>
+</li>
+<li><p>配置环境变量</p>
+</li>
 </ul>
-<h2 id="1-安装hexo"><a href="#1-安装hexo" class="headerlink" title="1.安装hexo"></a>1.安装hexo</h2><p>(使用nodejs安装hexo)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ cd d:/hexo</span><br><span class="line">$ npm install hexo-cli -g</span><br><span class="line">$ hexo init blog</span><br><span class="line">$ cd blog</span><br><span class="line">$ npm install</span><br><span class="line">$ hexo g # 或者hexo generate</span><br><span class="line">$ hexo s # 或者hexo server，可以在http://localhost:4000/ 查看</span><br></pre></td></tr></table></figure>
-<p>hexo常用命令</p>
-<p>创建一篇新文章</p>
-<blockquote>
-<p>hexo new [layout] <title></title></p>
-</blockquote>
-<p>布局（layout），默认为 post，可以通过修改 _config.yml 中的 default_layout 参数来指定默认布局<br>Hexo 有三种默认布局：post、page 和 draft，它们分别对应不同的路径，而您自定义的其他布局和 post 相同，都将储存到 source/_posts 文件夹。</p>
+<p>GRADLE_HOME  D:\soft\gradle-4.9<br>PATH   \;%GRADLE_HOME%\bin</p>
 <ul>
-<li><p>创建一文章</p>
-<blockquote>
-<p>hexo new helloworld<br>或<br>hexo new post helloworld</p>
-</blockquote>
-</li>
-<li><p>创建一草稿</p>
-<blockquote>
-<p>hexo new draft helloworld</p>
-</blockquote>
-</li>
-<li><p>发表草稿<br>将草稿文件目录_draft移动到文章目录_posts</p>
-<blockquote>
-<p>hexo publish helloworld</p>
-</blockquote>
-</li>
-<li><p>将MD格式生成静态文件</p>
-<blockquote>
-<p>hexo generate<br>可以简写为<br>hexo g</p>
-</blockquote>
-</li>
-<li><p>启动服务器</p>
-<blockquote>
-<p>hexo deploy<br>可以简写为<br>hexo d</p>
+<li>查验版本<blockquote>
+<p>gradle -v<br>gradlew -v</p>
 </blockquote>
 </li>
 </ul>
-<ul>
-<li>部署到服务器<blockquote>
-<p>hexo server</p>
-</blockquote>
-</li>
-</ul>
-<p> 附:hexo常用命令 <a href="https://blog.csdn.net/qq_26975307/article/details/62447489" target="_blank" rel="noopener">点这里链接</a></p>
-<h2 id="2-安装配置git"><a href="#2-安装配置git" class="headerlink" title="2.安装配置git"></a>2.安装配置git</h2><p>下载git 我使用的版本是：Git-2.7.1.2-64-bit<br> 配置<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">git config --global user.name &quot;youname&quot;</span><br><span class="line">git config --global user.email &quot;youname@xxx.com&quot;</span><br><span class="line"></span><br><span class="line">git config --global core.quotepath false   # 显示 status 编码</span><br><span class="line">git config --global gui.encoding utf-8   # 图形界面编码</span><br><span class="line">git config --global i18n.commit.encoding utf-8   # 提交信息编码</span><br><span class="line">git config --global i18n.logoutputencoding utf-8 # 输出 log 编码</span><br><span class="line">export LESSCHARSET=utf-8</span><br><span class="line"></span><br><span class="line"># 查看你的git配置</span><br><span class="line">git config --list</span><br></pre></td></tr></table></figure></p>
-<p>生成秘钥<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;youname@xxxx.com&quot;</span><br></pre></td></tr></table></figure></p>
-<p>我本地成的位置在：C:\Users\ThinkPad.ssh</p>
-<h1 id="3-github设置"><a href="#3-github设置" class="headerlink" title="3.github设置"></a>3.github设置</h1><h3 id="repositories设置"><a href="#repositories设置" class="headerlink" title="repositories设置"></a>repositories设置</h3><p>必须是与用户名一致的repositories</p>
-<h3 id="SSH设置"><a href="#SSH设置" class="headerlink" title="SSH设置"></a>SSH设置</h3><p>settings -&gt; ssh and Gpd keys<br>增加本地生成的公钥<br>（如果需要多台电脑编辑，需要在多台电脑上生成公钥必在这添加）</p>
+<p>设置本地仓库目录<br>GRADLE_USER_HOME=D:\gradle\repo</p>
+<h1 id="1-镜像修改"><a href="#1-镜像修改" class="headerlink" title="1.镜像修改"></a>1.镜像修改</h1><p><a href="https://blog.csdn.net/lj402159806/article/details/78422953" target="_blank" rel="noopener">https://blog.csdn.net/lj402159806/article/details/78422953</a></p>
+<h1 id="2-参考"><a href="#2-参考" class="headerlink" title="2.参考"></a>2.参考</h1><p>gradle 与 gradlew<br><a href="https://blog.csdn.net/xiaxiayige/article/details/82016470" target="_blank" rel="noopener">https://blog.csdn.net/xiaxiayige/article/details/82016470</a></p>
 
       
 
@@ -790,315 +1067,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/11/18/tools-hexo-01/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-bigdata-ignite-01" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/11/bigdata-ignite-01/">ignite学习笔记</a>
-    </h1>
-  
-
-        
-        <a href="/2018/10/11/bigdata-ignite-01/" class="archive-article-date">
-  	<time datetime="2018-10-11T02:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>直接官网下载解压，即可（我下载的版本是apache-ignite-fabric-2.3.0-bin）</p>
-<h1 id="使用sql"><a href="#使用sql" class="headerlink" title="使用sql"></a>使用sql</h1><h2 id="命令行"><a href="#命令行" class="headerlink" title="命令行"></a>命令行</h2><p>sqlline.bat –help  可以查询使用方式</p>
-<p>启动终端<br>linux</p>
-<blockquote>
-<p>sqlline.sh –color=true –verbose=true -u jdbc:ignite:thin://127.0.0.1/<br>windows<br>sqlline.bat –color=true –verbose=true -u jdbc:ignite:thin://127.0.0.1/</p>
-</blockquote>
-<p>测试代码<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">!sql <span class="keyword">create</span> <span class="keyword">table</span> <span class="keyword">if</span> <span class="keyword">not</span> <span class="keyword">exists</span> city (<span class="keyword">id</span> <span class="keyword">long</span> primary <span class="keyword">key</span>, <span class="keyword">name</span> <span class="built_in">varchar</span>);</span><br><span class="line">!sql <span class="keyword">insert</span> <span class="keyword">into</span> city (<span class="keyword">id</span>, <span class="keyword">name</span>) <span class="keyword">values</span>(<span class="number">1</span>, <span class="string">'深圳'</span>);</span><br><span class="line">!sql <span class="keyword">insert</span> <span class="keyword">into</span> city (<span class="keyword">id</span>, <span class="keyword">name</span>) <span class="keyword">values</span>(<span class="number">2</span>, <span class="string">'广东'</span>), (<span class="number">3</span>, <span class="string">'东莞'</span>);</span><br><span class="line">!sql <span class="keyword">select</span> * <span class="keyword">from</span> city;</span><br><span class="line">!sql <span class="keyword">drop</span> <span class="keyword">table</span> city;</span><br></pre></td></tr></table></figure></p>
-<p>由此可看到数据已经查询出来了，不过因为数据是写在内存的，重启后数据就不存在了</p>
-<p>!sql create table student (id LONG primary key, name varchar, age int);<br>!sql insert into student (id, name, age) values(1, ‘陈先生’, 25);<br>!sql insert into student (id, name, age) values(2, ‘张先生’, 21);<br>!sql insert into student (id, name, age) values(3, ‘刘德华’, 41);<br>!sql insert into student (id, name, age) values(4, ‘李四生’, 29);<br>!sql insert into student (id, name, age) values(5, ‘黄九生’, 26);<br>!sql select * from student;<br>!sql delete from student;</p>
-<h2 id="jdbc调用"><a href="#jdbc调用" class="headerlink" title="jdbc调用"></a>jdbc调用</h2><p>pom.xml配置<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.ignite<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>ignite-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.ignite<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>ignite-spring<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.ignite<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>ignite-log4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>测试代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> jdbc1;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.sql.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloJdbc</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">        Class.forName(<span class="string">"org.apache.ignite.IgniteJdbcThinDriver"</span>);</span><br><span class="line">        String urlstr = <span class="string">"jdbc:ignite:thin://10.101.90.113/"</span>;</span><br><span class="line">        Connection conn = DriverManager.getConnection(urlstr);</span><br><span class="line">        System.out.println(<span class="string">"连接成功"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> test_rows = <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line">        String sqlCreate = <span class="string">"create table PERSON(id long primary key, age int, name varchar)"</span>;</span><br><span class="line">        Statement stat = conn.createStatement();</span><br><span class="line">        stat.execute(sqlCreate);</span><br><span class="line"></span><br><span class="line">        String sql = <span class="string">"INSERT INTO PERSON(id, age, name) values (?,?,?)"</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; test_rows; i ++) &#123;</span><br><span class="line">            PreparedStatement pst = conn.prepareStatement(sql);</span><br><span class="line">            pst.setInt(<span class="number">1</span>, i);</span><br><span class="line">            pst.setInt(<span class="number">2</span>, <span class="number">2</span>+i);</span><br><span class="line">            pst.setString(<span class="number">3</span>, <span class="string">"李四"</span>+i);</span><br><span class="line">            pst.executeUpdate();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        PreparedStatement pst = conn.prepareStatement(<span class="string">"SELECT * FROM PERSON"</span>);</span><br><span class="line">        ResultSet rSet = pst.executeQuery();</span><br><span class="line">        <span class="keyword">while</span> (rSet.next()) &#123;</span><br><span class="line">            System.out.print(rSet.getInt(<span class="number">1</span>) + <span class="string">"\t"</span>);</span><br><span class="line">            System.out.print(rSet.getInt(<span class="number">2</span>) + <span class="string">"\t"</span>);</span><br><span class="line">            System.out.print(rSet.getString(<span class="number">3</span>) + <span class="string">"\t"</span>);</span><br><span class="line">            System.out.print(<span class="string">"\n"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h1 id="集群配置"><a href="#集群配置" class="headerlink" title="集群配置"></a>集群配置</h1><p>(基于静态IP的发现,其他方式,暂时没有试过)</p>
-<p>修改配置文件(config/default-config.xml,也可新建配置在启动时指定这个配置文件)</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.apache.ignite.configuration.IgniteConfiguration"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"discoverySpi"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"ipFinder"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.apache.ignite.spi.discovery.tcp.ipfinder.vm.TcpDiscoveryVmIpFinder"</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"addresses"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">list</span>&gt;</span></span><br><span class="line">              <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">                  本机的地址</span></span><br><span class="line"><span class="comment">              --&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">value</span>&gt;</span>master<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">              <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">                  网络中的节点</span></span><br><span class="line"><span class="comment">              --&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">value</span>&gt;</span>node1:47500..47509<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">value</span>&gt;</span>node2:47500..47509<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">list</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>各节点分别启动即可</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">ignite</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">缓存</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ignite//" class="article-tag-list-link color2">ignite</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/10/11/bigdata-ignite-01/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-bigdata-ignite-03" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/11/bigdata-ignite-03/">ignite学习笔记01</a>
-    </h1>
-  
-
-        
-        <a href="/2018/10/11/bigdata-ignite-03/" class="archive-article-date">
-  	<time datetime="2018-10-11T02:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>直接官网下载解压，即可（我下载的版本是apache-ignite-fabric-2.3.0-bin）</p>
-<h1 id="使用sql"><a href="#使用sql" class="headerlink" title="使用sql"></a>使用sql</h1><h2 id="命令行"><a href="#命令行" class="headerlink" title="命令行"></a>命令行</h2><p>sqlline.bat –help  可以查询使用方式</p>
-<p>启动终端<br>linux</p>
-<blockquote>
-<p>sqlline.sh –color=true –verbose=true -u jdbc:ignite:thin://127.0.0.1/<br>windows<br>sqlline.bat –color=true –verbose=true -u jdbc:ignite:thin://127.0.0.1/</p>
-</blockquote>
-<p>测试代码<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">!sql <span class="keyword">create</span> <span class="keyword">table</span> <span class="keyword">if</span> <span class="keyword">not</span> <span class="keyword">exists</span> city (<span class="keyword">id</span> <span class="keyword">long</span> primary <span class="keyword">key</span>, <span class="keyword">name</span> <span class="built_in">varchar</span>);</span><br><span class="line">!sql <span class="keyword">insert</span> <span class="keyword">into</span> city (<span class="keyword">id</span>, <span class="keyword">name</span>) <span class="keyword">values</span>(<span class="number">1</span>, <span class="string">'深圳'</span>);</span><br><span class="line">!sql <span class="keyword">insert</span> <span class="keyword">into</span> city (<span class="keyword">id</span>, <span class="keyword">name</span>) <span class="keyword">values</span>(<span class="number">2</span>, <span class="string">'广东'</span>), (<span class="number">3</span>, <span class="string">'东莞'</span>);</span><br><span class="line">!sql <span class="keyword">select</span> * <span class="keyword">from</span> city;</span><br><span class="line">!sql <span class="keyword">drop</span> <span class="keyword">table</span> city;</span><br></pre></td></tr></table></figure></p>
-<p>由此可看到数据已经查询出来了，不过因为数据是写在内存的，重启后数据就不存在了</p>
-<p>!sql create table student (id LONG primary key, name varchar, age int);<br>!sql insert into student (id, name, age) values(1, ‘陈先生’, 25);<br>!sql insert into student (id, name, age) values(2, ‘张先生’, 21);<br>!sql insert into student (id, name, age) values(3, ‘刘德华’, 41);<br>!sql insert into student (id, name, age) values(4, ‘李四生’, 29);<br>!sql insert into student (id, name, age) values(5, ‘黄九生’, 26);<br>!sql select * from student;<br>!sql delete from student;</p>
-<h2 id="jdbc调用"><a href="#jdbc调用" class="headerlink" title="jdbc调用"></a>jdbc调用</h2><p>测试代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> jdbc1;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.sql.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloJdbc</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">        Class.forName(<span class="string">"org.apache.ignite.IgniteJdbcThinDriver"</span>);</span><br><span class="line">        String urlstr = <span class="string">"jdbc:ignite:thin://10.101.90.113/"</span>;</span><br><span class="line">        Connection conn = DriverManager.getConnection(urlstr);</span><br><span class="line">        System.out.println(<span class="string">"连接成功"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> test_rows = <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line">        String sqlCreate = <span class="string">"create table PERSON(id long primary key, age int, name varchar)"</span>;</span><br><span class="line">        Statement stat = conn.createStatement();</span><br><span class="line">        stat.execute(sqlCreate);</span><br><span class="line"></span><br><span class="line">        String sql = <span class="string">"INSERT INTO PERSON(id, age, name) values (?,?,?)"</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; test_rows; i ++) &#123;</span><br><span class="line">            PreparedStatement pst = conn.prepareStatement(sql);</span><br><span class="line">            pst.setInt(<span class="number">1</span>, i);</span><br><span class="line">            pst.setInt(<span class="number">2</span>, <span class="number">2</span>+i);</span><br><span class="line">            pst.setString(<span class="number">3</span>, <span class="string">"李四"</span>+i);</span><br><span class="line">            pst.executeUpdate();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        PreparedStatement pst = conn.prepareStatement(<span class="string">"SELECT * FROM PERSON"</span>);</span><br><span class="line">        ResultSet rSet = pst.executeQuery();</span><br><span class="line">        <span class="keyword">while</span> (rSet.next()) &#123;</span><br><span class="line">            System.out.print(rSet.getInt(<span class="number">1</span>) + <span class="string">"\t"</span>);</span><br><span class="line">            System.out.print(rSet.getInt(<span class="number">2</span>) + <span class="string">"\t"</span>);</span><br><span class="line">            System.out.print(rSet.getString(<span class="number">3</span>) + <span class="string">"\t"</span>);</span><br><span class="line">            System.out.print(<span class="string">"\n"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h1 id="集群配置"><a href="#集群配置" class="headerlink" title="集群配置"></a>集群配置</h1><p>(基于静态IP的发现,其他方式,暂时没有试过)</p>
-<p>修改配置文件(config/default-config.xml,也可新建配置在启动时指定这个配置文件)</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.apache.ignite.configuration.IgniteConfiguration"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"discoverySpi"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"ipFinder"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.apache.ignite.spi.discovery.tcp.ipfinder.vm.TcpDiscoveryVmIpFinder"</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"addresses"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">list</span>&gt;</span></span><br><span class="line">              <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">                  本机的地址</span></span><br><span class="line"><span class="comment">              --&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">value</span>&gt;</span>master<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">              <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">                  网络中的节点</span></span><br><span class="line"><span class="comment">              --&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">value</span>&gt;</span>node1:47500..47509<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">value</span>&gt;</span>node2:47500..47509<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">list</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>各节点分别启动即可</p>
-<h1 id="ignitevisorcmd操作"><a href="#ignitevisorcmd操作" class="headerlink" title="ignitevisorcmd操作"></a>ignitevisorcmd操作</h1><h2 id="启动："><a href="#启动：" class="headerlink" title="启动："></a>启动：</h2><p>进入ignite安装目录的bin目录。<br>执行ignitevisorcmd.sh脚本，进入命令行界面。</p>
-<p>执行：start -h=<host> -u=<user> -pw=<password> -n=x，启动x个节点。</password></user></host></p>
-<h2 id="查看："><a href="#查看：" class="headerlink" title="查看："></a>查看：</h2><p>执行：node -id8=@n0 -a，查看所启动的所有节点。</p>
-<h2 id="停止："><a href="#停止：" class="headerlink" title="停止："></a>停止：</h2><p>执行：kill -id8=<id8> -k，停止该节点。</id8></p>
-<p>sqlline.bat –color=true –verbose=true -u jdbc:ignite:thin://127.0.0.1/</p>
-<p>!sql create table PERSON(id LONG primary key, name varchar, age int);<br>!sql insert into PERSON (id, name, age) values(1, ‘陈先生’, 25);<br>!sql insert into PERSON (id, name, age) values(2, ‘张先生’, 21);<br>!sql insert into PERSON (id, name, age) values(3, ‘刘德华’, 41);<br>!sql select * from PERSON;<br>!sql delete from PERSON;</p>
-<h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">!sql <span class="keyword">drop</span> <span class="keyword">table</span> <span class="keyword">if</span> <span class="keyword">EXISTS</span> dim_items;</span><br><span class="line">!sql <span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> <span class="string">`dim_items`</span> (</span><br><span class="line">  <span class="string">`item_key`</span> <span class="built_in">int</span>,</span><br><span class="line">  <span class="string">`item_type`</span> tinyint,</span><br><span class="line">  <span class="string">`item_code`</span> <span class="built_in">char</span>,</span><br><span class="line">  <span class="string">`item_name`</span> <span class="built_in">varchar</span>,</span><br><span class="line">  <span class="string">`parent_node`</span> <span class="built_in">int</span>,</span><br><span class="line">  <span class="string">`start_time`</span> datetime,</span><br><span class="line">  <span class="string">`end_time`</span> datetime,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`item_key`</span>,<span class="string">`item_type`</span>,<span class="string">`start_time`</span>)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">!sql <span class="keyword">select</span> * <span class="keyword">from</span> dim_items;</span><br><span class="line"></span><br><span class="line">!sql <span class="keyword">drop</span> <span class="keyword">table</span> <span class="keyword">if</span> <span class="keyword">EXISTS</span> <span class="string">`dim_date`</span>;</span><br><span class="line">!sql <span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`dim_date`</span> (</span><br><span class="line">  <span class="string">`date_id`</span> <span class="built_in">varchar</span>,</span><br><span class="line">  <span class="string">`date_key`</span> <span class="built_in">date</span>,</span><br><span class="line">  <span class="string">`day`</span> <span class="built_in">int</span>,</span><br><span class="line">  <span class="string">`month`</span> <span class="built_in">int</span>,</span><br><span class="line">  <span class="string">`month_name`</span> <span class="built_in">varchar</span>,</span><br><span class="line">  <span class="string">`year`</span> <span class="built_in">int</span>,</span><br><span class="line">  <span class="string">`yearmonth`</span> <span class="built_in">int</span>,</span><br><span class="line">  <span class="string">`quarter`</span> <span class="built_in">int</span>,</span><br><span class="line">  <span class="string">`week`</span> <span class="built_in">int</span>,</span><br><span class="line">  <span class="string">`week_name`</span> <span class="built_in">varchar</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`date_id`</span>)</span><br><span class="line">);</span><br><span class="line">!sql <span class="keyword">select</span> * <span class="keyword">from</span> <span class="string">`dim_date`</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">!sql <span class="keyword">drop</span> <span class="keyword">table</span> <span class="keyword">if</span> <span class="keyword">EXISTS</span> <span class="string">`dim_event_type`</span>;</span><br><span class="line">!sql <span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> <span class="string">`dim_event_type`</span> (</span><br><span class="line">  <span class="string">`event_key`</span> <span class="built_in">int</span>,</span><br><span class="line">  <span class="string">`event_name`</span> <span class="built_in">varchar</span>,</span><br><span class="line">  <span class="string">`start_time`</span> datetime,</span><br><span class="line">  <span class="string">`end_time`</span> datetime,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`event_key`</span>,<span class="string">`start_time`</span>)</span><br><span class="line">);</span><br><span class="line">!sql <span class="keyword">select</span> * <span class="keyword">from</span> <span class="string">`dim_event_type`</span>;</span><br><span class="line"></span><br><span class="line">!sql <span class="keyword">drop</span> <span class="keyword">table</span> <span class="keyword">if</span> <span class="keyword">EXISTS</span> <span class="string">`dw1_20_jsifs_fact_flow_day`</span>;</span><br><span class="line">!sql <span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> <span class="string">`dw1_20_jsifs_fact_flow_day`</span> (</span><br><span class="line">  <span class="string">`id`</span> <span class="built_in">bigint</span>,</span><br><span class="line">  <span class="string">`item_type`</span> tinyint,</span><br><span class="line">  <span class="string">`item_key`</span> <span class="built_in">int</span>,</span><br><span class="line">  <span class="string">`item_name`</span> <span class="built_in">varchar</span>,</span><br><span class="line">  <span class="string">`charge_key`</span> <span class="built_in">int</span>,</span><br><span class="line">  <span class="string">`event_key`</span> <span class="built_in">int</span>,</span><br><span class="line">  <span class="string">`io_key`</span> tinyint,</span><br><span class="line">  <span class="string">`date_id`</span> <span class="built_in">varchar</span>,</span><br><span class="line">  <span class="string">`flow_num`</span> <span class="built_in">int</span>,</span><br><span class="line">  <span class="string">`create_time`</span> datetime,</span><br><span class="line">  <span class="string">`update_time`</span> datetime,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>)</span><br><span class="line">);</span><br><span class="line">!sql <span class="keyword">select</span> * <span class="keyword">from</span> <span class="string">`dw1_20_jsifs_fact_flow_day`</span>;</span><br><span class="line"></span><br><span class="line">!sql <span class="keyword">delete</span> <span class="keyword">from</span> dw1_20_jsifs_fact_flow_day;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> Person (</span><br><span class="line">  age <span class="built_in">int</span>, <span class="keyword">id</span> <span class="built_in">int</span>, city_id <span class="built_in">int</span>, <span class="keyword">name</span> <span class="built_in">varchar</span>, company <span class="built_in">varchar</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="keyword">name</span>, <span class="keyword">id</span>))</span><br><span class="line">  <span class="keyword">WITH</span> <span class="string">"template=partitioned,backups=1,affinitykey=city_id, key_type=PersonKey, value_type=MyPerson"</span>;</span><br></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">ignite</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">缓存</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ignite//" class="article-tag-list-link color2">ignite</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/10/11/bigdata-ignite-03/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-bigdata-ignite-02" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/11/bigdata-ignite-02/">ignite学习笔记02</a>
-    </h1>
-  
-
-        
-        <a href="/2018/10/11/bigdata-ignite-02/" class="archive-article-date">
-  	<time datetime="2018-10-11T02:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="测试实例"><a href="#测试实例" class="headerlink" title="测试实例"></a>测试实例</h1><h2 id="启动终端"><a href="#启动终端" class="headerlink" title="启动终端"></a>启动终端</h2><p>linux</p>
-<blockquote>
-<p>ignite.sh<br>sqlline.sh –color=true –verbose=true -u jdbc:ignite:thin://127.0.0.1/<br>windows<br>ignite.bat<br>sqlline.bat –color=true –verbose=true -u jdbc:ignite:thin://127.0.0.1/</p>
-</blockquote>
-<h2 id="创建表结构"><a href="#创建表结构" class="headerlink" title="创建表结构"></a>创建表结构</h2><p>执行以下脚本创建表<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">!sql <span class="keyword">drop</span> <span class="keyword">table</span> <span class="keyword">if</span> <span class="keyword">EXISTS</span> dim_items;</span><br><span class="line">!sql <span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> <span class="string">`dim_items`</span> (</span><br><span class="line">  <span class="string">`item_key`</span> <span class="built_in">int</span>,</span><br><span class="line">  <span class="string">`item_type`</span> tinyint,</span><br><span class="line">  <span class="string">`item_code`</span> <span class="built_in">char</span>,</span><br><span class="line">  <span class="string">`item_name`</span> <span class="built_in">varchar</span>,</span><br><span class="line">  <span class="string">`parent_node`</span> <span class="built_in">int</span>,</span><br><span class="line">  <span class="string">`start_time`</span> datetime,</span><br><span class="line">  <span class="string">`end_time`</span> datetime,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`item_key`</span>,<span class="string">`item_type`</span>,<span class="string">`start_time`</span>)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">!sql <span class="keyword">drop</span> <span class="keyword">table</span> <span class="keyword">if</span> <span class="keyword">EXISTS</span> <span class="string">`dim_date`</span>;</span><br><span class="line">!sql <span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`dim_date`</span> (</span><br><span class="line">  <span class="string">`date_id`</span> <span class="built_in">varchar</span>,</span><br><span class="line">  <span class="string">`date_key`</span> <span class="built_in">date</span>,</span><br><span class="line">  <span class="string">`day`</span> <span class="built_in">int</span>,</span><br><span class="line">  <span class="string">`month`</span> <span class="built_in">int</span>,</span><br><span class="line">  <span class="string">`month_name`</span> <span class="built_in">varchar</span>,</span><br><span class="line">  <span class="string">`year`</span> <span class="built_in">int</span>,</span><br><span class="line">  <span class="string">`yearmonth`</span> <span class="built_in">int</span>,</span><br><span class="line">  <span class="string">`quarter`</span> <span class="built_in">int</span>,</span><br><span class="line">  <span class="string">`week`</span> <span class="built_in">int</span>,</span><br><span class="line">  <span class="string">`week_name`</span> <span class="built_in">varchar</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`date_id`</span>)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">!sql <span class="keyword">drop</span> <span class="keyword">table</span> <span class="keyword">if</span> <span class="keyword">EXISTS</span> <span class="string">`fact_flow`</span>;</span><br><span class="line">!sql <span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> <span class="string">`fact_flow`</span> (</span><br><span class="line">  <span class="string">`id`</span> <span class="built_in">bigint</span>,</span><br><span class="line">  <span class="string">`item_type`</span> tinyint,</span><br><span class="line">  <span class="string">`item_key`</span> <span class="built_in">int</span>,</span><br><span class="line">  <span class="string">`item_name`</span> <span class="built_in">varchar</span>,</span><br><span class="line">  <span class="string">`charge_key`</span> <span class="built_in">int</span>,</span><br><span class="line">  <span class="string">`event_key`</span> <span class="built_in">int</span>,</span><br><span class="line">  <span class="string">`io_key`</span> tinyint,</span><br><span class="line">  <span class="string">`date_id`</span> <span class="built_in">varchar</span>,</span><br><span class="line">  <span class="string">`flow_num`</span> <span class="built_in">int</span>,</span><br><span class="line">  <span class="string">`create_time`</span> datetime,</span><br><span class="line">  <span class="string">`update_time`</span> datetime,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">!sql <span class="keyword">CREATE</span> <span class="keyword">INDEX</span> idx_item_key <span class="keyword">ON</span> fact_flow (item_key);</span><br><span class="line">!sql <span class="keyword">CREATE</span> <span class="keyword">INDEX</span> idx_date_id <span class="keyword">ON</span> fact_flow (date_id);</span><br><span class="line">!sql <span class="keyword">CREATE</span> <span class="keyword">INDEX</span> idx_ikey_ekey_dateid <span class="keyword">ON</span> fact_flow (item_key,event_key,date_id);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">!sql <span class="keyword">select</span> * <span class="keyword">from</span> <span class="string">`fact_flow`</span>;</span><br></pre></td></tr></table></figure></p>
-<h2 id="初始化维度表数据"><a href="#初始化维度表数据" class="headerlink" title="初始化维度表数据"></a>初始化维度表数据</h2><p>执行以下脚本插入数据</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">!sql <span class="keyword">INSERT</span> <span class="keyword">INTO</span> dim_items(item_key,item_type,item_code,item_name,parent_node,start_time,end_time) <span class="keyword">VALUES</span> (<span class="number">100</span>, <span class="number">1</span>, <span class="string">'229710'</span>, <span class="string">'中海物业'</span>, <span class="number">0</span>, <span class="string">'1900-01-01 00:00:00'</span>, <span class="string">'2999-12-31 00:00:00'</span>);</span><br><span class="line">!sql <span class="keyword">INSERT</span> <span class="keyword">INTO</span> dim_items(item_key,item_type,item_code,item_name,parent_node,start_time,end_time) <span class="keyword">VALUES</span> (<span class="number">101</span>, <span class="number">1</span>, <span class="string">'22974'</span>, <span class="string">'华南区中心'</span>, <span class="number">100</span>, <span class="string">'1900-01-01 00:00:00'</span>, <span class="string">'2999-12-31 00:00:00'</span>);</span><br><span class="line">!sql <span class="keyword">INSERT</span> <span class="keyword">INTO</span> dim_items(item_key,item_type,item_code,item_name,parent_node,start_time,end_time) <span class="keyword">VALUES</span> (<span class="number">102</span>, <span class="number">1</span>, <span class="string">'229710'</span>, <span class="string">'华北区中心'</span>, <span class="number">100</span>, <span class="string">'1900-01-01 00:00:00'</span>, <span class="string">'2999-12-31 00:00:00'</span>);</span><br><span class="line">!sql <span class="keyword">INSERT</span> <span class="keyword">INTO</span> dim_items(item_key,item_type,item_code,item_name,parent_node,start_time,end_time) <span class="keyword">VALUES</span> (<span class="number">103</span>, <span class="number">1</span>, <span class="string">'229710'</span>, <span class="string">'华东区中心'</span>, <span class="number">100</span>, <span class="string">'1900-01-01 00:00:00'</span>, <span class="string">'2999-12-31 00:00:00'</span>);</span><br><span class="line">!sql <span class="keyword">INSERT</span> <span class="keyword">INTO</span> dim_items(item_key,item_type,item_code,item_name,parent_node,start_time,end_time) <span class="keyword">VALUES</span> (<span class="number">1011</span>, <span class="number">1</span>, <span class="string">'229710'</span>, <span class="string">'深圳分公司'</span>, <span class="number">101</span>, <span class="string">'1900-01-01 00:00:00'</span>, <span class="string">'2018-10-08 09:54:58'</span>);</span><br><span class="line">!sql <span class="keyword">INSERT</span> <span class="keyword">INTO</span> dim_items(item_key,item_type,item_code,item_name,parent_node,start_time,end_time) <span class="keyword">VALUES</span> (<span class="number">1011</span>, <span class="number">1</span>, <span class="string">'229710'</span>, <span class="string">'深圳分公司2'</span>, <span class="number">101</span>, <span class="string">'2018-09-06 11:22:56'</span>, <span class="string">'2999-12-31 00:00:00'</span>);</span><br><span class="line">!sql <span class="keyword">INSERT</span> <span class="keyword">INTO</span> dim_items(item_key,item_type,item_code,item_name,parent_node,start_time,end_time) <span class="keyword">VALUES</span> (<span class="number">1012</span>, <span class="number">1</span>, <span class="string">'227710'</span>, <span class="string">'广州分公司'</span>, <span class="number">101</span>, <span class="string">'1900-01-01 00:00:00'</span>, <span class="string">'2999-12-31 00:00:00'</span>);</span><br><span class="line">!sql <span class="keyword">INSERT</span> <span class="keyword">INTO</span> dim_items(item_key,item_type,item_code,item_name,parent_node,start_time,end_time) <span class="keyword">VALUES</span> (<span class="number">1013</span>, <span class="number">1</span>, <span class="string">'22979980'</span>, <span class="string">'惠州分公司'</span>, <span class="number">101</span>, <span class="string">'1900-01-01 00:00:00'</span>, <span class="string">'2999-12-31 00:00:00'</span>);</span><br><span class="line">!sql <span class="keyword">INSERT</span> <span class="keyword">INTO</span> dim_items(item_key,item_type,item_code,item_name,parent_node,start_time,end_time) <span class="keyword">VALUES</span> (<span class="number">1021</span>, <span class="number">1</span>, <span class="string">'229710'</span>, <span class="string">'北京分公司'</span>, <span class="number">102</span>, <span class="string">'1900-01-01 00:00:00'</span>, <span class="string">'2999-12-31 00:00:00'</span>);</span><br><span class="line">!sql <span class="keyword">INSERT</span> <span class="keyword">INTO</span> dim_items(item_key,item_type,item_code,item_name,parent_node,start_time,end_time) <span class="keyword">VALUES</span> (<span class="number">1031</span>, <span class="number">1</span>, <span class="string">'229710'</span>, <span class="string">'上海分公司'</span>, <span class="number">103</span>, <span class="string">'1900-01-01 00:00:00'</span>, <span class="string">'2999-12-31 00:00:00'</span>);</span><br><span class="line">!sql <span class="keyword">INSERT</span> <span class="keyword">INTO</span> dim_items(item_key,item_type,item_code,item_name,parent_node,start_time,end_time) <span class="keyword">VALUES</span> (<span class="number">10111</span>, <span class="number">0</span>, <span class="string">'p2018005'</span>, <span class="string">'万科城'</span>, <span class="number">1011</span>, <span class="string">'1900-01-01 00:00:00'</span>, <span class="string">'2999-12-31 00:00:00'</span>);</span><br><span class="line">!sql <span class="keyword">INSERT</span> <span class="keyword">INTO</span> dim_items(item_key,item_type,item_code,item_name,parent_node,start_time,end_time) <span class="keyword">VALUES</span> (<span class="number">10112</span>, <span class="number">0</span>, <span class="string">'p2049005'</span>, <span class="string">'阳光城'</span>, <span class="number">1011</span>, <span class="string">'1900-01-01 00:00:00'</span>, <span class="string">'2999-12-31 00:00:00'</span>);</span><br><span class="line">!sql <span class="keyword">INSERT</span> <span class="keyword">INTO</span> dim_items(item_key,item_type,item_code,item_name,parent_node,start_time,end_time) <span class="keyword">VALUES</span> (<span class="number">10113</span>, <span class="number">0</span>, <span class="string">'p29005'</span>, <span class="string">'中海云城'</span>, <span class="number">1011</span>, <span class="string">'1900-01-01 00:00:00'</span>, <span class="string">'2999-12-31 00:00:00'</span>);</span><br><span class="line">!sql <span class="keyword">INSERT</span> <span class="keyword">INTO</span> dim_items(item_key,item_type,item_code,item_name,parent_node,start_time,end_time) <span class="keyword">VALUES</span> (<span class="number">10121</span>, <span class="number">0</span>, <span class="string">'p29005'</span>, <span class="string">'珠江新城'</span>, <span class="number">1012</span>, <span class="string">'1900-01-01 00:00:00'</span>, <span class="string">'2999-12-31 00:00:00'</span>);</span><br><span class="line">!sql <span class="keyword">INSERT</span> <span class="keyword">INTO</span> dim_items(item_key,item_type,item_code,item_name,parent_node,start_time,end_time) <span class="keyword">VALUES</span> (<span class="number">10122</span>, <span class="number">0</span>, <span class="string">'p29005'</span>, <span class="string">'珠江2'</span>, <span class="number">1012</span>, <span class="string">'1900-01-01 00:00:00'</span>, <span class="string">'2018-10-08 09:54:58'</span>);</span><br><span class="line">!sql <span class="keyword">INSERT</span> <span class="keyword">INTO</span> dim_items(item_key,item_type,item_code,item_name,parent_node,start_time,end_time) <span class="keyword">VALUES</span> (<span class="number">10122</span>, <span class="number">0</span>, <span class="string">'p29005'</span>, <span class="string">'珠江233'</span>, <span class="number">1012</span>, <span class="string">'2018-10-08 09:54:58'</span>, <span class="string">'2999-12-31 00:00:00'</span>);</span><br><span class="line">!sql <span class="keyword">INSERT</span> <span class="keyword">INTO</span> dim_items(item_key,item_type,item_code,item_name,parent_node,start_time,end_time) <span class="keyword">VALUES</span> (<span class="number">10131</span>, <span class="number">0</span>, <span class="string">'p290405'</span>, <span class="string">'一方天地'</span>, <span class="number">1013</span>, <span class="string">'1900-01-01 00:00:00'</span>, <span class="string">'2999-12-31 00:00:00'</span>);</span><br><span class="line">!sql <span class="keyword">INSERT</span> <span class="keyword">INTO</span> dim_items(item_key,item_type,item_code,item_name,parent_node,start_time,end_time) <span class="keyword">VALUES</span> (<span class="number">10132</span>, <span class="number">0</span>, <span class="string">'p290305'</span>, <span class="string">'一方天地'</span>, <span class="number">1013</span>, <span class="string">'1900-01-01 00:00:00'</span>, <span class="string">'2999-12-31 00:00:00'</span>);</span><br><span class="line">!sql <span class="keyword">INSERT</span> <span class="keyword">INTO</span> dim_items(item_key,item_type,item_code,item_name,parent_node,start_time,end_time) <span class="keyword">VALUES</span> (<span class="number">10133</span>, <span class="number">0</span>, <span class="string">'p2900995'</span>, <span class="string">'一方天地'</span>, <span class="number">1013</span>, <span class="string">'1900-01-01 00:00:00'</span>, <span class="string">'2999-12-31 00:00:00'</span>);</span><br><span class="line">!sql <span class="keyword">INSERT</span> <span class="keyword">INTO</span> dim_items(item_key,item_type,item_code,item_name,parent_node,start_time,end_time) <span class="keyword">VALUES</span> (<span class="number">10211</span>, <span class="number">0</span>, <span class="string">'p201809005'</span>, <span class="string">'北京楼盘1'</span>, <span class="number">1021</span>, <span class="string">'1900-01-01 00:00:00'</span>, <span class="string">'2999-12-31 00:00:00'</span>);</span><br><span class="line">!sql <span class="keyword">INSERT</span> <span class="keyword">INTO</span> dim_items(item_key,item_type,item_code,item_name,parent_node,start_time,end_time) <span class="keyword">VALUES</span> (<span class="number">10212</span>, <span class="number">0</span>, <span class="string">'p201809005'</span>, <span class="string">'北京楼盘2'</span>, <span class="number">1021</span>, <span class="string">'1900-01-01 00:00:00'</span>, <span class="string">'2999-12-31 00:00:00'</span>);</span><br><span class="line">!sql <span class="keyword">INSERT</span> <span class="keyword">INTO</span> dim_items(item_key,item_type,item_code,item_name,parent_node,start_time,end_time) <span class="keyword">VALUES</span> (<span class="number">10311</span>, <span class="number">0</span>, <span class="string">'p201809005'</span>, <span class="string">'上海楼盘1'</span>, <span class="number">1031</span>, <span class="string">'1900-01-01 00:00:00'</span>, <span class="string">'2999-12-31 00:00:00'</span>);</span><br><span class="line">!sql <span class="keyword">INSERT</span> <span class="keyword">INTO</span> dim_items(item_key,item_type,item_code,item_name,parent_node,start_time,end_time) <span class="keyword">VALUES</span> (<span class="number">10312</span>, <span class="number">0</span>, <span class="string">'p201809005'</span>, <span class="string">'上海楼盘2'</span>, <span class="number">1031</span>, <span class="string">'1900-01-01 00:00:00'</span>, <span class="string">'2999-12-31 00:00:00'</span>);</span><br><span class="line">!sql <span class="keyword">INSERT</span> <span class="keyword">INTO</span> dim_items(item_key,item_type,item_code,item_name,parent_node,start_time,end_time) <span class="keyword">VALUES</span> (<span class="number">10313</span>, <span class="number">0</span>, <span class="string">'p201809005'</span>, <span class="string">'上海楼盘3'</span>, <span class="number">1031</span>, <span class="string">'1900-01-01 00:00:00'</span>, <span class="string">'2999-12-31 00:00:00'</span>);</span><br></pre></td></tr></table></figure>
-<h2 id="java测试代码"><a href="#java测试代码" class="headerlink" title="java测试代码"></a>java测试代码</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> jdbc1;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> util.DateUtil;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.sql.*;</span><br><span class="line"><span class="keyword">import</span> java.text.SimpleDateFormat;</span><br><span class="line"><span class="keyword">import</span> java.util.Random;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created by cgz on 2018-10-16 17:14</span></span><br><span class="line"><span class="comment"> * 描述：</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IgniteExample</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> days = <span class="number">100</span>;    <span class="comment">//生成多少天的数据</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> days_num = <span class="number">10000</span>;  <span class="comment">//每天产生多少数据</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">        saveDim();</span><br><span class="line">        saveFact();</span><br><span class="line"></span><br><span class="line">        selectAll() ;</span><br><span class="line">        selectOneTable();</span><br><span class="line">        selectOneTableGroupby();</span><br><span class="line">        selectThreeTableGroupby();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getRandom</span><span class="params">(<span class="keyword">int</span> min, <span class="keyword">int</span> max)</span> </span>&#123;</span><br><span class="line">        Random rand = <span class="keyword">new</span> Random();</span><br><span class="line">        <span class="keyword">int</span> randNumber = rand.nextInt(max - min + <span class="number">1</span>) + min;</span><br><span class="line">        <span class="keyword">return</span> randNumber;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>[] array = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123; <span class="number">10111</span>,<span class="number">10112</span>,<span class="number">10113</span>,</span><br><span class="line">            <span class="number">10121</span>, <span class="number">10122</span>, <span class="number">10122</span>, <span class="number">10131</span>,  <span class="number">10132</span>,  <span class="number">10133</span>,  <span class="number">10211</span>,    <span class="number">10212</span>,  <span class="number">10311</span>,<span class="number">10312</span>,      <span class="number">10313</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">saveDim</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        Long startTime = System.currentTimeMillis();</span><br><span class="line">        String sql = <span class="string">"INSERT INTO dim_date(date_id,date_key,day,month,month_name,year,yearmonth,quarter,week,week_name) VALUES (?,?,?,?,?,?,?,?,?,?)"</span>;</span><br><span class="line">        Connection conn = getConn();</span><br><span class="line">        PreparedStatement pst = conn.prepareStatement(sql);</span><br><span class="line">        java.util.Date sdate = <span class="keyword">new</span> java.util.Date();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> ind_day =<span class="number">0</span>; ind_day &lt; days; ind_day ++) &#123;</span><br><span class="line">            java.util.Date date = DateUtil.next(sdate, <span class="number">0</span> - ind_day);</span><br><span class="line"></span><br><span class="line">            pst.setString(<span class="number">1</span>, DateUtil.format( date, <span class="string">"yyyy-MM-dd"</span>));</span><br><span class="line">            pst.setDate(<span class="number">2</span>, <span class="keyword">new</span> Date(date.getTime()));</span><br><span class="line">            pst.setInt(<span class="number">3</span>, DateUtil.getDay(date));</span><br><span class="line">            pst.setInt(<span class="number">4</span>, DateUtil.getMonth(date));</span><br><span class="line">            pst.setString(<span class="number">5</span>, DateUtil.getMonthStr(date));</span><br><span class="line">            pst.setInt(<span class="number">6</span>, DateUtil.getYear(date));</span><br><span class="line">            pst.setInt(<span class="number">7</span>, DateUtil.getYearMonth(date));</span><br><span class="line">            pst.setInt(<span class="number">8</span>, DateUtil.getQuarter(date));</span><br><span class="line">            pst.setInt(<span class="number">9</span>, DateUtil.getWeek(date));</span><br><span class="line">            pst.setString(<span class="number">10</span>, DateUtil.getWeekStr(date));</span><br><span class="line">            pst.addBatch();</span><br><span class="line">        &#125;</span><br><span class="line">        pst.executeBatch();</span><br><span class="line"></span><br><span class="line"><span class="comment">//        conn.commit();//2,进行手动提交（commit）</span></span><br><span class="line">        printlnTime(startTime, days);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">saveFact</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        Long startTime = System.currentTimeMillis();</span><br><span class="line"></span><br><span class="line">        String sql = <span class="string">"insert into fact_flow(id,item_key,item_name,event_key,date_id,flow_num,create_time) values (?,?,?,?,?,?,?)"</span>;</span><br><span class="line">        String stime = <span class="string">"2018-09-30"</span>;</span><br><span class="line">        SimpleDateFormat ft = <span class="keyword">new</span> SimpleDateFormat (<span class="string">"yyyy-MM-dd"</span>);</span><br><span class="line">        java.util.Date t = ft.parse(stime);</span><br><span class="line">        <span class="keyword">long</span> long_stime = t.getTime();</span><br><span class="line"></span><br><span class="line">        PreparedStatement pst = getConn().prepareStatement(sql);</span><br><span class="line">        Connection conn = getConn();</span><br><span class="line">        conn.setAutoCommit(<span class="keyword">false</span>);</span><br><span class="line">        <span class="keyword">int</span> id = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> ind_day =<span class="number">0</span>; ind_day &lt; days; ind_day ++) &#123;</span><br><span class="line">            long_stime = long_stime - (<span class="number">24</span>*<span class="number">60</span>*<span class="number">60</span>*<span class="number">100</span>);</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> ind_num =<span class="number">0</span>; ind_num &lt; days_num; ind_num ++) &#123;</span><br><span class="line">                pst.setInt(<span class="number">1</span>, id);</span><br><span class="line">                pst.setInt(<span class="number">2</span>, array[getRandom(<span class="number">0</span>,<span class="number">13</span>)]);</span><br><span class="line">                pst.setString(<span class="number">3</span>, <span class="string">"项目"</span>+ ind_num);</span><br><span class="line">                pst.setInt(<span class="number">4</span>, getRandom(<span class="number">0</span>,<span class="number">4</span>));</span><br><span class="line">                pst.setString(<span class="number">5</span>, ft.format(long_stime));</span><br><span class="line"><span class="comment">//                pst.setDate(5, new Date(long_stime));</span></span><br><span class="line">                pst.setInt(<span class="number">6</span>, getRandom(<span class="number">3</span>,<span class="number">45</span>));</span><br><span class="line">                pst.setDate(<span class="number">7</span>, <span class="keyword">new</span> Date(long_stime));</span><br><span class="line">                id ++;</span><br><span class="line">                pst.addBatch();</span><br><span class="line">            &#125;</span><br><span class="line">            pst.executeBatch();</span><br><span class="line">            System.out.println(ind_day + <span class="string">" 插入成功！"</span>);</span><br><span class="line">            <span class="comment">// 若成功执行完所有的插入操作，则正常结束</span></span><br><span class="line">            conn.commit();<span class="comment">//2,进行手动提交（commit）</span></span><br><span class="line"><span class="comment">//            System.out.println("提交成功!");</span></span><br><span class="line"><span class="comment">//            conn.setAutoCommit(true);//3,提交完成后回复现场将Auto commit,还原为true,</span></span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        printlnTime(startTime, days* days_num);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">selectOneTableGroupby</span><span class="params">()</span>  <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">        Long startTime = System.currentTimeMillis();</span><br><span class="line">        <span class="keyword">int</span> rowCount = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        sb.append(<span class="string">"select d.item_key, d.event_key, d.date_id, sum(d.flow_num) "</span>);</span><br><span class="line">        sb.append(<span class="string">" from fact_flow d "</span>);</span><br><span class="line">        sb.append(<span class="string">" group by d.item_key, d.event_key, d.date_id"</span>);</span><br><span class="line"><span class="comment">//        sb.append(" and d.item_key=10122 and d.date_key='2018-10-13' and d.event_key=3 and d.flow_num&gt;40 ");</span></span><br><span class="line"></span><br><span class="line">        PreparedStatement pst = getConn().prepareStatement(sb.toString());</span><br><span class="line">        ResultSet rSet = pst.executeQuery();</span><br><span class="line">        <span class="keyword">while</span> (rSet.next()) &#123;</span><br><span class="line">            rowCount ++;</span><br><span class="line">            System.out.print(rSet.getInt(<span class="number">1</span>) + <span class="string">"\t"</span>);</span><br><span class="line">            System.out.print(rSet.getInt(<span class="number">2</span>) + <span class="string">"\t"</span>);</span><br><span class="line">            System.out.print(rSet.getString(<span class="number">3</span>) + <span class="string">"\t"</span>);</span><br><span class="line">            System.out.print(rSet.getInt(<span class="number">4</span>) + <span class="string">"\t"</span>);</span><br><span class="line"></span><br><span class="line">            System.out.print(<span class="string">"\n"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        printlnTime(startTime, rowCount);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">selectThreeTableGroupby</span><span class="params">()</span>  <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">        Long startTime = System.currentTimeMillis();</span><br><span class="line"></span><br><span class="line">        StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        sb.append(<span class="string">"select d.item_key, i.item_name, dd.week_name, d.event_key, sum(d.flow_num) "</span>);</span><br><span class="line">        sb.append(<span class="string">" from fact_flow d, dim_items i, dim_date dd"</span>);</span><br><span class="line">        sb.append(<span class="string">" where d.date_id=dd.date_id and d.item_key=i.item_key "</span>);</span><br><span class="line">        sb.append(<span class="string">" and d.item_key=10122 and d.date_id='2018-09-20' and d.flow_num&gt;40 "</span>);</span><br><span class="line">        sb.append(<span class="string">" group by d.item_key, i.item_name, dd.week_name, d.event_key"</span>);</span><br><span class="line"></span><br><span class="line">        PreparedStatement pst = getConn().prepareStatement(sb.toString());</span><br><span class="line">        ResultSet rSet = pst.executeQuery();</span><br><span class="line">        <span class="comment">// 遍历结果</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> rowCount = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (rSet.next()) &#123;</span><br><span class="line">            rowCount ++;</span><br><span class="line">            System.out.print(rSet.getInt(<span class="number">1</span>) + <span class="string">"\t"</span>);</span><br><span class="line">            System.out.print(rSet.getString(<span class="number">2</span>) + <span class="string">"\t"</span>);</span><br><span class="line">            System.out.print(rSet.getString(<span class="number">3</span>) + <span class="string">"\t"</span>);</span><br><span class="line">            System.out.print(rSet.getString(<span class="number">4</span>) + <span class="string">"\t"</span>);</span><br><span class="line">            System.out.print(rSet.getInt(<span class="number">5</span>) + <span class="string">"\t"</span>);</span><br><span class="line"></span><br><span class="line">            System.out.print(<span class="string">"\n"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        printlnTime(startTime, rowCount);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">selectOneTable</span><span class="params">()</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">        Long startTime = System.currentTimeMillis();</span><br><span class="line"></span><br><span class="line">        StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        sb.append(<span class="string">"select d.id, d.item_key,d.item_name,d.event_key,d.date_id,d.flow_num"</span>);</span><br><span class="line">        sb.append(<span class="string">" from fact_flow d"</span>);</span><br><span class="line">        sb.append(<span class="string">" where "</span>);</span><br><span class="line">        sb.append(<span class="string">" d.item_key=10122 and d.date_id='2018-09-20' and d.event_key=3 and d.flow_num&gt;40 "</span>);</span><br><span class="line"></span><br><span class="line">        PreparedStatement pst = getConn().prepareStatement(sb.toString());</span><br><span class="line">        ResultSet rSet = pst.executeQuery();</span><br><span class="line">        <span class="comment">// 遍历结果</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> rowCount = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (rSet.next()) &#123;</span><br><span class="line">            rowCount ++;</span><br><span class="line">            System.out.print(rSet.getInt(<span class="number">1</span>) + <span class="string">"\t"</span>);</span><br><span class="line">            System.out.print(rSet.getInt(<span class="number">2</span>) + <span class="string">"\t"</span>);</span><br><span class="line">            System.out.print(rSet.getString(<span class="number">3</span>) + <span class="string">"\t"</span>);</span><br><span class="line">            System.out.print(rSet.getInt(<span class="number">4</span>) + <span class="string">"\t"</span>);</span><br><span class="line">            System.out.print(rSet.getString(<span class="number">5</span>) + <span class="string">"\t"</span>);</span><br><span class="line">            System.out.print(rSet.getInt(<span class="number">6</span>) + <span class="string">"\t"</span>);</span><br><span class="line"><span class="comment">//            System.out.print(rSet.getString(7) + "\t");</span></span><br><span class="line"><span class="comment">//            System.out.print(rSet.getString(8) + "\t");</span></span><br><span class="line">            System.out.print(<span class="string">"\n"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        printlnTime(startTime, rowCount);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">selectAll</span><span class="params">()</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line"></span><br><span class="line">        Long startTime = System.currentTimeMillis();</span><br><span class="line"></span><br><span class="line">        String sqlString = <span class="string">"select id,item_key,item_name,event_key,date_id,flow_num from fact_flow"</span>;</span><br><span class="line"></span><br><span class="line">        PreparedStatement pst = getConn().prepareStatement(sqlString);</span><br><span class="line">        ResultSet rSet = pst.executeQuery();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> rowCount = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (rSet.next()) &#123;</span><br><span class="line">            rowCount ++;</span><br><span class="line"><span class="comment">//            System.out.print(rSet.getInt(1) + "\t");</span></span><br><span class="line"><span class="comment">//            System.out.print(rSet.getInt(2) + "\t");</span></span><br><span class="line"><span class="comment">//            System.out.print(rSet.getString(3) + "\t");</span></span><br><span class="line"><span class="comment">//            System.out.print(rSet.getInt(4) + "\t");</span></span><br><span class="line"><span class="comment">//            System.out.print(rSet.getDate(5) + "\t");</span></span><br><span class="line"><span class="comment">//            System.out.print(rSet.getInt(6) + "\t");</span></span><br><span class="line"><span class="comment">//            System.out.print("\n");</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        printlnTime(startTime, rowCount);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//打印执行情况</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printlnTime</span><span class="params">(Long startTime, <span class="keyword">int</span> testrows)</span> </span>&#123;</span><br><span class="line">        Long endTime=System.currentTimeMillis(); <span class="comment">//获取结束时间</span></span><br><span class="line">        <span class="keyword">float</span> interval = endTime-startTime == <span class="number">0</span> ? <span class="number">1</span> : endTime-startTime;</span><br><span class="line">        <span class="keyword">float</span> tpms = (<span class="keyword">float</span>) testrows /interval;</span><br><span class="line">        System.out.println(<span class="string">"=======数据量==="</span>+ testrows+<span class="string">"========="</span>);</span><br><span class="line">        System.out.println(<span class="string">"运行时间： "</span>+ interval+<span class="string">"ms    --&gt;&gt;  "</span> +  interval/<span class="number">1000</span> + <span class="string">" s"</span> );</span><br><span class="line">        System.out.println(<span class="string">"每毫秒:"</span>+tpms+<span class="string">"条。"</span>);</span><br><span class="line">        System.out.println(<span class="string">"每秒:"</span>+tpms*<span class="number">1000</span>+<span class="string">"条。"</span>);</span><br><span class="line">        System.out.println(<span class="string">"==================================="</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">save</span><span class="params">(<span class="keyword">int</span> test_rows)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        Long startTime = System.currentTimeMillis();</span><br><span class="line"></span><br><span class="line">        String sql = <span class="string">"insert into fact_flow(id,item_key,item_name,event_key,date_key,flow_num,create_time) values (?,?,?,?,?,?,?)"</span>;</span><br><span class="line"></span><br><span class="line">        SimpleDateFormat ft = <span class="keyword">new</span> SimpleDateFormat (<span class="string">"yyyy-MM-dd"</span>);</span><br><span class="line">        String stime = <span class="string">"2018-10-15"</span>;</span><br><span class="line">        java.util.Date t = ft.parse(stime);</span><br><span class="line">        <span class="keyword">long</span> long_stime = t.getTime();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; test_rows; i ++) &#123;</span><br><span class="line">            long_stime = long_stime - (<span class="number">24</span>*<span class="number">60</span>*<span class="number">60</span>*<span class="number">100</span>);</span><br><span class="line">            PreparedStatement pst = getConn().prepareStatement(sql);</span><br><span class="line">            pst.setInt(<span class="number">1</span>, i);</span><br><span class="line">            pst.setInt(<span class="number">2</span>, array[getRandom(<span class="number">0</span>,<span class="number">13</span>)]);</span><br><span class="line">            pst.setString(<span class="number">3</span>, <span class="string">"项目"</span>+i);</span><br><span class="line">            pst.setInt(<span class="number">4</span>, getRandom(<span class="number">0</span>,<span class="number">4</span>));</span><br><span class="line">            pst.setDate(<span class="number">5</span>, <span class="keyword">new</span> Date(long_stime));</span><br><span class="line">            pst.setInt(<span class="number">6</span>, getRandom(<span class="number">3</span>,<span class="number">45</span>));</span><br><span class="line">            pst.setDate(<span class="number">7</span>, <span class="keyword">new</span> Date(long_stime));</span><br><span class="line">            pst.executeUpdate();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"添加成功"</span>);</span><br><span class="line"></span><br><span class="line">        Long endTime=System.currentTimeMillis(); <span class="comment">//获取结束时间</span></span><br><span class="line">        <span class="keyword">float</span> interval = endTime-startTime == <span class="number">0</span> ? <span class="number">1</span> : endTime-startTime;</span><br><span class="line">        <span class="keyword">float</span> tpms = (<span class="keyword">float</span>) test_rows /interval;</span><br><span class="line">        System.out.println(<span class="string">"=======数量==="</span>+ test_rows+<span class="string">"========="</span>);</span><br><span class="line">        System.out.println(<span class="string">"程序运行时间： "</span>+ interval+<span class="string">"ms"</span>);</span><br><span class="line">        System.out.println(<span class="string">"每毫秒写入:"</span>+tpms+<span class="string">"条。"</span>);</span><br><span class="line">        System.out.println(<span class="string">"每秒写入:"</span>+tpms*<span class="number">1000</span>+<span class="string">"条。"</span>);</span><br><span class="line">        System.out.println(<span class="string">"==================================="</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> Connection conn = <span class="keyword">null</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Connection <span class="title">getConn</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Register JDBC driver</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span>(conn == <span class="keyword">null</span>) &#123;</span><br><span class="line">                Class.forName(<span class="string">"org.apache.ignite.IgniteJdbcThinDriver"</span>);</span><br><span class="line"><span class="comment">//                String urlstr = "jdbc:ignite:thin://192.168.52.128/";</span></span><br><span class="line">                String urlstr = <span class="string">"jdbc:ignite:thin://10.101.90.113/"</span>;</span><br><span class="line">                conn = DriverManager.getConnection(urlstr);</span><br><span class="line">                System.out.println(<span class="string">"连接成功"</span>);</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> conn;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">ignite</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">缓存</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ignite//" class="article-tag-list-link color2">ignite</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/10/11/bigdata-ignite-02/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/11/18/tools-gradle-01/">展开全文 >></a>
         </p>
       
 
@@ -1130,7 +1099,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
   
 
@@ -1229,15 +1198,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ignite</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">go</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+                <a href="javascript:void(0)" class="js-tag color3">笔记</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1249,23 +1214,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">笔记</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Hadoop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">集群</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">centos6.5</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1273,7 +1226,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hive</a>
+                <a href="javascript:void(0)" class="js-tag color3">集群</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Hadoop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ignite</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1281,11 +1242,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Hive</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+                <a href="javascript:void(0)" class="js-tag color5">hive</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">centos6.5</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1301,7 +1270,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">MySql</a>
+                <a href="javascript:void(0)" class="js-tag color3">HDFS问题集</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1309,11 +1278,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">HDFS问题集</a>
+                <a href="javascript:void(0)" class="js-tag color3">MySql笔记-错误编号和SQLSTATE码</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">MySql笔记-错误编号和SQLSTATE码</a>
+                <a href="javascript:void(0)" class="js-tag color1">MySql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">沟通</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1325,7 +1298,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">沟通</a>
+                <a href="javascript:void(0)" class="js-tag color2">github</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">yilia</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1334,22 +1311,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">azkaban</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Gradle</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">github</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">yilia</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1365,11 +1326,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">存储过程</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">SQL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Gradle</a>
               </li>
             
             <div class="clearfix"></div>

@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="Gradle几个重要的配置 手动下载Gradle压缩包解压到指定目录 程序安装目录GRADLE_HOME=D:\soft\gradle-5.2.1 加入到环境全局PATH 后加 “;%GRADLE_HOME%\bin” Jar下载后的本地存储目录GRADLE_USER_HOME=E:\repository\gradle 配置国内镜像 当前项目生效在 build.gradle 文件内修改 / 添加">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-05T05:41:33.838Z">
+<meta property="og:updated_time" content="2019-03-05T06:34:55.325Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Gradle">
 <meta name="twitter:description" content="Gradle几个重要的配置 手动下载Gradle压缩包解压到指定目录 程序安装目录GRADLE_HOME=D:\soft\gradle-5.2.1 加入到环境全局PATH 后加 “;%GRADLE_HOME%\bin” Jar下载后的本地存储目录GRADLE_USER_HOME=E:\repository\gradle 配置国内镜像 当前项目生效在 build.gradle 文件内修改 / 添加">
@@ -177,6 +177,7 @@
 <p>据说是idea的bug 我用的版本是2016.3 重新下一个2017.2的版本就没问题了</p>
 <p>发现使用mavenLocal() 时Gradle默认会按以下顺序去查找本地的maven仓库：USER_HOME/.m2/settings.xml &gt;&gt; M2_HOME/conf/settings.xml &gt;&gt; USER_HOME/.m2/repository。注意，环境变量要加入M2_HOME， 我们配环境时很多时候都是使用MAVEN_HOME或者直接在path中输入bin路径了，导致mavenLocal无法生效。</p>
 <p>另外，如果本地没有相关jar包，gradle会在下载到USER_HOME/.gradle文件夹下，若想让gradle下载到指定文件夹，配置GRADLE_USER_HOME环境变量</p>
+<h1 id="执行-gradlew命令如何不去下载gradle"><a href="#执行-gradlew命令如何不去下载gradle" class="headerlink" title="执行./gradlew命令如何不去下载gradle"></a>执行./gradlew命令如何不去下载gradle</h1><p><a href="https://blog.csdn.net/yzpbright/article/details/53492458" target="_blank" rel="noopener">https://blog.csdn.net/yzpbright/article/details/53492458</a></p>
 
       
 
@@ -220,18 +221,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/03/01/tools-git-01/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/03/05/tools-azkaban-02/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          在CentOS6上安装 git1.9.1
+          azkaban单机模式安装使用
         
       </div>
     </a>
   
   
-    <a href="/2019/01/20/bigdata-zk-01/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">zookeeper学习笔记</div>
+    <a href="/2019/03/01/tools-git-01/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">在CentOS6上安装 git1.9.1</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -361,15 +362,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ignite</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">go</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+                <a href="javascript:void(0)" class="js-tag color3">笔记</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -381,23 +378,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">笔记</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Hadoop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">集群</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">centos6.5</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -405,7 +390,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hive</a>
+                <a href="javascript:void(0)" class="js-tag color3">集群</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Hadoop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ignite</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -413,11 +406,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Hive</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+                <a href="javascript:void(0)" class="js-tag color5">hive</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">centos6.5</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -433,7 +434,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">MySql</a>
+                <a href="javascript:void(0)" class="js-tag color3">HDFS问题集</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -441,11 +442,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">HDFS问题集</a>
+                <a href="javascript:void(0)" class="js-tag color3">MySql笔记-错误编号和SQLSTATE码</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">MySql笔记-错误编号和SQLSTATE码</a>
+                <a href="javascript:void(0)" class="js-tag color1">MySql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">沟通</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -457,7 +462,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">沟通</a>
+                <a href="javascript:void(0)" class="js-tag color2">github</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">yilia</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -466,22 +475,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">azkaban</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Gradle</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">github</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">yilia</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -497,11 +490,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">存储过程</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">SQL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Gradle</a>
               </li>
             
             <div class="clearfix"></div>

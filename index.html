@@ -134,27 +134,64 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-tools-git-01" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+    <article id="post-tools-azkaban-02" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/01/tools-git-01/">在CentOS6上安装 git1.9.1</a>
+      <a class="article-title" href="/2019/03/05/tools-azkaban-02/">azkaban单机模式安装使用</a>
     </h1>
   
 
         
-        <a href="/2019/03/01/tools-git-01/" class="archive-article-date">
-  	<time datetime="2019-03-01T14:00:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-01</time>
+        <a href="/2019/03/05/tools-azkaban-02/" class="archive-article-date">
+  	<time datetime="2019-03-05T05:56:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-05</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在CentOS6上安装 git1.9.1<br><a href="https://blog.csdn.net/qq_31082427/article/details/78016952" target="_blank" rel="noopener">https://blog.csdn.net/qq_31082427/article/details/78016952</a></p>
+        <h2 id="0-前提"><a href="#0-前提" class="headerlink" title="0.前提"></a>0.前提</h2><p>这个安装教程是通过编译Azkaban源码的方案方式</p>
+<ul>
+<li>需要安装git</li>
+<li><p>无需安装gradle（会自动下载安装）</p>
+</li>
+<li><p>下载azkaban<br>下载地址： <a href="https://github.com/azkaban/azkaban/releases" target="_blank" rel="noopener">https://github.com/azkaban/azkaban/releases</a><br>使用的版本：azkaban-3.67.0</p>
+</li>
+</ul>
+<h2 id="1-安装git"><a href="#1-安装git" class="headerlink" title="1.安装git"></a>1.安装git</h2><p>wget <a href="https://www.kernel.org/pub/software/scm/git/git-2.7.2.tar.gz" target="_blank" rel="noopener">https://www.kernel.org/pub/software/scm/git/git-2.7.2.tar.gz</a><br>tar xzf git-2.7.2.tar.gz</p>
+<p>进入git目录编译执行</p>
+<p>cd git-2.7.2</p>
+<p>编译安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo make prefix=/usr/local/git all</span><br><span class="line">sudo make prefix=/usr/local/git install</span><br></pre></td></tr></table></figure></p>
+<p>把git加入到环境变量中<br>echo “export PATH=$PATH:/usr/local/git/bin” &gt;&gt; /etc/bashrc<br>source /etc/bashrc<br>或是<br>echo “export PATH=$PATH:/usr/local/git/bin” &gt;&gt; /etc/profile<br>source /etc/profile</p>
+<h2 id="1-安装Azkaban"><a href="#1-安装Azkaban" class="headerlink" title="1.安装Azkaban"></a>1.安装Azkaban</h2><ul>
+<li>Azkaban有三种部署模式<br>solo-server模式 单机模式<blockquote>
+<p>DB使用的是一个内嵌的H2，Web Server和Executor Server运行在同一个进程里。这种模式包含Azkaban的所有特性，但一般用来学习和测试。</p>
+</blockquote>
+</li>
+</ul>
+<p>two-server模式 集群模式</p>
+<blockquote>
+<p>DB使用的是MySQL，MySQL支持master-slave架构，Web Server和Executor Server运行在不同的进程中。</p>
+</blockquote>
+<p>multiple-executor模式</p>
+<blockquote>
+<p>DB使用的是MySQL，MySQL支持master-slave架构，Web Server和Executor Server运行在不同机器上，且有多个Executor Server。</p>
+</blockquote>
+<p>这里针对的是单机模式</p>
+<p>cd azkaban-3.67.0</p>
+<p>./gradlew build</p>
+<p>(<br>这里会自动下载gradle到用户目录.gradle下面。<br>建议修改azkaban-3.67.0目录下的build.gradle仓库为国内阿里云或是自己的私服nexus,不然下载时间会比较久<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">repositories &#123;</span><br><span class="line">    mavenLocal()</span><br><span class="line">    maven &#123; url &quot;http://10.10.203.93:8082/repository/maven-public/&quot; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>两个地方都有这个配置。都改了。<br>)</p>
+<p>./gradlew clean<br>./gradlew installDist<br>./gradlew test<br>./gradlew build -x test</p>
+<p>cd azkaban-solo-server/build/install/azkaban-solo-server;<br>bin/start-solo.sh</p>
+<p>停止<br>bin/shutdown-solo.sh</p>
+<p>默认用户名和密码：azkaban和azkaban</p>
+<p>访问<a href="http://localhost:8081即可" target="_blank" rel="noopener">http://localhost:8081即可</a></p>
+<h2 id="异常情况"><a href="#异常情况" class="headerlink" title="异常情况"></a>异常情况</h2><p>可能编译过程会报FAILURE: Build failed with an exception. 之类的错误，需要更新JDK的加密码类（我在不同环境安装过三次都报错了，所以估计都需要更新）<br>解决方法：下载JCE<a href="https://www.oracle.com/technetwork/cn/java/javase/downloads/jce8-download-2133166-zhs.html我这边使用的JDK8，包含了JCE所需要的jre8解压搜下载好的文件，放置到java的以下目录：" target="_blank" rel="noopener">https://www.oracle.com/technetwork/cn/java/javase/downloads/jce8-download-2133166-zhs.html我这边使用的JDK8，包含了JCE所需要的jre8解压搜下载好的文件，放置到java的以下目录：</a><br>/usr/local/jdk1.8.0_74/jre/lib/security<br>覆盖后重新编译</p>
 
       
 
@@ -168,7 +205,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">git</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">azkaban</a>
         		</li>
       		
 		</ul>
@@ -189,7 +226,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/01/tools-git-01/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/03/05/tools-azkaban-02/">展开全文 >></a>
         </p>
       
 
@@ -259,6 +296,7 @@
 <p>据说是idea的bug 我用的版本是2016.3 重新下一个2017.2的版本就没问题了</p>
 <p>发现使用mavenLocal() 时Gradle默认会按以下顺序去查找本地的maven仓库：USER_HOME/.m2/settings.xml &gt;&gt; M2_HOME/conf/settings.xml &gt;&gt; USER_HOME/.m2/repository。注意，环境变量要加入M2_HOME， 我们配环境时很多时候都是使用MAVEN_HOME或者直接在path中输入bin路径了，导致mavenLocal无法生效。</p>
 <p>另外，如果本地没有相关jar包，gradle会在下载到USER_HOME/.gradle文件夹下，若想让gradle下载到指定文件夹，配置GRADLE_USER_HOME环境变量</p>
+<h1 id="执行-gradlew命令如何不去下载gradle"><a href="#执行-gradlew命令如何不去下载gradle" class="headerlink" title="执行./gradlew命令如何不去下载gradle"></a>执行./gradlew命令如何不去下载gradle</h1><p><a href="https://blog.csdn.net/yzpbright/article/details/53492458" target="_blank" rel="noopener">https://blog.csdn.net/yzpbright/article/details/53492458</a></p>
 
       
 
@@ -294,6 +332,104 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/03/01/tools-gradle-02/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-tools-git-01" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/01/tools-git-01/">在CentOS6上安装 git1.9.1</a>
+    </h1>
+  
+
+        
+        <a href="/2019/03/01/tools-git-01/" class="archive-article-date">
+  	<time datetime="2019-03-01T14:00:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-01</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在CentOS6上安装 git2.7.2</p>
+<p>借鉴了以下的方法。版本不一样。</p>
+<p><a href="https://blog.csdn.net/qq_31082427/article/details/78016952" target="_blank" rel="noopener">https://blog.csdn.net/qq_31082427/article/details/78016952</a></p>
+<p>sudo yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel gcc perl-ExtUtils-MakeMaker</p>
+<p>wget <a href="https://www.kernel.org/pub/software/scm/git/git-2.7.2.tar.gz" target="_blank" rel="noopener">https://www.kernel.org/pub/software/scm/git/git-2.7.2.tar.gz</a></p>
+<p>tar xzf git-1.9.1.tar.gz</p>
+<p>进入git目录编译执行</p>
+<p>cd git-1.9.1</p>
+<p>sudo make prefix=/usr/local/git all</p>
+<p>sudo make prefix=/usr/local/git install</p>
+<p>把git加入到环境变量中<br>echo “export PATH=$PATH:/usr/local/git/bin” &gt;&gt; /etc/bashrc<br>source /etc/bashrc</p>
+<p>或是<br>echo “export PATH=$PATH:/usr/local/git/bin” &gt;&gt; /etc/profile<br>source /etc/profile</p>
+<p>4、安装成功，查看git版本</p>
+<p>git –version</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">git</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/工具//" class="article-tag-list-link color3">工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/03/01/tools-git-01/">展开全文 >></a>
         </p>
       
 
@@ -387,6 +523,97 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/01/20/bigdata-zk-01/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-linux-nexus-01" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/16/linux-nexus-01/">配置Nexus私服</a>
+    </h1>
+  
+
+        
+        <a href="/2019/01/16/linux-nexus-01/" class="archive-article-date">
+  	<time datetime="2019-01-16T09:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="设置开机启动"><a href="#设置开机启动" class="headerlink" title="设置开机启动"></a>设置开机启动</h2><p>-设置启动的用户为root<br>vim /opt/soft/nexus/nexus-3.14.0-04/bin/nexus.rc<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">run_as_user=&quot;root&quot;</span><br></pre></td></tr></table></figure></p>
+<p>sudo ln -s /opt/soft/nexus/nexus-3.14.0-04/bin/nexus /etc/init.d/nexus<br>sudo chmod 777 nexus<br>sudo chkconfig –add nexus<br>sudo chkconfig –levels 345 nexus on<br>sudo service nexus enable</p>
+<ul>
+<li>验证</li>
+</ul>
+<p>service nexus start<br>service nexus stop</p>
+<p>参考文章：<br><a href="https://wenku.baidu.com/view/3add87a4846a561252d380eb6294dd88d1d23d16.html" target="_blank" rel="noopener">https://wenku.baidu.com/view/3add87a4846a561252d380eb6294dd88d1d23d16.html</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/linux//" class="article-tag-list-link color1">linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/01/16/linux-nexus-01/">展开全文 >></a>
         </p>
       
 
@@ -512,325 +739,46 @@
 
 
   
-    <article id="post-bigdata-hive-07" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+    <article id="post-linux-02" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/12/18/bigdata-hive-07/">Hive笔记-hive中的窗口函数</a>
+      <a class="article-title" href="/2019/01/16/linux-02/">在Linux服务相关的配置</a>
     </h1>
   
 
         
-        <a href="/2018/12/18/bigdata-hive-07/" class="archive-article-date">
-  	<time datetime="2018-12-18T03:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-18</time>
+        <a href="/2019/01/16/linux-02/" class="archive-article-date">
+  	<time datetime="2019-01-16T09:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-16</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="0-概述"><a href="#0-概述" class="headerlink" title="0.概述"></a>0.概述</h1><p>窗口函数 Lag, Lead, First_value,Last_value</p>
-<p>LAG(col,n,DEFAULT) 用于统计窗口内往上第n行值<br>LEAD(col,n,DEFAULT) 用于统计窗口内往下第n行值, 与LAG相反<br>FIRST_VALUE, LAST_VALUE<br>first_value:  取分组内排序后，截止到当前行，第一个值<br>last_value:  取分组内排序后，截止到当前行，最后一个值</p>
-<p><a href="https://www.cnblogs.com/skyEva/p/5730531.html" target="_blank" rel="noopener">https://www.cnblogs.com/skyEva/p/5730531.html</a></p>
-<p><a href="http://lxw1234.com/archives/tag/hive-window-functions" target="_blank" rel="noopener">http://lxw1234.com/archives/tag/hive-window-functions</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Hive</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/12/18/bigdata-hive-07/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-bigdata-hive-02" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/12/18/bigdata-hive-02/">Hive中的默认分隔符及其表示</a>
-    </h1>
-  
-
-        
-        <a href="/2018/12/18/bigdata-hive-02/" class="archive-article-date">
-  	<time datetime="2018-12-18T03:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">\n    每行一条记录</span><br><span class="line">^A    分隔列（八进制 \001）</span><br><span class="line">^B    分隔ARRAY或者STRUCT中的元素，或者MAP中多个键值对之间分隔（八进制 \002）</span><br><span class="line">^C    分隔MAP中键值对的“键”和“值”（八进制 \003）</span><br></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Hive</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/12/18/bigdata-hive-02/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-bigdata-hive-join" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/12/18/bigdata-hive-join/">Hive的Join操作</a>
-    </h1>
-  
-
-        
-        <a href="/2018/12/18/bigdata-hive-join/" class="archive-article-date">
-  	<time datetime="2018-12-18T03:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="0-构造数据"><a href="#0-构造数据" class="headerlink" title="0.构造数据"></a>0.构造数据</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> a(<span class="keyword">id</span> <span class="built_in">int</span>, <span class="keyword">name</span> <span class="keyword">string</span>)</span><br><span class="line">  <span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">','</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> b(<span class="keyword">id</span> <span class="built_in">int</span>, <span class="keyword">name</span> <span class="keyword">string</span>)</span><br><span class="line">  <span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">','</span>;</span><br></pre></td></tr></table></figure>
-<p>导入数据<br>load data local inpath ‘/home/hadoop/a.txt’ overwrite into table a;<br>load data local inpath ‘/home/hadoop/b.txt’ overwrite into table b;</p>
-<p>a.txt<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1,a</span><br><span class="line">2,b</span><br><span class="line">3,c</span><br><span class="line">4,d</span><br></pre></td></tr></table></figure></p>
-<p>b.txt<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">2,bb</span><br><span class="line">3,cc</span><br><span class="line">4,dd</span><br><span class="line">5,ee</span><br><span class="line">6,ff</span><br></pre></td></tr></table></figure></p>
-<h2 id="1-inner-join"><a href="#1-inner-join" class="headerlink" title="1.inner join"></a>1.inner join</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> a <span class="keyword">inner</span> <span class="keyword">join</span> b <span class="keyword">on</span> a.id=b.id;</span><br></pre></td></tr></table></figure>
-<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+-------+---------+</span><br><span class="line">| a.id  | a.name  |</span><br><span class="line">+-------+---------+</span><br><span class="line">| 2     | b       |</span><br><span class="line">| 3     | c       |</span><br><span class="line">| 4     | d       |</span><br><span class="line">+-------+---------+</span><br></pre></td></tr></table></figure></p>
-<h2 id="2-left-join"><a href="#2-left-join" class="headerlink" title="2.left join"></a>2.left join</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> a <span class="keyword">left</span> <span class="keyword">join</span> b <span class="keyword">on</span> a.id=b.id;</span><br></pre></td></tr></table></figure>
-<p>输出结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">+-------+---------+-------+---------+</span><br><span class="line">| a.id  | a.name  | b.id  | b.name  |</span><br><span class="line">+-------+---------+-------+---------+</span><br><span class="line">| 1     | a       | NULL  | NULL    |</span><br><span class="line">| 2     | b       | 2     | bb      |</span><br><span class="line">| 3     | c       | 3     | cc      |</span><br><span class="line">| 4     | d       | 4     | dd      |</span><br><span class="line">+-------+---------+-------+---------+</span><br></pre></td></tr></table></figure></p>
-<h2 id="3-right-join"><a href="#3-right-join" class="headerlink" title="3.right join"></a>3.right join</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> a <span class="keyword">right</span> <span class="keyword">join</span> b <span class="keyword">on</span> a.id=b.id;</span><br></pre></td></tr></table></figure>
-<p>输出结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">+-------+---------+-------+---------+</span><br><span class="line">| a.id  | a.name  | b.id  | b.name  |</span><br><span class="line">+-------+---------+-------+---------+</span><br><span class="line">| 2     | b       | 2     | bb      |</span><br><span class="line">| 3     | c       | 3     | cc      |</span><br><span class="line">| 4     | d       | 4     | dd      |</span><br><span class="line">| NULL  | NULL    | 5     | ee      |</span><br><span class="line">| NULL  | NULL    | 6     | ff      |</span><br><span class="line">+-------+---------+-------+---------+</span><br></pre></td></tr></table></figure></p>
-<h2 id="3-full-outer-join"><a href="#3-full-outer-join" class="headerlink" title="3.full outer join"></a>3.full outer join</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> a <span class="keyword">full</span> <span class="keyword">outer</span> <span class="keyword">join</span> b <span class="keyword">on</span> a.id=b.id;</span><br></pre></td></tr></table></figure>
-<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">+-------+---------+-------+---------+</span><br><span class="line">| a.id  | a.name  | b.id  | b.name  |</span><br><span class="line">+-------+---------+-------+---------+</span><br><span class="line">| 1     | a       | NULL  | NULL    |</span><br><span class="line">| 2     | b       | 2     | bb      |</span><br><span class="line">| 3     | c       | 3     | cc      |</span><br><span class="line">| 4     | d       | 4     | dd      |</span><br><span class="line">| NULL  | NULL    | 5     | ee      |</span><br><span class="line">| NULL  | NULL    | 6     | ff      |</span><br><span class="line">+-------+---------+-------+---------+</span><br></pre></td></tr></table></figure></p>
-<h2 id="4-left-semi-join"><a href="#4-left-semi-join" class="headerlink" title="4.left semi join"></a>4.left semi join</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> a <span class="keyword">left</span> semi <span class="keyword">join</span> b <span class="keyword">on</span> a.id=b.id;</span><br></pre></td></tr></table></figure>
-<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+-------+---------+</span><br><span class="line">| a.id  | a.name  |</span><br><span class="line">+-------+---------+</span><br><span class="line">| 2     | b       |</span><br><span class="line">| 3     | c       |</span><br><span class="line">| 4     | d       |</span><br><span class="line">+-------+---------+</span><br></pre></td></tr></table></figure></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Hive</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/12/18/bigdata-hive-join/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-bigdata-hive-05" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/12/18/bigdata-hive-05/">Hive案例-添加新增数据到Hive表</a>
-    </h1>
-  
-
-        
-        <a href="/2018/12/18/bigdata-hive-05/" class="archive-article-date">
-  	<time datetime="2018-12-18T03:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="0-准备数据"><a href="#0-准备数据" class="headerlink" title="0.准备数据"></a>0.准备数据</h1><ul>
-<li><p>构造一个车辆识别的业务</p>
-</li>
-<li><p>字段说明<br>car_no 车牌<br>car_color 车辆颜色<br>score 识别度</p>
-</li>
-<li><p>建表语句</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 增量数据</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> t_kfk(<span class="keyword">id</span> <span class="keyword">string</span>, car_no <span class="keyword">string</span>, car_color <span class="keyword">string</span>, score <span class="built_in">DECIMAL</span>(<span class="number">10</span>,<span class="number">5</span>))</span><br><span class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">','</span></span><br><span class="line"><span class="keyword">stored</span> <span class="keyword">as</span> textfile;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 原数据</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> t_info(<span class="keyword">id</span> <span class="keyword">string</span>, car_no <span class="keyword">string</span>, car_color <span class="keyword">string</span>)</span><br><span class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">','</span></span><br><span class="line"><span class="keyword">stored</span> <span class="keyword">as</span> textfile;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>构造数据</p>
-</li>
+        <h2 id="1-CentOS"><a href="#1-CentOS" class="headerlink" title="1.CentOS"></a>1.CentOS</h2><ul>
+<li>查看服务</li>
 </ul>
-<p>vim /home/hadoop/t_kfk.txt<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1,a,红色,0.3</span><br><span class="line">2,a,蓝色,0.6</span><br><span class="line">3,a,白色,0.4</span><br><span class="line">4,b,灰色,0.5</span><br><span class="line">5,b,红色,0.8</span><br><span class="line">6,b,黄色,0.4</span><br><span class="line">7,c,蓝色,0.5</span><br><span class="line">8,c,黑色,0.4</span><br><span class="line">9,c,绿色,0.2</span><br></pre></td></tr></table></figure></p>
-<p>vim /home/hadoop/t_info.txt<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1,a,蓝色</span><br><span class="line">10,aa,军色</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>chkconfig –list</p>
+</blockquote>
 <ul>
-<li>导入数据</li>
+<li>只查看MySQL服务</li>
 </ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">load</span> <span class="keyword">data</span> <span class="keyword">local</span> inpath <span class="string">'/home/hadoop/t_kfk.txt'</span> overwrite <span class="keyword">into</span> <span class="keyword">table</span> t_kfk;</span><br><span class="line"><span class="keyword">load</span> <span class="keyword">data</span> <span class="keyword">local</span> inpath <span class="string">'/home/hadoop/t_info.txt'</span> overwrite <span class="keyword">into</span> <span class="keyword">table</span> t_info;</span><br></pre></td></tr></table></figure>
-<h1 id="1-ETL过程"><a href="#1-ETL过程" class="headerlink" title="1.ETL过程"></a>1.ETL过程</h1><ul>
-<li><p>1.1 新增的数据取出最高分的放入临时表tmp_kfk</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">table</span> <span class="keyword">if</span> <span class="keyword">exists</span> tmp_kfk;</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> tmp_kfk</span><br><span class="line"><span class="keyword">as</span></span><br><span class="line"><span class="keyword">select</span> t1.id,t1.car_no,t1.car_color <span class="keyword">from</span></span><br><span class="line">(</span><br><span class="line">  <span class="keyword">select</span> <span class="keyword">id</span>,car_no,car_color,score, row_number() <span class="keyword">over</span> (<span class="keyword">partition</span> <span class="keyword">by</span> car_no <span class="keyword">order</span> <span class="keyword">by</span> score <span class="keyword">desc</span> ) ind</span><br><span class="line">  <span class="keyword">from</span> t_kfk</span><br><span class="line">) <span class="keyword">as</span> t1 <span class="keyword">where</span> t1.ind=<span class="number">1</span></span><br><span class="line">;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>1.2 最高分的和旧数据合在一起<br>（新的数据与旧的数据一样用新的覆盖旧的）</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">table</span> <span class="keyword">if</span> <span class="keyword">exists</span> tmp_all;</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> tmp_all</span><br><span class="line"><span class="keyword">as</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> tmp_kfk  </span><br><span class="line"></span><br><span class="line"><span class="keyword">union</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 找出旧数据中不存在新的</span></span><br><span class="line"><span class="keyword">select</span> info.* <span class="keyword">from</span> t_info info</span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> tmp_kfk kfk <span class="keyword">on</span> kfk.car_no=info.car_no</span><br><span class="line"><span class="keyword">where</span> kfk.car_no <span class="keyword">is</span> <span class="literal">null</span></span><br><span class="line">;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>1.3 从临时表导入到正式表</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> overwrite <span class="keyword">table</span> t_info</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> tmp_all;</span><br></pre></td></tr></table></figure>
-</li>
+<blockquote>
+<p>chkconfig –list mysqld</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[mysql@localhost bin]$ chkconfig --list mysqld</span><br><span class="line">mysqld         	0:off	1:off	2:on	3:on	4:on	5:on	6:off</span><br></pre></td></tr></table></figure>
+<p>可以看到mysql的2~5为on，说明mysql服务会随机器启动而自动启动。</p>
+<ul>
+<li>配置MySQL的开机自动启动</li>
 </ul>
+<blockquote>
+<p>chkconfig –add mysql<br>chkconfig mysqld on</p>
+</blockquote>
 
       
 
@@ -844,7 +792,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Hive</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
         		</li>
       		
 		</ul>
@@ -865,7 +813,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/12/18/bigdata-hive-05/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/01/16/linux-02/">展开全文 >></a>
         </p>
       
 
@@ -992,19 +940,19 @@
 
 
   
-    <article id="post-bigdata-hive-04" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+    <article id="post-bigdata-hive-07" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/12/18/bigdata-hive-04/">Hive笔记-hive中的窗口函数</a>
+      <a class="article-title" href="/2018/12/18/bigdata-hive-07/">Hive笔记-hive中的窗口函数</a>
     </h1>
   
 
         
-        <a href="/2018/12/18/bigdata-hive-04/" class="archive-article-date">
+        <a href="/2018/12/18/bigdata-hive-07/" class="archive-article-date">
   	<time datetime="2018-12-18T03:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-18</time>
 </a>
         
@@ -1012,34 +960,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="row-number-over-partition-by-xx-的使用"><a href="#row-number-over-partition-by-xx-的使用" class="headerlink" title="row_number()over(partition by xx)的使用"></a>row_number()over(partition by xx)的使用</h2><p>vim student.txt<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1,1,88</span><br><span class="line">2,1,66</span><br><span class="line">3,1,75</span><br><span class="line">4,2,30</span><br><span class="line">5,2,70</span><br><span class="line">6,2,80</span><br><span class="line">7,2,60</span><br><span class="line">8,3,90</span><br><span class="line">9,3,70</span><br><span class="line">10,3,80</span><br><span class="line">11,3,80</span><br></pre></td></tr></table></figure></p>
-<p>学生成绩表<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">table</span> <span class="keyword">if</span> <span class="keyword">exists</span> student;</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> student(<span class="keyword">id</span> <span class="built_in">int</span>, grade <span class="built_in">int</span>, score <span class="built_in">int</span>)</span><br><span class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">','</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 导入数据</span></span><br><span class="line"><span class="keyword">load</span> <span class="keyword">data</span> <span class="keyword">local</span> inpath <span class="string">'/home/hadoop/student.txt'</span> <span class="keyword">into</span> <span class="keyword">table</span> student;</span><br></pre></td></tr></table></figure></p>
-<p>##</p>
-<ul>
-<li>1.不分班按学生成绩排名<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> *,row_number() <span class="keyword">over</span>(<span class="keyword">order</span> <span class="keyword">by</span> Score <span class="keyword">desc</span>) <span class="keyword">as</span> <span class="keyword">Sequence</span> <span class="keyword">from</span> student;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">+-------------+----------------+----------------+-----------+</span><br><span class="line">| student.id  | student.grade  | student.score  | sequence  |</span><br><span class="line">+-------------+----------------+----------------+-----------+</span><br><span class="line">| 8           | 3              | 90             | 1         |</span><br><span class="line">| 1           | 1              | 88             | 2         |</span><br><span class="line">| 11          | 3              | 80             | 3         |</span><br><span class="line">| 10          | 3              | 80             | 4         |</span><br><span class="line">| 6           | 2              | 80             | 5         |</span><br><span class="line">| 3           | 1              | 75             | 6         |</span><br><span class="line">| 9           | 3              | 70             | 7         |</span><br><span class="line">| 5           | 2              | 70             | 8         |</span><br><span class="line">| 2           | 1              | 66             | 9         |</span><br><span class="line">| 7           | 2              | 60             | 10        |</span><br><span class="line">| 4           | 2              | 30             | 11        |</span><br><span class="line">+-------------+----------------+----------------+-----------+</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>2.分班后按学生成绩排名</li>
-</ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> *,row_number() <span class="keyword">over</span>(<span class="keyword">PARTITION</span> <span class="keyword">BY</span> grade <span class="keyword">ORDER</span> <span class="keyword">BY</span> score <span class="keyword">desc</span>) <span class="keyword">as</span> <span class="keyword">sequence</span> <span class="keyword">from</span> Student;</span><br></pre></td></tr></table></figure>
-<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">+-------------+----------------+----------------+-----------+</span><br><span class="line">| student.id  | student.grade  | student.score  | sequence  |</span><br><span class="line">+-------------+----------------+----------------+-----------+</span><br><span class="line">| 1           | 1              | 88             | 1         |</span><br><span class="line">| 3           | 1              | 75             | 2         |</span><br><span class="line">| 2           | 1              | 66             | 3         |</span><br><span class="line">| 6           | 2              | 80             | 1         |</span><br><span class="line">| 5           | 2              | 70             | 2         |</span><br><span class="line">| 7           | 2              | 60             | 3         |</span><br><span class="line">| 4           | 2              | 30             | 4         |</span><br><span class="line">| 8           | 3              | 90             | 1         |</span><br><span class="line">| 11          | 3              | 80             | 2         |</span><br><span class="line">| 10          | 3              | 80             | 3         |</span><br><span class="line">| 9           | 3              | 70             | 4         |</span><br><span class="line">+-------------+----------------+----------------+-----------+</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>3.获取每个班的前1(几)名<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span></span><br><span class="line">(</span><br><span class="line">  <span class="keyword">select</span> *,row_number() <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> Grade <span class="keyword">order</span> <span class="keyword">by</span> Score <span class="keyword">desc</span>) <span class="keyword">as</span> <span class="keyword">Sequence</span> <span class="keyword">from</span> Student</span><br><span class="line">)T <span class="keyword">where</span> T.Sequence&lt;=<span class="number">1</span></span><br><span class="line">;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+-------+----------+----------+-------------+</span><br><span class="line">| t.id  | t.grade  | t.score  | t.sequence  |</span><br><span class="line">+-------+----------+----------+-------------+</span><br><span class="line">| 1     | 1        | 88       | 1           |</span><br><span class="line">| 6     | 2        | 80       | 1           |</span><br><span class="line">| 8     | 3        | 90       | 1           |</span><br><span class="line">+-------+----------+----------+-------------+</span><br></pre></td></tr></table></figure></p>
-<h2 id="分区函数Partition-By与排序rank-的用法"><a href="#分区函数Partition-By与排序rank-的用法" class="headerlink" title="分区函数Partition By与排序rank()的用法"></a>分区函数Partition By与排序rank()的用法</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">select</span> *, <span class="keyword">rank</span>() <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> Grade <span class="keyword">order</span> <span class="keyword">by</span> Score <span class="keyword">desc</span>) <span class="keyword">as</span> <span class="keyword">Sequence</span> <span class="keyword">from</span> Student</span><br><span class="line">;</span><br></pre></td></tr></table></figure>
-<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">+-------------+----------------+----------------+-----------+</span><br><span class="line">| student.id  | student.grade  | student.score  | sequence  |</span><br><span class="line">+-------------+----------------+----------------+-----------+</span><br><span class="line">| 1           | 1              | 88             | 1         |</span><br><span class="line">| 3           | 1              | 75             | 2         |</span><br><span class="line">| 2           | 1              | 66             | 3         |</span><br><span class="line">| 6           | 2              | 80             | 1         |</span><br><span class="line">| 5           | 2              | 70             | 2         |</span><br><span class="line">| 7           | 2              | 60             | 3         |</span><br><span class="line">| 4           | 2              | 30             | 4         |</span><br><span class="line">| 8           | 3              | 90             | 1         |</span><br><span class="line">| 11          | 3              | 80             | 2         |</span><br><span class="line">| 10          | 3              | 80             | 2         |</span><br><span class="line">| 9           | 3              | 70             | 4         |</span><br><span class="line">+-------------+----------------+----------------+-----------+</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span></span><br><span class="line">(</span><br><span class="line">  <span class="keyword">select</span> *,<span class="keyword">rank</span>() <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> Grade <span class="keyword">order</span> <span class="keyword">by</span> Score <span class="keyword">desc</span>) <span class="keyword">as</span> <span class="keyword">Sequence</span> <span class="keyword">from</span> Student</span><br><span class="line">)T <span class="keyword">where</span> T.Sequence&lt;=<span class="number">2</span></span><br><span class="line">;</span><br></pre></td></tr></table></figure>
-<h1 id="hive中取top-n时常用方法row-number-rank-dense-rank"><a href="#hive中取top-n时常用方法row-number-rank-dense-rank" class="headerlink" title="hive中取top n时常用方法row_number,rank,dense_rank"></a>hive中取top n时常用方法row_number,rank,dense_rank</h1><p>vim /home/hadoop/salary.txt<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1,a,10</span><br><span class="line">2,a,12</span><br><span class="line">3,b,13</span><br><span class="line">4,b,12</span><br><span class="line">5,a,14</span><br><span class="line">6,a,15</span><br><span class="line">7,a,13</span><br><span class="line">8,b,11</span><br><span class="line">9,a,16</span><br><span class="line">10,b,17</span><br><span class="line">11,a,14</span><br></pre></td></tr></table></figure></p>
-<p>建表，导入数据<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> salary(<span class="keyword">id</span> <span class="built_in">int</span>, <span class="keyword">name</span> <span class="keyword">string</span>, sal <span class="built_in">int</span>)</span><br><span class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">','</span></span><br><span class="line">;</span><br><span class="line"><span class="comment">-- 加载数据</span></span><br><span class="line"><span class="keyword">load</span>  <span class="keyword">data</span> <span class="keyword">local</span> inpath <span class="string">'/home/hadoop/salary.txt'</span> <span class="keyword">into</span> <span class="keyword">table</span> salary;</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">id</span>,<span class="keyword">name</span>,sal,</span><br><span class="line"><span class="keyword">rank</span>()<span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> <span class="keyword">name</span> <span class="keyword">order</span> <span class="keyword">by</span> sal <span class="keyword">desc</span> ) <span class="keyword">rank</span>,</span><br><span class="line"><span class="keyword">dense_rank</span>() <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> <span class="keyword">name</span> <span class="keyword">order</span> <span class="keyword">by</span> sal <span class="keyword">desc</span> ) <span class="keyword">dense_rank</span>,</span><br><span class="line">row_number()<span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> <span class="keyword">name</span> <span class="keyword">order</span> <span class="keyword">by</span> sal <span class="keyword">desc</span>) row_number</span><br><span class="line"><span class="keyword">from</span> salary</span><br></pre></td></tr></table></figure></p>
-<p>输出数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">+-----+-------+------+-------+-------------+-------------+</span><br><span class="line">| id  | name  | sal  | rank  | dense_rank  | row_number  |</span><br><span class="line">+-----+-------+------+-------+-------------+-------------+</span><br><span class="line">| 9   | a     | 16   | 1     | 1           | 1           |</span><br><span class="line">| 6   | a     | 15   | 2     | 2           | 2           |</span><br><span class="line">| 11  | a     | 14   | 3     | 3           | 3           |</span><br><span class="line">| 5   | a     | 14   | 3     | 3           | 4           |</span><br><span class="line">| 7   | a     | 13   | 5     | 4           | 5           |</span><br><span class="line">| 2   | a     | 12   | 6     | 5           | 6           |</span><br><span class="line">| 1   | a     | 10   | 7     | 6           | 7           |</span><br><span class="line">| 10  | b     | 17   | 1     | 1           | 1           |</span><br><span class="line">| 3   | b     | 13   | 2     | 2           | 2           |</span><br><span class="line">| 4   | b     | 12   | 3     | 3           | 3           |</span><br><span class="line">| 8   | b     | 11   | 4     | 4           | 4           |</span><br><span class="line">+-----+-------+------+-------+-------------+-------------+</span><br></pre></td></tr></table></figure></p>
-<p>结论：</p>
-<blockquote>
-<p>rank() -排序相同时会重复，总数不会变  （有并列，并列的下一名空开）<br>dense_rank() -排序相同时会重复，总数会减少（有并列，并列的下一名不空开）<br>row_number() -会根据顺序计算  (没有并列)</p>
-</blockquote>
+        <h1 id="0-概述"><a href="#0-概述" class="headerlink" title="0.概述"></a>0.概述</h1><p>窗口函数 Lag, Lead, First_value,Last_value</p>
+<p>LAG(col,n,DEFAULT) 用于统计窗口内往上第n行值<br>LEAD(col,n,DEFAULT) 用于统计窗口内往下第n行值, 与LAG相反<br>FIRST_VALUE, LAST_VALUE<br>first_value:  取分组内排序后，截止到当前行，第一个值<br>last_value:  取分组内排序后，截止到当前行，最后一个值</p>
+<p><a href="https://www.cnblogs.com/skyEva/p/5730531.html" target="_blank" rel="noopener">https://www.cnblogs.com/skyEva/p/5730531.html</a></p>
+<p><a href="http://lxw1234.com/archives/tag/hive-window-functions" target="_blank" rel="noopener">http://lxw1234.com/archives/tag/hive-window-functions</a></p>
 
       
 
@@ -1074,7 +998,103 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/12/18/bigdata-hive-04/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/12/18/bigdata-hive-07/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-bigdata-hive-06" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/12/18/bigdata-hive-06/">Hive笔记-Ntile使用</a>
+    </h1>
+  
+
+        
+        <a href="/2018/12/18/bigdata-hive-06/" class="archive-article-date">
+  	<time datetime="2018-12-18T03:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="0-概述"><a href="#0-概述" class="headerlink" title="0.概述"></a>0.概述</h1><p>可以看成是：它把有序的数据集合平均分配到指定的数量（num）个桶中, 将桶号分配给每一行。如果不能平均分配，则优先分配较小编号的桶，并且各个桶中能放的行数最多相差1。<br>语法是：ntile (num)  over ([partition_clause]  order_by_clause)  as your_bucket_num<br>然后可以根据桶号，选取前或后 n分之几的数据。<br>数据会完整展示出来，只是给相应的数据打标签；具体要取几分之几的数据，需要再嵌套一层根据标签取出。</p>
+<h1 id="1-案例说明"><a href="#1-案例说明" class="headerlink" title="1.案例说明"></a>1.案例说明</h1><h2 id="1-1-准备数据"><a href="#1-1-准备数据" class="headerlink" title="1.1 准备数据"></a>1.1 准备数据</h2><p>id 用户ID<br>name 消费类型名称<br>sal 消费金额<br>+————+————–+————-+<br>| salary.id  | salary.name  | salary.sal  |<br>+————+————–+————-+<br>| 1          | a            | 10          |<br>| 2          | a            | 12          |<br>| 3          | b            | 13          |<br>| 4          | b            | 12          |<br>| 5          | a            | 14          |<br>| 6          | a            | 15          |<br>| 7          | a            | 13          |<br>| 8          | b            | 11          |<br>| 9          | a            | 16          |<br>| 10         | b            | 17          |<br>| 11         | a            | 14          |<br>+————+————–+————-+</p>
+<ul>
+<li>找出消费前50%的记录</li>
+</ul>
+<p>根据sal这个字段排序，将记录分成2个桶，第一个桶的记录即是前50%</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span>  <span class="keyword">id</span>, <span class="keyword">name</span>, sal</span><br><span class="line">,ntile(<span class="number">2</span>) <span class="keyword">over</span> (<span class="keyword">order</span> <span class="keyword">by</span> sal <span class="keyword">desc</span>) <span class="keyword">as</span> <span class="keyword">num</span></span><br><span class="line"><span class="keyword">from</span> salary;</span><br></pre></td></tr></table></figure>
+<p>输出记录<br>+—–+——-+——+—-+<br>| id  | name  | sal  | num  |<br>+—–+——-+——+—-+<br>| 10  | b     | 17   | 1  |<br>| 9   | a     | 16   | 1  |<br>| 6   | a     | 15   | 1  |<br>| 11  | a     | 14   | 1  |<br>| 5   | a     | 14   | 1  |<br>| 7   | a     | 13   | 1  |<br>| 3   | b     | 13   | 2  |<br>| 4   | b     | 12   | 2  |<br>| 2   | a     | 12   | 2  |<br>| 8   | b     | 11   | 2  |<br>| 1   | a     | 10   | 2  |<br>+—–+——-+——+—-+<br>由上记录可看num=1的记录即是前50%的记录，要前50%的即加一个字查询把num=1的记录选出来即可。<br>(不过这样的做法如果刚好有中间的记录是一样的，会分中间的记录，比如上面sal=13的记录。第一条分到了第一个桶，第二条分到了第2个桶)<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span></span><br><span class="line">(</span><br><span class="line">  <span class="keyword">select</span>  <span class="keyword">id</span>, <span class="keyword">name</span>, sal</span><br><span class="line">  ,ntile(<span class="number">2</span>) <span class="keyword">over</span> (<span class="keyword">order</span> <span class="keyword">by</span> sal <span class="keyword">desc</span>) <span class="keyword">as</span> <span class="keyword">num</span></span><br><span class="line">  <span class="keyword">from</span> salary</span><br><span class="line">) <span class="keyword">as</span> a <span class="keyword">where</span> a.num=<span class="number">1</span>;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>根据类型找出消费前50%的记录<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span></span><br><span class="line">(</span><br><span class="line">  <span class="keyword">select</span>  <span class="keyword">id</span>, <span class="keyword">name</span>, sal</span><br><span class="line">  ,ntile(<span class="number">2</span>) <span class="keyword">over</span> (<span class="keyword">partition</span> <span class="keyword">by</span> <span class="keyword">name</span> <span class="keyword">order</span> <span class="keyword">by</span> sal <span class="keyword">desc</span>) <span class="keyword">as</span> <span class="keyword">num</span></span><br><span class="line">  <span class="keyword">from</span> salary</span><br><span class="line">) <span class="keyword">as</span> a <span class="keyword">where</span> a.num=<span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Hive</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/12/18/bigdata-hive-06/">展开全文 >></a>
         </p>
       
 
@@ -1106,7 +1126,7 @@
   
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 
@@ -1205,15 +1225,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ignite</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">go</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+                <a href="javascript:void(0)" class="js-tag color3">笔记</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1225,23 +1241,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">笔记</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Hadoop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">集群</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">centos6.5</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1249,7 +1253,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hive</a>
+                <a href="javascript:void(0)" class="js-tag color3">集群</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Hadoop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ignite</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1257,11 +1269,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Hive</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+                <a href="javascript:void(0)" class="js-tag color5">hive</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">centos6.5</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1277,7 +1297,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">MySql</a>
+                <a href="javascript:void(0)" class="js-tag color3">HDFS问题集</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1285,11 +1305,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">HDFS问题集</a>
+                <a href="javascript:void(0)" class="js-tag color3">MySql笔记-错误编号和SQLSTATE码</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">MySql笔记-错误编号和SQLSTATE码</a>
+                <a href="javascript:void(0)" class="js-tag color1">MySql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">沟通</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1301,7 +1325,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">沟通</a>
+                <a href="javascript:void(0)" class="js-tag color2">github</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">yilia</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1310,22 +1338,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">azkaban</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Gradle</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">github</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">yilia</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1341,11 +1353,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">存储过程</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">SQL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Gradle</a>
               </li>
             
             <div class="clearfix"></div>
