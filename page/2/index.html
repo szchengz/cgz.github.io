@@ -134,104 +134,6 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-bigdata-hive-join" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/12/18/bigdata-hive-join/">Hive的Join操作</a>
-    </h1>
-  
-
-        
-        <a href="/2018/12/18/bigdata-hive-join/" class="archive-article-date">
-  	<time datetime="2018-12-18T03:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="0-构造数据"><a href="#0-构造数据" class="headerlink" title="0.构造数据"></a>0.构造数据</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> a(<span class="keyword">id</span> <span class="built_in">int</span>, <span class="keyword">name</span> <span class="keyword">string</span>)</span><br><span class="line">  <span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">','</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> b(<span class="keyword">id</span> <span class="built_in">int</span>, <span class="keyword">name</span> <span class="keyword">string</span>)</span><br><span class="line">  <span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">','</span>;</span><br></pre></td></tr></table></figure>
-<p>导入数据<br>load data local inpath ‘/home/hadoop/a.txt’ overwrite into table a;<br>load data local inpath ‘/home/hadoop/b.txt’ overwrite into table b;</p>
-<p>a.txt<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1,a</span><br><span class="line">2,b</span><br><span class="line">3,c</span><br><span class="line">4,d</span><br></pre></td></tr></table></figure></p>
-<p>b.txt<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">2,bb</span><br><span class="line">3,cc</span><br><span class="line">4,dd</span><br><span class="line">5,ee</span><br><span class="line">6,ff</span><br></pre></td></tr></table></figure></p>
-<h2 id="1-inner-join"><a href="#1-inner-join" class="headerlink" title="1.inner join"></a>1.inner join</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> a <span class="keyword">inner</span> <span class="keyword">join</span> b <span class="keyword">on</span> a.id=b.id;</span><br></pre></td></tr></table></figure>
-<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+-------+---------+</span><br><span class="line">| a.id  | a.name  |</span><br><span class="line">+-------+---------+</span><br><span class="line">| 2     | b       |</span><br><span class="line">| 3     | c       |</span><br><span class="line">| 4     | d       |</span><br><span class="line">+-------+---------+</span><br></pre></td></tr></table></figure></p>
-<h2 id="2-left-join"><a href="#2-left-join" class="headerlink" title="2.left join"></a>2.left join</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> a <span class="keyword">left</span> <span class="keyword">join</span> b <span class="keyword">on</span> a.id=b.id;</span><br></pre></td></tr></table></figure>
-<p>输出结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">+-------+---------+-------+---------+</span><br><span class="line">| a.id  | a.name  | b.id  | b.name  |</span><br><span class="line">+-------+---------+-------+---------+</span><br><span class="line">| 1     | a       | NULL  | NULL    |</span><br><span class="line">| 2     | b       | 2     | bb      |</span><br><span class="line">| 3     | c       | 3     | cc      |</span><br><span class="line">| 4     | d       | 4     | dd      |</span><br><span class="line">+-------+---------+-------+---------+</span><br></pre></td></tr></table></figure></p>
-<h2 id="3-right-join"><a href="#3-right-join" class="headerlink" title="3.right join"></a>3.right join</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> a <span class="keyword">right</span> <span class="keyword">join</span> b <span class="keyword">on</span> a.id=b.id;</span><br></pre></td></tr></table></figure>
-<p>输出结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">+-------+---------+-------+---------+</span><br><span class="line">| a.id  | a.name  | b.id  | b.name  |</span><br><span class="line">+-------+---------+-------+---------+</span><br><span class="line">| 2     | b       | 2     | bb      |</span><br><span class="line">| 3     | c       | 3     | cc      |</span><br><span class="line">| 4     | d       | 4     | dd      |</span><br><span class="line">| NULL  | NULL    | 5     | ee      |</span><br><span class="line">| NULL  | NULL    | 6     | ff      |</span><br><span class="line">+-------+---------+-------+---------+</span><br></pre></td></tr></table></figure></p>
-<h2 id="3-full-outer-join"><a href="#3-full-outer-join" class="headerlink" title="3.full outer join"></a>3.full outer join</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> a <span class="keyword">full</span> <span class="keyword">outer</span> <span class="keyword">join</span> b <span class="keyword">on</span> a.id=b.id;</span><br></pre></td></tr></table></figure>
-<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">+-------+---------+-------+---------+</span><br><span class="line">| a.id  | a.name  | b.id  | b.name  |</span><br><span class="line">+-------+---------+-------+---------+</span><br><span class="line">| 1     | a       | NULL  | NULL    |</span><br><span class="line">| 2     | b       | 2     | bb      |</span><br><span class="line">| 3     | c       | 3     | cc      |</span><br><span class="line">| 4     | d       | 4     | dd      |</span><br><span class="line">| NULL  | NULL    | 5     | ee      |</span><br><span class="line">| NULL  | NULL    | 6     | ff      |</span><br><span class="line">+-------+---------+-------+---------+</span><br></pre></td></tr></table></figure></p>
-<h2 id="4-left-semi-join"><a href="#4-left-semi-join" class="headerlink" title="4.left semi join"></a>4.left semi join</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> a <span class="keyword">left</span> semi <span class="keyword">join</span> b <span class="keyword">on</span> a.id=b.id;</span><br></pre></td></tr></table></figure>
-<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+-------+---------+</span><br><span class="line">| a.id  | a.name  |</span><br><span class="line">+-------+---------+</span><br><span class="line">| 2     | b       |</span><br><span class="line">| 3     | c       |</span><br><span class="line">| 4     | d       |</span><br><span class="line">+-------+---------+</span><br></pre></td></tr></table></figure></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Hive</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/12/18/bigdata-hive-join/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-bigdata-hive-07" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -320,19 +222,19 @@
 
 
   
-    <article id="post-bigdata-hive-03" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+    <article id="post-bigdata-hive-06" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/12/18/bigdata-hive-03/">Hive笔记</a>
+      <a class="article-title" href="/2018/12/18/bigdata-hive-06/">Hive笔记-Ntile使用</a>
     </h1>
   
 
         
-        <a href="/2018/12/18/bigdata-hive-03/" class="archive-article-date">
+        <a href="/2018/12/18/bigdata-hive-06/" class="archive-article-date">
   	<time datetime="2018-12-18T03:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-18</time>
 </a>
         
@@ -340,19 +242,18 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="保存查询结果数据的几种方式"><a href="#保存查询结果数据的几种方式" class="headerlink" title="保存查询结果数据的几种方式"></a>保存查询结果数据的几种方式</h2><ul>
-<li>将查询结果保存到一张新的hive表</li>
-</ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> t_tmp</span><br><span class="line">  <span class="keyword">as</span></span><br><span class="line">  <span class="keyword">select</span> * <span class="keyword">from</span> t1;</span><br></pre></td></tr></table></figure>
+        <h1 id="0-概述"><a href="#0-概述" class="headerlink" title="0.概述"></a>0.概述</h1><p>可以看成是：它把有序的数据集合平均分配到指定的数量（num）个桶中, 将桶号分配给每一行。如果不能平均分配，则优先分配较小编号的桶，并且各个桶中能放的行数最多相差1。<br>语法是：ntile (num)  over ([partition_clause]  order_by_clause)  as your_bucket_num<br>然后可以根据桶号，选取前或后 n分之几的数据。<br>数据会完整展示出来，只是给相应的数据打标签；具体要取几分之几的数据，需要再嵌套一层根据标签取出。</p>
+<h1 id="1-案例说明"><a href="#1-案例说明" class="headerlink" title="1.案例说明"></a>1.案例说明</h1><h2 id="1-1-准备数据"><a href="#1-1-准备数据" class="headerlink" title="1.1 准备数据"></a>1.1 准备数据</h2><p>id 用户ID<br>name 消费类型名称<br>sal 消费金额<br>+————+————–+————-+<br>| salary.id  | salary.name  | salary.sal  |<br>+————+————–+————-+<br>| 1          | a            | 10          |<br>| 2          | a            | 12          |<br>| 3          | b            | 13          |<br>| 4          | b            | 12          |<br>| 5          | a            | 14          |<br>| 6          | a            | 15          |<br>| 7          | a            | 13          |<br>| 8          | b            | 11          |<br>| 9          | a            | 16          |<br>| 10         | b            | 17          |<br>| 11         | a            | 14          |<br>+————+————–+————-+</p>
 <ul>
-<li>将查询结果保存到一线已经存在的hive表</li>
+<li>找出消费前50%的记录</li>
 </ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="keyword">table</span> tb1</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> t1;</span><br></pre></td></tr></table></figure>
+<p>根据sal这个字段排序，将记录分成2个桶，第一个桶的记录即是前50%</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span>  <span class="keyword">id</span>, <span class="keyword">name</span>, sal</span><br><span class="line">,ntile(<span class="number">2</span>) <span class="keyword">over</span> (<span class="keyword">order</span> <span class="keyword">by</span> sal <span class="keyword">desc</span>) <span class="keyword">as</span> <span class="keyword">num</span></span><br><span class="line"><span class="keyword">from</span> salary;</span><br></pre></td></tr></table></figure>
+<p>输出记录<br>+—–+——-+——+—-+<br>| id  | name  | sal  | num  |<br>+—–+——-+——+—-+<br>| 10  | b     | 17   | 1  |<br>| 9   | a     | 16   | 1  |<br>| 6   | a     | 15   | 1  |<br>| 11  | a     | 14   | 1  |<br>| 5   | a     | 14   | 1  |<br>| 7   | a     | 13   | 1  |<br>| 3   | b     | 13   | 2  |<br>| 4   | b     | 12   | 2  |<br>| 2   | a     | 12   | 2  |<br>| 8   | b     | 11   | 2  |<br>| 1   | a     | 10   | 2  |<br>+—–+——-+——+—-+<br>由上记录可看num=1的记录即是前50%的记录，要前50%的即加一个字查询把num=1的记录选出来即可。<br>(不过这样的做法如果刚好有中间的记录是一样的，会分中间的记录，比如上面sal=13的记录。第一条分到了第一个桶，第二条分到了第2个桶)<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span></span><br><span class="line">(</span><br><span class="line">  <span class="keyword">select</span>  <span class="keyword">id</span>, <span class="keyword">name</span>, sal</span><br><span class="line">  ,ntile(<span class="number">2</span>) <span class="keyword">over</span> (<span class="keyword">order</span> <span class="keyword">by</span> sal <span class="keyword">desc</span>) <span class="keyword">as</span> <span class="keyword">num</span></span><br><span class="line">  <span class="keyword">from</span> salary</span><br><span class="line">) <span class="keyword">as</span> a <span class="keyword">where</span> a.num=<span class="number">1</span>;</span><br></pre></td></tr></table></figure></p>
 <ul>
-<li>将查询结果保存到指定的文件目录 （可以本地，可以HDFS）</li>
+<li>根据类型找出消费前50%的记录<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span></span><br><span class="line">(</span><br><span class="line">  <span class="keyword">select</span>  <span class="keyword">id</span>, <span class="keyword">name</span>, sal</span><br><span class="line">  ,ntile(<span class="number">2</span>) <span class="keyword">over</span> (<span class="keyword">partition</span> <span class="keyword">by</span> <span class="keyword">name</span> <span class="keyword">order</span> <span class="keyword">by</span> sal <span class="keyword">desc</span>) <span class="keyword">as</span> <span class="keyword">num</span></span><br><span class="line">  <span class="keyword">from</span> salary</span><br><span class="line">) <span class="keyword">as</span> a <span class="keyword">where</span> a.num=<span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> overwrite <span class="keyword">local</span> <span class="keyword">directory</span> <span class="string">'/home/hadoop/t1'</span></span><br><span class="line">  <span class="keyword">select</span> * <span class="keyword">from</span> t1;</span><br></pre></td></tr></table></figure>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">insert</span> overwrite <span class="keyword">directory</span> <span class="string">'hdfs://o1:9000/home/hadoop/t1'</span></span><br><span class="line">  <span class="keyword">select</span> * <span class="keyword">from</span> t1;</span><br></pre></td></tr></table></figure>
 
       
 
@@ -387,7 +288,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/12/18/bigdata-hive-03/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/12/18/bigdata-hive-06/">展开全文 >></a>
         </p>
       
 
@@ -417,19 +318,19 @@
 
 
   
-    <article id="post-bigdata-hive-04" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+    <article id="post-bigdata-hive-05" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/12/18/bigdata-hive-04/">Hive笔记-hive中的窗口函数</a>
+      <a class="article-title" href="/2018/12/18/bigdata-hive-05/">Hive案例-添加新增数据到Hive表</a>
     </h1>
   
 
         
-        <a href="/2018/12/18/bigdata-hive-04/" class="archive-article-date">
+        <a href="/2018/12/18/bigdata-hive-05/" class="archive-article-date">
   	<time datetime="2018-12-18T03:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-18</time>
 </a>
         
@@ -437,34 +338,34 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="row-number-over-partition-by-xx-的使用"><a href="#row-number-over-partition-by-xx-的使用" class="headerlink" title="row_number()over(partition by xx)的使用"></a>row_number()over(partition by xx)的使用</h2><p>vim student.txt<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1,1,88</span><br><span class="line">2,1,66</span><br><span class="line">3,1,75</span><br><span class="line">4,2,30</span><br><span class="line">5,2,70</span><br><span class="line">6,2,80</span><br><span class="line">7,2,60</span><br><span class="line">8,3,90</span><br><span class="line">9,3,70</span><br><span class="line">10,3,80</span><br><span class="line">11,3,80</span><br></pre></td></tr></table></figure></p>
-<p>学生成绩表<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">table</span> <span class="keyword">if</span> <span class="keyword">exists</span> student;</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> student(<span class="keyword">id</span> <span class="built_in">int</span>, grade <span class="built_in">int</span>, score <span class="built_in">int</span>)</span><br><span class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">','</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 导入数据</span></span><br><span class="line"><span class="keyword">load</span> <span class="keyword">data</span> <span class="keyword">local</span> inpath <span class="string">'/home/hadoop/student.txt'</span> <span class="keyword">into</span> <span class="keyword">table</span> student;</span><br></pre></td></tr></table></figure></p>
-<p>##</p>
-<ul>
-<li>1.不分班按学生成绩排名<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> *,row_number() <span class="keyword">over</span>(<span class="keyword">order</span> <span class="keyword">by</span> Score <span class="keyword">desc</span>) <span class="keyword">as</span> <span class="keyword">Sequence</span> <span class="keyword">from</span> student;</span><br></pre></td></tr></table></figure>
+        <h1 id="0-准备数据"><a href="#0-准备数据" class="headerlink" title="0.准备数据"></a>0.准备数据</h1><ul>
+<li><p>构造一个车辆识别的业务</p>
+</li>
+<li><p>字段说明<br>car_no 车牌<br>car_color 车辆颜色<br>score 识别度</p>
+</li>
+<li><p>建表语句</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 增量数据</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> t_kfk(<span class="keyword">id</span> <span class="keyword">string</span>, car_no <span class="keyword">string</span>, car_color <span class="keyword">string</span>, score <span class="built_in">DECIMAL</span>(<span class="number">10</span>,<span class="number">5</span>))</span><br><span class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">','</span></span><br><span class="line"><span class="keyword">stored</span> <span class="keyword">as</span> textfile;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 原数据</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> t_info(<span class="keyword">id</span> <span class="keyword">string</span>, car_no <span class="keyword">string</span>, car_color <span class="keyword">string</span>)</span><br><span class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">','</span></span><br><span class="line"><span class="keyword">stored</span> <span class="keyword">as</span> textfile;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>构造数据</p>
 </li>
 </ul>
-<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">+-------------+----------------+----------------+-----------+</span><br><span class="line">| student.id  | student.grade  | student.score  | sequence  |</span><br><span class="line">+-------------+----------------+----------------+-----------+</span><br><span class="line">| 8           | 3              | 90             | 1         |</span><br><span class="line">| 1           | 1              | 88             | 2         |</span><br><span class="line">| 11          | 3              | 80             | 3         |</span><br><span class="line">| 10          | 3              | 80             | 4         |</span><br><span class="line">| 6           | 2              | 80             | 5         |</span><br><span class="line">| 3           | 1              | 75             | 6         |</span><br><span class="line">| 9           | 3              | 70             | 7         |</span><br><span class="line">| 5           | 2              | 70             | 8         |</span><br><span class="line">| 2           | 1              | 66             | 9         |</span><br><span class="line">| 7           | 2              | 60             | 10        |</span><br><span class="line">| 4           | 2              | 30             | 11        |</span><br><span class="line">+-------------+----------------+----------------+-----------+</span><br></pre></td></tr></table></figure></p>
+<p>vim /home/hadoop/t_kfk.txt<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1,a,红色,0.3</span><br><span class="line">2,a,蓝色,0.6</span><br><span class="line">3,a,白色,0.4</span><br><span class="line">4,b,灰色,0.5</span><br><span class="line">5,b,红色,0.8</span><br><span class="line">6,b,黄色,0.4</span><br><span class="line">7,c,蓝色,0.5</span><br><span class="line">8,c,黑色,0.4</span><br><span class="line">9,c,绿色,0.2</span><br></pre></td></tr></table></figure></p>
+<p>vim /home/hadoop/t_info.txt<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1,a,蓝色</span><br><span class="line">10,aa,军色</span><br></pre></td></tr></table></figure></p>
 <ul>
-<li>2.分班后按学生成绩排名</li>
+<li>导入数据</li>
 </ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> *,row_number() <span class="keyword">over</span>(<span class="keyword">PARTITION</span> <span class="keyword">BY</span> grade <span class="keyword">ORDER</span> <span class="keyword">BY</span> score <span class="keyword">desc</span>) <span class="keyword">as</span> <span class="keyword">sequence</span> <span class="keyword">from</span> Student;</span><br></pre></td></tr></table></figure>
-<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">+-------------+----------------+----------------+-----------+</span><br><span class="line">| student.id  | student.grade  | student.score  | sequence  |</span><br><span class="line">+-------------+----------------+----------------+-----------+</span><br><span class="line">| 1           | 1              | 88             | 1         |</span><br><span class="line">| 3           | 1              | 75             | 2         |</span><br><span class="line">| 2           | 1              | 66             | 3         |</span><br><span class="line">| 6           | 2              | 80             | 1         |</span><br><span class="line">| 5           | 2              | 70             | 2         |</span><br><span class="line">| 7           | 2              | 60             | 3         |</span><br><span class="line">| 4           | 2              | 30             | 4         |</span><br><span class="line">| 8           | 3              | 90             | 1         |</span><br><span class="line">| 11          | 3              | 80             | 2         |</span><br><span class="line">| 10          | 3              | 80             | 3         |</span><br><span class="line">| 9           | 3              | 70             | 4         |</span><br><span class="line">+-------------+----------------+----------------+-----------+</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>3.获取每个班的前1(几)名<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span></span><br><span class="line">(</span><br><span class="line">  <span class="keyword">select</span> *,row_number() <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> Grade <span class="keyword">order</span> <span class="keyword">by</span> Score <span class="keyword">desc</span>) <span class="keyword">as</span> <span class="keyword">Sequence</span> <span class="keyword">from</span> Student</span><br><span class="line">)T <span class="keyword">where</span> T.Sequence&lt;=<span class="number">1</span></span><br><span class="line">;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">load</span> <span class="keyword">data</span> <span class="keyword">local</span> inpath <span class="string">'/home/hadoop/t_kfk.txt'</span> overwrite <span class="keyword">into</span> <span class="keyword">table</span> t_kfk;</span><br><span class="line"><span class="keyword">load</span> <span class="keyword">data</span> <span class="keyword">local</span> inpath <span class="string">'/home/hadoop/t_info.txt'</span> overwrite <span class="keyword">into</span> <span class="keyword">table</span> t_info;</span><br></pre></td></tr></table></figure>
+<h1 id="1-ETL过程"><a href="#1-ETL过程" class="headerlink" title="1.ETL过程"></a>1.ETL过程</h1><ul>
+<li><p>1.1 新增的数据取出最高分的放入临时表tmp_kfk</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">table</span> <span class="keyword">if</span> <span class="keyword">exists</span> tmp_kfk;</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> tmp_kfk</span><br><span class="line"><span class="keyword">as</span></span><br><span class="line"><span class="keyword">select</span> t1.id,t1.car_no,t1.car_color <span class="keyword">from</span></span><br><span class="line">(</span><br><span class="line">  <span class="keyword">select</span> <span class="keyword">id</span>,car_no,car_color,score, row_number() <span class="keyword">over</span> (<span class="keyword">partition</span> <span class="keyword">by</span> car_no <span class="keyword">order</span> <span class="keyword">by</span> score <span class="keyword">desc</span> ) ind</span><br><span class="line">  <span class="keyword">from</span> t_kfk</span><br><span class="line">) <span class="keyword">as</span> t1 <span class="keyword">where</span> t1.ind=<span class="number">1</span></span><br><span class="line">;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>1.2 最高分的和旧数据合在一起<br>（新的数据与旧的数据一样用新的覆盖旧的）</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">table</span> <span class="keyword">if</span> <span class="keyword">exists</span> tmp_all;</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> tmp_all</span><br><span class="line"><span class="keyword">as</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> tmp_kfk  </span><br><span class="line"></span><br><span class="line"><span class="keyword">union</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 找出旧数据中不存在新的</span></span><br><span class="line"><span class="keyword">select</span> info.* <span class="keyword">from</span> t_info info</span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> tmp_kfk kfk <span class="keyword">on</span> kfk.car_no=info.car_no</span><br><span class="line"><span class="keyword">where</span> kfk.car_no <span class="keyword">is</span> <span class="literal">null</span></span><br><span class="line">;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>1.3 从临时表导入到正式表</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> overwrite <span class="keyword">table</span> t_info</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> tmp_all;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+-------+----------+----------+-------------+</span><br><span class="line">| t.id  | t.grade  | t.score  | t.sequence  |</span><br><span class="line">+-------+----------+----------+-------------+</span><br><span class="line">| 1     | 1        | 88       | 1           |</span><br><span class="line">| 6     | 2        | 80       | 1           |</span><br><span class="line">| 8     | 3        | 90       | 1           |</span><br><span class="line">+-------+----------+----------+-------------+</span><br></pre></td></tr></table></figure></p>
-<h2 id="分区函数Partition-By与排序rank-的用法"><a href="#分区函数Partition-By与排序rank-的用法" class="headerlink" title="分区函数Partition By与排序rank()的用法"></a>分区函数Partition By与排序rank()的用法</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">select</span> *, <span class="keyword">rank</span>() <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> Grade <span class="keyword">order</span> <span class="keyword">by</span> Score <span class="keyword">desc</span>) <span class="keyword">as</span> <span class="keyword">Sequence</span> <span class="keyword">from</span> Student</span><br><span class="line">;</span><br></pre></td></tr></table></figure>
-<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">+-------------+----------------+----------------+-----------+</span><br><span class="line">| student.id  | student.grade  | student.score  | sequence  |</span><br><span class="line">+-------------+----------------+----------------+-----------+</span><br><span class="line">| 1           | 1              | 88             | 1         |</span><br><span class="line">| 3           | 1              | 75             | 2         |</span><br><span class="line">| 2           | 1              | 66             | 3         |</span><br><span class="line">| 6           | 2              | 80             | 1         |</span><br><span class="line">| 5           | 2              | 70             | 2         |</span><br><span class="line">| 7           | 2              | 60             | 3         |</span><br><span class="line">| 4           | 2              | 30             | 4         |</span><br><span class="line">| 8           | 3              | 90             | 1         |</span><br><span class="line">| 11          | 3              | 80             | 2         |</span><br><span class="line">| 10          | 3              | 80             | 2         |</span><br><span class="line">| 9           | 3              | 70             | 4         |</span><br><span class="line">+-------------+----------------+----------------+-----------+</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span></span><br><span class="line">(</span><br><span class="line">  <span class="keyword">select</span> *,<span class="keyword">rank</span>() <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> Grade <span class="keyword">order</span> <span class="keyword">by</span> Score <span class="keyword">desc</span>) <span class="keyword">as</span> <span class="keyword">Sequence</span> <span class="keyword">from</span> Student</span><br><span class="line">)T <span class="keyword">where</span> T.Sequence&lt;=<span class="number">2</span></span><br><span class="line">;</span><br></pre></td></tr></table></figure>
-<h1 id="hive中取top-n时常用方法row-number-rank-dense-rank"><a href="#hive中取top-n时常用方法row-number-rank-dense-rank" class="headerlink" title="hive中取top n时常用方法row_number,rank,dense_rank"></a>hive中取top n时常用方法row_number,rank,dense_rank</h1><p>vim /home/hadoop/salary.txt<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1,a,10</span><br><span class="line">2,a,12</span><br><span class="line">3,b,13</span><br><span class="line">4,b,12</span><br><span class="line">5,a,14</span><br><span class="line">6,a,15</span><br><span class="line">7,a,13</span><br><span class="line">8,b,11</span><br><span class="line">9,a,16</span><br><span class="line">10,b,17</span><br><span class="line">11,a,14</span><br></pre></td></tr></table></figure></p>
-<p>建表，导入数据<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> salary(<span class="keyword">id</span> <span class="built_in">int</span>, <span class="keyword">name</span> <span class="keyword">string</span>, sal <span class="built_in">int</span>)</span><br><span class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">','</span></span><br><span class="line">;</span><br><span class="line"><span class="comment">-- 加载数据</span></span><br><span class="line"><span class="keyword">load</span>  <span class="keyword">data</span> <span class="keyword">local</span> inpath <span class="string">'/home/hadoop/salary.txt'</span> <span class="keyword">into</span> <span class="keyword">table</span> salary;</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">id</span>,<span class="keyword">name</span>,sal,</span><br><span class="line"><span class="keyword">rank</span>()<span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> <span class="keyword">name</span> <span class="keyword">order</span> <span class="keyword">by</span> sal <span class="keyword">desc</span> ) <span class="keyword">rank</span>,</span><br><span class="line"><span class="keyword">dense_rank</span>() <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> <span class="keyword">name</span> <span class="keyword">order</span> <span class="keyword">by</span> sal <span class="keyword">desc</span> ) <span class="keyword">dense_rank</span>,</span><br><span class="line">row_number()<span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> <span class="keyword">name</span> <span class="keyword">order</span> <span class="keyword">by</span> sal <span class="keyword">desc</span>) row_number</span><br><span class="line"><span class="keyword">from</span> salary</span><br></pre></td></tr></table></figure></p>
-<p>输出数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">+-----+-------+------+-------+-------------+-------------+</span><br><span class="line">| id  | name  | sal  | rank  | dense_rank  | row_number  |</span><br><span class="line">+-----+-------+------+-------+-------------+-------------+</span><br><span class="line">| 9   | a     | 16   | 1     | 1           | 1           |</span><br><span class="line">| 6   | a     | 15   | 2     | 2           | 2           |</span><br><span class="line">| 11  | a     | 14   | 3     | 3           | 3           |</span><br><span class="line">| 5   | a     | 14   | 3     | 3           | 4           |</span><br><span class="line">| 7   | a     | 13   | 5     | 4           | 5           |</span><br><span class="line">| 2   | a     | 12   | 6     | 5           | 6           |</span><br><span class="line">| 1   | a     | 10   | 7     | 6           | 7           |</span><br><span class="line">| 10  | b     | 17   | 1     | 1           | 1           |</span><br><span class="line">| 3   | b     | 13   | 2     | 2           | 2           |</span><br><span class="line">| 4   | b     | 12   | 3     | 3           | 3           |</span><br><span class="line">| 8   | b     | 11   | 4     | 4           | 4           |</span><br><span class="line">+-----+-------+------+-------+-------------+-------------+</span><br></pre></td></tr></table></figure></p>
-<p>结论：</p>
-<blockquote>
-<p>rank() -排序相同时会重复，总数不会变  （有并列，并列的下一名空开）<br>dense_rank() -排序相同时会重复，总数会减少（有并列，并列的下一名不空开）<br>row_number() -会根据顺序计算  (没有并列)</p>
-</blockquote>
 
       
 
@@ -499,7 +400,105 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/12/18/bigdata-hive-04/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/12/18/bigdata-hive-05/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-bigdata-hive-join" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/12/18/bigdata-hive-join/">Hive的Join操作</a>
+    </h1>
+  
+
+        
+        <a href="/2018/12/18/bigdata-hive-join/" class="archive-article-date">
+  	<time datetime="2018-12-18T03:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="0-构造数据"><a href="#0-构造数据" class="headerlink" title="0.构造数据"></a>0.构造数据</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> a(<span class="keyword">id</span> <span class="built_in">int</span>, <span class="keyword">name</span> <span class="keyword">string</span>)</span><br><span class="line">  <span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">','</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> b(<span class="keyword">id</span> <span class="built_in">int</span>, <span class="keyword">name</span> <span class="keyword">string</span>)</span><br><span class="line">  <span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">','</span>;</span><br></pre></td></tr></table></figure>
+<p>导入数据<br>load data local inpath ‘/home/hadoop/a.txt’ overwrite into table a;<br>load data local inpath ‘/home/hadoop/b.txt’ overwrite into table b;</p>
+<p>a.txt<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1,a</span><br><span class="line">2,b</span><br><span class="line">3,c</span><br><span class="line">4,d</span><br></pre></td></tr></table></figure></p>
+<p>b.txt<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">2,bb</span><br><span class="line">3,cc</span><br><span class="line">4,dd</span><br><span class="line">5,ee</span><br><span class="line">6,ff</span><br></pre></td></tr></table></figure></p>
+<h2 id="1-inner-join"><a href="#1-inner-join" class="headerlink" title="1.inner join"></a>1.inner join</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> a <span class="keyword">inner</span> <span class="keyword">join</span> b <span class="keyword">on</span> a.id=b.id;</span><br></pre></td></tr></table></figure>
+<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+-------+---------+</span><br><span class="line">| a.id  | a.name  |</span><br><span class="line">+-------+---------+</span><br><span class="line">| 2     | b       |</span><br><span class="line">| 3     | c       |</span><br><span class="line">| 4     | d       |</span><br><span class="line">+-------+---------+</span><br></pre></td></tr></table></figure></p>
+<h2 id="2-left-join"><a href="#2-left-join" class="headerlink" title="2.left join"></a>2.left join</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> a <span class="keyword">left</span> <span class="keyword">join</span> b <span class="keyword">on</span> a.id=b.id;</span><br></pre></td></tr></table></figure>
+<p>输出结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">+-------+---------+-------+---------+</span><br><span class="line">| a.id  | a.name  | b.id  | b.name  |</span><br><span class="line">+-------+---------+-------+---------+</span><br><span class="line">| 1     | a       | NULL  | NULL    |</span><br><span class="line">| 2     | b       | 2     | bb      |</span><br><span class="line">| 3     | c       | 3     | cc      |</span><br><span class="line">| 4     | d       | 4     | dd      |</span><br><span class="line">+-------+---------+-------+---------+</span><br></pre></td></tr></table></figure></p>
+<h2 id="3-right-join"><a href="#3-right-join" class="headerlink" title="3.right join"></a>3.right join</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> a <span class="keyword">right</span> <span class="keyword">join</span> b <span class="keyword">on</span> a.id=b.id;</span><br></pre></td></tr></table></figure>
+<p>输出结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">+-------+---------+-------+---------+</span><br><span class="line">| a.id  | a.name  | b.id  | b.name  |</span><br><span class="line">+-------+---------+-------+---------+</span><br><span class="line">| 2     | b       | 2     | bb      |</span><br><span class="line">| 3     | c       | 3     | cc      |</span><br><span class="line">| 4     | d       | 4     | dd      |</span><br><span class="line">| NULL  | NULL    | 5     | ee      |</span><br><span class="line">| NULL  | NULL    | 6     | ff      |</span><br><span class="line">+-------+---------+-------+---------+</span><br></pre></td></tr></table></figure></p>
+<h2 id="3-full-outer-join"><a href="#3-full-outer-join" class="headerlink" title="3.full outer join"></a>3.full outer join</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> a <span class="keyword">full</span> <span class="keyword">outer</span> <span class="keyword">join</span> b <span class="keyword">on</span> a.id=b.id;</span><br></pre></td></tr></table></figure>
+<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">+-------+---------+-------+---------+</span><br><span class="line">| a.id  | a.name  | b.id  | b.name  |</span><br><span class="line">+-------+---------+-------+---------+</span><br><span class="line">| 1     | a       | NULL  | NULL    |</span><br><span class="line">| 2     | b       | 2     | bb      |</span><br><span class="line">| 3     | c       | 3     | cc      |</span><br><span class="line">| 4     | d       | 4     | dd      |</span><br><span class="line">| NULL  | NULL    | 5     | ee      |</span><br><span class="line">| NULL  | NULL    | 6     | ff      |</span><br><span class="line">+-------+---------+-------+---------+</span><br></pre></td></tr></table></figure></p>
+<h2 id="4-left-semi-join"><a href="#4-left-semi-join" class="headerlink" title="4.left semi join"></a>4.left semi join</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> a <span class="keyword">left</span> semi <span class="keyword">join</span> b <span class="keyword">on</span> a.id=b.id;</span><br></pre></td></tr></table></figure>
+<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+-------+---------+</span><br><span class="line">| a.id  | a.name  |</span><br><span class="line">+-------+---------+</span><br><span class="line">| 2     | b       |</span><br><span class="line">| 3     | c       |</span><br><span class="line">| 4     | d       |</span><br><span class="line">+-------+---------+</span><br></pre></td></tr></table></figure></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Hive</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/12/18/bigdata-hive-join/">展开全文 >></a>
         </p>
       
 
@@ -815,6 +814,84 @@
 
 
   
+    <article id="post-hdfs-question-01" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/12/09/hdfs-question-01/">bigdata-cm-01</a>
+    </h1>
+  
+
+        
+        <a href="/2018/12/09/hdfs-question-01/" class="archive-article-date">
+  	<time datetime="2018-12-09T03:12:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="问题1：hadoop-出现-failed-to-create-file-because-current-leaseholder-is-trying-to-recreate-file"><a href="#问题1：hadoop-出现-failed-to-create-file-because-current-leaseholder-is-trying-to-recreate-file" class="headerlink" title="问题1：hadoop 出现 failed to create file because current leaseholder is trying to recreate file."></a>问题1：hadoop 出现 failed to create file because current leaseholder is trying to recreate file.</h2><p>以多线程的方式从Kafka读取消息后保存到HDFS时报以下错误。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">org.apache.hadoop.ipc.RemoteException(org.apache.hadoop.hdfs.protocol.AlreadyBeingCreatedException): failed to create file /bdp/data/external/t_park_in/data_key=20181228/hour_key=11/data0.txt for DFSClient_NONMAPREDUCE_815471739_12 for client 10.10.203.1 because current leaseholder is trying to recreate file.</span><br><span class="line">	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.recoverLeaseInternal(FSNamesystem.java:3294)</span><br><span class="line">	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.appendFileInternal(FSNamesystem.java:3124)</span><br><span class="line">	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.appendFileInt(FSNamesystem.java:3409)</span><br><span class="line">	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.appendFile(FSNamesystem.java:3373)</span><br><span class="line">	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.append(NameNodeRpcServer.java:629)</span><br><span class="line">	at org.apache.hadoop.hdfs.server.namenode.AuthorizationProviderProxyClientProtocol.append(AuthorizationProviderProxyClientProtocol.java:131)</span><br><span class="line">	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.append(ClientNamenodeProtocolServerSideTranslatorPB.java:434)</span><br><span class="line">	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)</span><br><span class="line">	at org.apache.hadoop.ipc.ProtobufRpcEngine$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine.java:617)</span><br><span class="line">	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1073)</span><br><span class="line">	at org.apache.hadoop.ipc.Server$Handler$1.run(Server.java:2281)</span><br><span class="line">	at org.apache.hadoop.ipc.Server$Handler$1.run(Server.java:2277)</span><br><span class="line">	at java.security.AccessController.doPrivileged(Native Method)</span><br><span class="line">	at javax.security.auth.Subject.doAs(Subject.java:422)</span><br><span class="line">	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1924)</span><br><span class="line">	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:2275)</span><br><span class="line"></span><br><span class="line">	at org.apache.hadoop.ipc.Client.call(Client.java:1504)</span><br><span class="line">	at org.apache.hadoop.ipc.Client.call(Client.java:1441)</span><br><span class="line">	at org.apache.hadoop.ipc.ProtobufRpcEngine$Invoker.invoke(ProtobufRpcEngine.java:230)</span><br><span class="line">	at com.sun.proxy.$Proxy11.append(Unknown Source)</span><br><span class="line">	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolTranslatorPB.append(ClientNamenodeProtocolTranslatorPB.java:331)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</span><br><span class="line">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</span><br><span class="line">	at java.lang.reflect.Method.invoke(Method.java:497)</span><br><span class="line">	at org.apache.hadoop.io.retry.RetryInvocationHandler.invokeMethod(RetryInvocationHandler.java:258)</span><br><span class="line">	at org.apache.hadoop.io.retry.RetryInvocationHandler.invoke(RetryInvocationHandler.java:104)</span><br><span class="line">	at com.sun.proxy.$Proxy12.append(Unknown Source)</span><br><span class="line">	at org.apache.hadoop.hdfs.DFSClient.callAppend(DFSClient.java:1909)</span><br><span class="line">	at org.apache.hadoop.hdfs.DFSClient.append(DFSClient.java:1951)</span><br><span class="line">	at org.apache.hadoop.hdfs.DFSClient.append(DFSClient.java:1944)</span><br><span class="line">	at org.apache.hadoop.hdfs.DistributedFileSystem$5.doCall(DistributedFileSystem.java:361)</span><br><span class="line">	at org.apache.hadoop.hdfs.DistributedFileSystem$5.doCall(DistributedFileSystem.java:357)</span><br><span class="line">	at org.apache.hadoop.fs.FileSystemLinkResolver.resolve(FileSystemLinkResolver.java:81)</span><br><span class="line">	at org.apache.hadoop.hdfs.DistributedFileSystem.append(DistributedFileSystem.java:357)</span><br><span class="line">	at org.apache.hadoop.fs.FileSystem.append(FileSystem.java:1181)</span><br><span class="line">	at cn.jieshun.bdp.analyse.util.HdfsFileUtil.appendFile(HdfsFileUtil.java:83)</span><br><span class="line">	at cn.jieshun.bdp.etl.kafka.ConsumerWorker.saveMessage(ConsumerWorker.java:155)</span><br><span class="line">	at cn.jieshun.bdp.etl.kafka.ConsumerWorker.run(ConsumerWorker.java:63)</span><br><span class="line">	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)</span><br><span class="line">	at java.util.concurrent.FutureTask.run(FutureTask.java:266)</span><br><span class="line">	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)</span><br><span class="line">	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)</span><br><span class="line">	at java.lang.Thread.run(Thread.java:745)</span><br></pre></td></tr></table></figure>
+<p>原因：是并发写导致的错误</p>
+<p>解决：以下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">synchronized (fs) &#123;</span><br><span class="line">                    try &#123;</span><br><span class="line">                        HdfsFileUtil.appendFile(fs, path1, sb.toString());</span><br><span class="line">                    &#125; catch (IOException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">//                &#125;</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">HDFS问题集</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/12/09/hdfs-question-01/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-mysql-01" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -868,84 +945,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/12/09/mysql-01/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-hdfs-question-01" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/12/09/hdfs-question-01/">bigdata-cm-01</a>
-    </h1>
-  
-
-        
-        <a href="/2018/12/09/hdfs-question-01/" class="archive-article-date">
-  	<time datetime="2018-12-09T03:12:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="问题1：hadoop-出现-failed-to-create-file-because-current-leaseholder-is-trying-to-recreate-file"><a href="#问题1：hadoop-出现-failed-to-create-file-because-current-leaseholder-is-trying-to-recreate-file" class="headerlink" title="问题1：hadoop 出现 failed to create file because current leaseholder is trying to recreate file."></a>问题1：hadoop 出现 failed to create file because current leaseholder is trying to recreate file.</h2><p>以多线程的方式从Kafka读取消息后保存到HDFS时报以下错误。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">org.apache.hadoop.ipc.RemoteException(org.apache.hadoop.hdfs.protocol.AlreadyBeingCreatedException): failed to create file /bdp/data/external/t_park_in/data_key=20181228/hour_key=11/data0.txt for DFSClient_NONMAPREDUCE_815471739_12 for client 10.10.203.1 because current leaseholder is trying to recreate file.</span><br><span class="line">	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.recoverLeaseInternal(FSNamesystem.java:3294)</span><br><span class="line">	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.appendFileInternal(FSNamesystem.java:3124)</span><br><span class="line">	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.appendFileInt(FSNamesystem.java:3409)</span><br><span class="line">	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.appendFile(FSNamesystem.java:3373)</span><br><span class="line">	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.append(NameNodeRpcServer.java:629)</span><br><span class="line">	at org.apache.hadoop.hdfs.server.namenode.AuthorizationProviderProxyClientProtocol.append(AuthorizationProviderProxyClientProtocol.java:131)</span><br><span class="line">	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.append(ClientNamenodeProtocolServerSideTranslatorPB.java:434)</span><br><span class="line">	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)</span><br><span class="line">	at org.apache.hadoop.ipc.ProtobufRpcEngine$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine.java:617)</span><br><span class="line">	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1073)</span><br><span class="line">	at org.apache.hadoop.ipc.Server$Handler$1.run(Server.java:2281)</span><br><span class="line">	at org.apache.hadoop.ipc.Server$Handler$1.run(Server.java:2277)</span><br><span class="line">	at java.security.AccessController.doPrivileged(Native Method)</span><br><span class="line">	at javax.security.auth.Subject.doAs(Subject.java:422)</span><br><span class="line">	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1924)</span><br><span class="line">	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:2275)</span><br><span class="line"></span><br><span class="line">	at org.apache.hadoop.ipc.Client.call(Client.java:1504)</span><br><span class="line">	at org.apache.hadoop.ipc.Client.call(Client.java:1441)</span><br><span class="line">	at org.apache.hadoop.ipc.ProtobufRpcEngine$Invoker.invoke(ProtobufRpcEngine.java:230)</span><br><span class="line">	at com.sun.proxy.$Proxy11.append(Unknown Source)</span><br><span class="line">	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolTranslatorPB.append(ClientNamenodeProtocolTranslatorPB.java:331)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</span><br><span class="line">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</span><br><span class="line">	at java.lang.reflect.Method.invoke(Method.java:497)</span><br><span class="line">	at org.apache.hadoop.io.retry.RetryInvocationHandler.invokeMethod(RetryInvocationHandler.java:258)</span><br><span class="line">	at org.apache.hadoop.io.retry.RetryInvocationHandler.invoke(RetryInvocationHandler.java:104)</span><br><span class="line">	at com.sun.proxy.$Proxy12.append(Unknown Source)</span><br><span class="line">	at org.apache.hadoop.hdfs.DFSClient.callAppend(DFSClient.java:1909)</span><br><span class="line">	at org.apache.hadoop.hdfs.DFSClient.append(DFSClient.java:1951)</span><br><span class="line">	at org.apache.hadoop.hdfs.DFSClient.append(DFSClient.java:1944)</span><br><span class="line">	at org.apache.hadoop.hdfs.DistributedFileSystem$5.doCall(DistributedFileSystem.java:361)</span><br><span class="line">	at org.apache.hadoop.hdfs.DistributedFileSystem$5.doCall(DistributedFileSystem.java:357)</span><br><span class="line">	at org.apache.hadoop.fs.FileSystemLinkResolver.resolve(FileSystemLinkResolver.java:81)</span><br><span class="line">	at org.apache.hadoop.hdfs.DistributedFileSystem.append(DistributedFileSystem.java:357)</span><br><span class="line">	at org.apache.hadoop.fs.FileSystem.append(FileSystem.java:1181)</span><br><span class="line">	at cn.jieshun.bdp.analyse.util.HdfsFileUtil.appendFile(HdfsFileUtil.java:83)</span><br><span class="line">	at cn.jieshun.bdp.etl.kafka.ConsumerWorker.saveMessage(ConsumerWorker.java:155)</span><br><span class="line">	at cn.jieshun.bdp.etl.kafka.ConsumerWorker.run(ConsumerWorker.java:63)</span><br><span class="line">	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)</span><br><span class="line">	at java.util.concurrent.FutureTask.run(FutureTask.java:266)</span><br><span class="line">	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)</span><br><span class="line">	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)</span><br><span class="line">	at java.lang.Thread.run(Thread.java:745)</span><br></pre></td></tr></table></figure>
-<p>原因：是并发写导致的错误</p>
-<p>解决：以下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">synchronized (fs) &#123;</span><br><span class="line">                    try &#123;</span><br><span class="line">                        HdfsFileUtil.appendFile(fs, path1, sb.toString());</span><br><span class="line">                    &#125; catch (IOException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">//                &#125;</span><br></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">HDFS问题集</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/12/09/hdfs-question-01/">展开全文 >></a>
         </p>
       
 
@@ -1182,11 +1181,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">go</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">go</a>
+                <a href="javascript:void(0)" class="js-tag color2">ignite</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1242,10 +1245,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ignite</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">缓存</a>
               </li>
              
@@ -1258,11 +1257,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Kudu</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color5">Kudu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1286,11 +1285,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">azkaban</a>
+                <a href="javascript:void(0)" class="js-tag color1">自定义函数</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">自定义函数</a>
+                <a href="javascript:void(0)" class="js-tag color3">azkaban</a>
               </li>
              
               <li class="article-tag-list-item">

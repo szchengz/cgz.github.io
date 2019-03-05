@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="0.前提这个安装教程是通过编译Azkaban源码的方案方式  需要安装git 无需安装gradle（会自动下载安装）  下载azkaban下载地址： https://github.com/azkaban/azkaban/releases使用的版本：azkaban-3.67.0   1.安装git wget https://www.kernel.org/pub/software/scm/git/gi">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-05T07:02:59.330Z">
+<meta property="og:updated_time" content="2019-03-05T07:05:54.643Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="azkaban单机模式安装使用">
 <meta name="twitter:description" content="0.前提这个安装教程是通过编译Azkaban源码的方案方式  需要安装git 无需安装gradle（会自动下载安装）  下载azkaban下载地址： https://github.com/azkaban/azkaban/releases使用的版本：azkaban-3.67.0   1.安装git wget https://www.kernel.org/pub/software/scm/git/gi">
@@ -180,7 +180,7 @@
 <blockquote>
 <p>echo “export PATH=$PATH:/usr/local/git/bin” &gt;&gt; /etc/bashrc<br>source /etc/bashrc<br>或是<br>echo “export PATH=$PATH:/usr/local/git/bin” &gt;&gt; /etc/profile<br>source /etc/profile</p>
 </blockquote>
-<h2 id="1-安装Azkaban"><a href="#1-安装Azkaban" class="headerlink" title="1.安装Azkaban"></a>1.安装Azkaban</h2><ul>
+<h2 id="2-安装Azkaban"><a href="#2-安装Azkaban" class="headerlink" title="2.安装Azkaban"></a>2.安装Azkaban</h2><ul>
 <li>Azkaban有三种部署模式<br>solo-server模式 单机模式<blockquote>
 <p>DB使用的是一个内嵌的H2，Web Server和Executor Server运行在同一个进程里。这种模式包含Azkaban的所有特性，但一般用来学习和测试。</p>
 </blockquote>
@@ -215,8 +215,8 @@
 </blockquote>
 <p>默认用户名和密码：azkaban和azkaban</p>
 <p>访问<a href="http://localhost:8081即可" target="_blank" rel="noopener">http://localhost:8081即可</a></p>
-<h2 id="异常情况"><a href="#异常情况" class="headerlink" title="异常情况"></a>异常情况</h2><p>可能编译过程会报FAILURE: Build failed with an exception. 之类的错误，需要更新JDK的加密码类（我在不同环境安装过三次都报错了，所以估计都需要更新）<br>解决方法：下载JCE<a href="https://www.oracle.com/technetwork/cn/java/javase/downloads/jce8-download-2133166-zhs.html我这边使用的JDK8，包含了JCE所需要的jre8解压搜下载好的文件，放置到java的以下目录：" target="_blank" rel="noopener">https://www.oracle.com/technetwork/cn/java/javase/downloads/jce8-download-2133166-zhs.html我这边使用的JDK8，包含了JCE所需要的jre8解压搜下载好的文件，放置到java的以下目录：</a><br>/usr/local/jdk1.8.0_74/jre/lib/security<br>覆盖后重新编译</p>
-<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://blog.csdn.net/chenliyu0518/article/details/84786283" target="_blank" rel="noopener">https://blog.csdn.net/chenliyu0518/article/details/84786283</a></p>
+<h2 id="3-异常情况"><a href="#3-异常情况" class="headerlink" title="3.异常情况"></a>3.异常情况</h2><p>可能编译过程会报FAILURE: Build failed with an exception. 之类的错误，需要更新JDK的加密码类（我在不同环境安装过三次都报错了，所以估计都需要更新）<br>解决方法：下载JCE<a href="https://www.oracle.com/technetwork/cn/java/javase/downloads/jce8-download-2133166-zhs.html我这边使用的JDK8，包含了JCE所需要的jre8解压搜下载好的文件，放置到java的以下目录：" target="_blank" rel="noopener">https://www.oracle.com/technetwork/cn/java/javase/downloads/jce8-download-2133166-zhs.html我这边使用的JDK8，包含了JCE所需要的jre8解压搜下载好的文件，放置到java的以下目录：</a><br>/usr/local/jdk1.8.0_74/jre/lib/security<br>覆盖后重新编译</p>
+<h2 id="4-参考文章"><a href="#4-参考文章" class="headerlink" title="4.参考文章"></a>4.参考文章</h2><p><a href="https://blog.csdn.net/chenliyu0518/article/details/84786283" target="_blank" rel="noopener">https://blog.csdn.net/chenliyu0518/article/details/84786283</a></p>
 <p>执行./gradlew命令如何不去下载gradle<br><a href="https://blog.csdn.net/yzpbright/article/details/53492458" target="_blank" rel="noopener">https://blog.csdn.net/yzpbright/article/details/53492458</a></p>
 
       
@@ -389,11 +389,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">go</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">go</a>
+                <a href="javascript:void(0)" class="js-tag color2">ignite</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -449,10 +453,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ignite</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">缓存</a>
               </li>
              
@@ -465,11 +465,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Kudu</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color5">Kudu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -493,11 +493,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">azkaban</a>
+                <a href="javascript:void(0)" class="js-tag color1">自定义函数</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">自定义函数</a>
+                <a href="javascript:void(0)" class="js-tag color3">azkaban</a>
               </li>
              
               <li class="article-tag-list-item">

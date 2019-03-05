@@ -280,109 +280,6 @@
 
 
   
-    <article id="post-bigdata-ignite-01" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/11/bigdata-ignite-01/">ignite学习笔记</a>
-    </h1>
-  
-
-        
-        <a href="/2018/10/11/bigdata-ignite-01/" class="archive-article-date">
-  	<time datetime="2018-10-11T02:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>直接官网下载解压，即可（我下载的版本是apache-ignite-fabric-2.3.0-bin）</p>
-<h1 id="使用sql"><a href="#使用sql" class="headerlink" title="使用sql"></a>使用sql</h1><h2 id="命令行"><a href="#命令行" class="headerlink" title="命令行"></a>命令行</h2><p>sqlline.bat –help  可以查询使用方式</p>
-<p>启动终端<br>linux</p>
-<blockquote>
-<p>sqlline.sh –color=true –verbose=true -u jdbc:ignite:thin://127.0.0.1/<br>windows<br>sqlline.bat –color=true –verbose=true -u jdbc:ignite:thin://127.0.0.1/</p>
-</blockquote>
-<p>测试代码<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">!sql <span class="keyword">create</span> <span class="keyword">table</span> <span class="keyword">if</span> <span class="keyword">not</span> <span class="keyword">exists</span> city (<span class="keyword">id</span> <span class="keyword">long</span> primary <span class="keyword">key</span>, <span class="keyword">name</span> <span class="built_in">varchar</span>);</span><br><span class="line">!sql <span class="keyword">insert</span> <span class="keyword">into</span> city (<span class="keyword">id</span>, <span class="keyword">name</span>) <span class="keyword">values</span>(<span class="number">1</span>, <span class="string">'深圳'</span>);</span><br><span class="line">!sql <span class="keyword">insert</span> <span class="keyword">into</span> city (<span class="keyword">id</span>, <span class="keyword">name</span>) <span class="keyword">values</span>(<span class="number">2</span>, <span class="string">'广东'</span>), (<span class="number">3</span>, <span class="string">'东莞'</span>);</span><br><span class="line">!sql <span class="keyword">select</span> * <span class="keyword">from</span> city;</span><br><span class="line">!sql <span class="keyword">drop</span> <span class="keyword">table</span> city;</span><br></pre></td></tr></table></figure></p>
-<p>由此可看到数据已经查询出来了，不过因为数据是写在内存的，重启后数据就不存在了</p>
-<p>!sql create table student (id LONG primary key, name varchar, age int);<br>!sql insert into student (id, name, age) values(1, ‘陈先生’, 25);<br>!sql insert into student (id, name, age) values(2, ‘张先生’, 21);<br>!sql insert into student (id, name, age) values(3, ‘刘德华’, 41);<br>!sql insert into student (id, name, age) values(4, ‘李四生’, 29);<br>!sql insert into student (id, name, age) values(5, ‘黄九生’, 26);<br>!sql select * from student;<br>!sql delete from student;</p>
-<h2 id="jdbc调用"><a href="#jdbc调用" class="headerlink" title="jdbc调用"></a>jdbc调用</h2><p>pom.xml配置<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.ignite<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>ignite-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.ignite<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>ignite-spring<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.ignite<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>ignite-log4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>测试代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> jdbc1;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.sql.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloJdbc</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">        Class.forName(<span class="string">"org.apache.ignite.IgniteJdbcThinDriver"</span>);</span><br><span class="line">        String urlstr = <span class="string">"jdbc:ignite:thin://10.101.90.113/"</span>;</span><br><span class="line">        Connection conn = DriverManager.getConnection(urlstr);</span><br><span class="line">        System.out.println(<span class="string">"连接成功"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> test_rows = <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line">        String sqlCreate = <span class="string">"create table PERSON(id long primary key, age int, name varchar)"</span>;</span><br><span class="line">        Statement stat = conn.createStatement();</span><br><span class="line">        stat.execute(sqlCreate);</span><br><span class="line"></span><br><span class="line">        String sql = <span class="string">"INSERT INTO PERSON(id, age, name) values (?,?,?)"</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; test_rows; i ++) &#123;</span><br><span class="line">            PreparedStatement pst = conn.prepareStatement(sql);</span><br><span class="line">            pst.setInt(<span class="number">1</span>, i);</span><br><span class="line">            pst.setInt(<span class="number">2</span>, <span class="number">2</span>+i);</span><br><span class="line">            pst.setString(<span class="number">3</span>, <span class="string">"李四"</span>+i);</span><br><span class="line">            pst.executeUpdate();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        PreparedStatement pst = conn.prepareStatement(<span class="string">"SELECT * FROM PERSON"</span>);</span><br><span class="line">        ResultSet rSet = pst.executeQuery();</span><br><span class="line">        <span class="keyword">while</span> (rSet.next()) &#123;</span><br><span class="line">            System.out.print(rSet.getInt(<span class="number">1</span>) + <span class="string">"\t"</span>);</span><br><span class="line">            System.out.print(rSet.getInt(<span class="number">2</span>) + <span class="string">"\t"</span>);</span><br><span class="line">            System.out.print(rSet.getString(<span class="number">3</span>) + <span class="string">"\t"</span>);</span><br><span class="line">            System.out.print(<span class="string">"\n"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h1 id="集群配置"><a href="#集群配置" class="headerlink" title="集群配置"></a>集群配置</h1><p>(基于静态IP的发现,其他方式,暂时没有试过)</p>
-<p>修改配置文件(config/default-config.xml,也可新建配置在启动时指定这个配置文件)</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.apache.ignite.configuration.IgniteConfiguration"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"discoverySpi"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"ipFinder"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.apache.ignite.spi.discovery.tcp.ipfinder.vm.TcpDiscoveryVmIpFinder"</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"addresses"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">list</span>&gt;</span></span><br><span class="line">              <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">                  本机的地址</span></span><br><span class="line"><span class="comment">              --&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">value</span>&gt;</span>master<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">              <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">                  网络中的节点</span></span><br><span class="line"><span class="comment">              --&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">value</span>&gt;</span>node1:47500..47509<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">value</span>&gt;</span>node2:47500..47509<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">list</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>各节点分别启动即可</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">ignite</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">缓存</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ignite//" class="article-tag-list-link color2">ignite</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/10/11/bigdata-ignite-01/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-bigdata-ignite-03" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -559,6 +456,109 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/10/11/bigdata-ignite-02/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-bigdata-ignite-01" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/11/bigdata-ignite-01/">ignite学习笔记</a>
+    </h1>
+  
+
+        
+        <a href="/2018/10/11/bigdata-ignite-01/" class="archive-article-date">
+  	<time datetime="2018-10-11T02:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>直接官网下载解压，即可（我下载的版本是apache-ignite-fabric-2.3.0-bin）</p>
+<h1 id="使用sql"><a href="#使用sql" class="headerlink" title="使用sql"></a>使用sql</h1><h2 id="命令行"><a href="#命令行" class="headerlink" title="命令行"></a>命令行</h2><p>sqlline.bat –help  可以查询使用方式</p>
+<p>启动终端<br>linux</p>
+<blockquote>
+<p>sqlline.sh –color=true –verbose=true -u jdbc:ignite:thin://127.0.0.1/<br>windows<br>sqlline.bat –color=true –verbose=true -u jdbc:ignite:thin://127.0.0.1/</p>
+</blockquote>
+<p>测试代码<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">!sql <span class="keyword">create</span> <span class="keyword">table</span> <span class="keyword">if</span> <span class="keyword">not</span> <span class="keyword">exists</span> city (<span class="keyword">id</span> <span class="keyword">long</span> primary <span class="keyword">key</span>, <span class="keyword">name</span> <span class="built_in">varchar</span>);</span><br><span class="line">!sql <span class="keyword">insert</span> <span class="keyword">into</span> city (<span class="keyword">id</span>, <span class="keyword">name</span>) <span class="keyword">values</span>(<span class="number">1</span>, <span class="string">'深圳'</span>);</span><br><span class="line">!sql <span class="keyword">insert</span> <span class="keyword">into</span> city (<span class="keyword">id</span>, <span class="keyword">name</span>) <span class="keyword">values</span>(<span class="number">2</span>, <span class="string">'广东'</span>), (<span class="number">3</span>, <span class="string">'东莞'</span>);</span><br><span class="line">!sql <span class="keyword">select</span> * <span class="keyword">from</span> city;</span><br><span class="line">!sql <span class="keyword">drop</span> <span class="keyword">table</span> city;</span><br></pre></td></tr></table></figure></p>
+<p>由此可看到数据已经查询出来了，不过因为数据是写在内存的，重启后数据就不存在了</p>
+<p>!sql create table student (id LONG primary key, name varchar, age int);<br>!sql insert into student (id, name, age) values(1, ‘陈先生’, 25);<br>!sql insert into student (id, name, age) values(2, ‘张先生’, 21);<br>!sql insert into student (id, name, age) values(3, ‘刘德华’, 41);<br>!sql insert into student (id, name, age) values(4, ‘李四生’, 29);<br>!sql insert into student (id, name, age) values(5, ‘黄九生’, 26);<br>!sql select * from student;<br>!sql delete from student;</p>
+<h2 id="jdbc调用"><a href="#jdbc调用" class="headerlink" title="jdbc调用"></a>jdbc调用</h2><p>pom.xml配置<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.ignite<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>ignite-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.ignite<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>ignite-spring<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.ignite<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>ignite-log4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>测试代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> jdbc1;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.sql.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloJdbc</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">        Class.forName(<span class="string">"org.apache.ignite.IgniteJdbcThinDriver"</span>);</span><br><span class="line">        String urlstr = <span class="string">"jdbc:ignite:thin://10.101.90.113/"</span>;</span><br><span class="line">        Connection conn = DriverManager.getConnection(urlstr);</span><br><span class="line">        System.out.println(<span class="string">"连接成功"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> test_rows = <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line">        String sqlCreate = <span class="string">"create table PERSON(id long primary key, age int, name varchar)"</span>;</span><br><span class="line">        Statement stat = conn.createStatement();</span><br><span class="line">        stat.execute(sqlCreate);</span><br><span class="line"></span><br><span class="line">        String sql = <span class="string">"INSERT INTO PERSON(id, age, name) values (?,?,?)"</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; test_rows; i ++) &#123;</span><br><span class="line">            PreparedStatement pst = conn.prepareStatement(sql);</span><br><span class="line">            pst.setInt(<span class="number">1</span>, i);</span><br><span class="line">            pst.setInt(<span class="number">2</span>, <span class="number">2</span>+i);</span><br><span class="line">            pst.setString(<span class="number">3</span>, <span class="string">"李四"</span>+i);</span><br><span class="line">            pst.executeUpdate();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        PreparedStatement pst = conn.prepareStatement(<span class="string">"SELECT * FROM PERSON"</span>);</span><br><span class="line">        ResultSet rSet = pst.executeQuery();</span><br><span class="line">        <span class="keyword">while</span> (rSet.next()) &#123;</span><br><span class="line">            System.out.print(rSet.getInt(<span class="number">1</span>) + <span class="string">"\t"</span>);</span><br><span class="line">            System.out.print(rSet.getInt(<span class="number">2</span>) + <span class="string">"\t"</span>);</span><br><span class="line">            System.out.print(rSet.getString(<span class="number">3</span>) + <span class="string">"\t"</span>);</span><br><span class="line">            System.out.print(<span class="string">"\n"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="集群配置"><a href="#集群配置" class="headerlink" title="集群配置"></a>集群配置</h1><p>(基于静态IP的发现,其他方式,暂时没有试过)</p>
+<p>修改配置文件(config/default-config.xml,也可新建配置在启动时指定这个配置文件)</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.apache.ignite.configuration.IgniteConfiguration"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"discoverySpi"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"ipFinder"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.apache.ignite.spi.discovery.tcp.ipfinder.vm.TcpDiscoveryVmIpFinder"</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"addresses"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">list</span>&gt;</span></span><br><span class="line">              <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">                  本机的地址</span></span><br><span class="line"><span class="comment">              --&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">value</span>&gt;</span>master<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">              <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">                  网络中的节点</span></span><br><span class="line"><span class="comment">              --&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">value</span>&gt;</span>node1:47500..47509<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">value</span>&gt;</span>node2:47500..47509<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">list</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>各节点分别启动即可</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">ignite</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">缓存</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ignite//" class="article-tag-list-link color2">ignite</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/10/11/bigdata-ignite-01/">展开全文 >></a>
         </p>
       
 
@@ -841,19 +841,19 @@
 
 
   
-    <article id="post-bigdata-hadoop-centos6-8" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+    <article id="post-bigdata-hive-q1" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/16/bigdata-hadoop-centos6-8/">CentOS6.8安装hadoop2.7</a>
+      <a class="article-title" href="/2018/08/16/bigdata-hive-q1/">Hive常见问题</a>
     </h1>
   
 
         
-        <a href="/2018/08/16/bigdata-hadoop-centos6-8/" class="archive-article-date">
+        <a href="/2018/08/16/bigdata-hive-q1/" class="archive-article-date">
   	<time datetime="2018-08-16T09:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-16</time>
 </a>
         
@@ -861,55 +861,22 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h1><h2 id="配置Java环境"><a href="#配置Java环境" class="headerlink" title="配置Java环境"></a>配置Java环境</h2><h2 id="配置SSH免密登录"><a href="#配置SSH免密登录" class="headerlink" title="配置SSH免密登录"></a>配置SSH免密登录</h2><h1 id="配置Hadoop"><a href="#配置Hadoop" class="headerlink" title="配置Hadoop"></a>配置Hadoop</h1><h2 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h2><blockquote>
-<p>sudo vim /etc/profile</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export HADOOP_HOME=/opt/soft/hadoop-2.7.7</span><br><span class="line">export PATH=$PATH:$&#123;HADOOP_HOME&#125;/bin:</span><br></pre></td></tr></table></figure>
-<h2 id="配置hadoop-env-sh"><a href="#配置hadoop-env-sh" class="headerlink" title="配置hadoop-env.sh"></a>配置hadoop-env.sh</h2><blockquote>
-<p>vim $HADOOP_HOME/etc/hadoop/hadoop-env.sh</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME=/usr/java/jdk1.8.0_73</span><br><span class="line">export HADOOP_PREFIX=/opt/soft/hadoop-2.7.7</span><br></pre></td></tr></table></figure>
-<h2 id="配置-core-site-xml"><a href="#配置-core-site-xml" class="headerlink" title="配置 core-site.xml"></a>配置 core-site.xml</h2><blockquote>
-<p>vim $HADOOP_HOME/etc/hadoop/core-site.xml</p>
-</blockquote>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>fs.defaultFS<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>hdfs://o1:9000<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.tmp.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/opt/soft/hadoop-2.7.7/tmp<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="配置-hdfs-site-xml"><a href="#配置-hdfs-site-xml" class="headerlink" title="配置 hdfs-site.xml"></a>配置 hdfs-site.xml</h2><blockquote>
-<p>vim $HADOOP_HOME/etc/hadoop/hdfs-site.xml</p>
-</blockquote>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.secondary.http-address<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>o1:9001<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.name.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">value</span>&gt;</span>file:/opt/soft/hadoop-2.7.7/dfs/name<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.datanode.data.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>file:/opt/soft/hadoop-2.7.7/dfs/data<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.replication<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>2<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.webhdfs.enabled<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="配置-mapred-site-xml"><a href="#配置-mapred-site-xml" class="headerlink" title="配置 mapred-site.xml"></a>配置 mapred-site.xml</h2><p>没有这个文件<br>mv mapred-site.xml.template mapred-site.xml</p>
+        <h1 id="1、message-For-direct-MetaStore-DB-connections-we-don’t-support-retries-at-the-client-level"><a href="#1、message-For-direct-MetaStore-DB-connections-we-don’t-support-retries-at-the-client-level" class="headerlink" title="1、message:For direct MetaStore DB connections, we don’t support retries at the client level."></a>1、message:For direct MetaStore DB connections, we don’t support retries at the client level.</h1><p>当在Hive中创建表的时候报错：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hive&gt; create table test(id string,name string) row format delimited fields terminated by &apos;,&apos; stored as textfile;</span><br><span class="line">FAILED: Execution Error, return code 1 from org.apache.hadoop.hive.ql.exec.DDLTask. MetaException(message:For direct MetaStore DB connections, we don&apos;t support retries at the client level.)</span><br></pre></td></tr></table></figure></p>
+<p>这是由于字符集的问题，需要配置MySQL的字符集：</p>
 <blockquote>
-<p>vim $HADOOP_HOME/etc/hadoop/mapred-site.xml</p>
+<p>mysql&gt; alter database hive character set latin1;</p>
 </blockquote>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.framework.name<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>yarn<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="配置yarn-env-sh"><a href="#配置yarn-env-sh" class="headerlink" title="配置yarn-env.sh"></a>配置yarn-env.sh</h2><blockquote>
-<p>vim $HADOOP_HOME/etc/hadoop/yarn-env.sh</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME=/usr/java/jdk1.8.0_73</span><br></pre></td></tr></table></figure>
-<h2 id="配置yarn-site-xml"><a href="#配置yarn-site-xml" class="headerlink" title="配置yarn-site.xml"></a>配置yarn-site.xml</h2><blockquote>
-<p>vim $HADOOP_HOME/etc/hadoop/yarn-site.xml</p>
-</blockquote>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.aux-services<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>mapreduce_shuffle<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.hostname<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>o1<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="配置-slaves"><a href="#配置-slaves" class="headerlink" title="配置 slaves"></a>配置 slaves</h2><blockquote>
-<p>vim $HADOOP_HOME/etc/hadoop/slaves</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">o2</span><br><span class="line">o3</span><br></pre></td></tr></table></figure>
-<h2 id="将配置文件拷贝到各机器"><a href="#将配置文件拷贝到各机器" class="headerlink" title="将配置文件拷贝到各机器"></a>将配置文件拷贝到各机器</h2><h2 id="格式化hdfs"><a href="#格式化hdfs" class="headerlink" title="格式化hdfs"></a>格式化hdfs</h2><blockquote>
-<p>$HADOOP_HOME/bin/hdfs namenode -format</p>
-</blockquote>
-<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>启动hdfs</p>
+<h1 id="2-初次启动hive找不到Spark的Jar包"><a href="#2-初次启动hive找不到Spark的Jar包" class="headerlink" title="2.初次启动hive找不到Spark的Jar包"></a>2.初次启动hive找不到Spark的Jar包</h1><p>hadoop@master:/usr/soft/hadoop-2.6.0/sbin$ hive –service metastore<br>ls: cannot access /usr/soft/spark-2.1.0-bin-hadoop2.6/lib/spark-assembly-*.jar: No such file or directory<br>Starting Hive Metastore Server</p>
+<p>解决方法：修改hive文件</p>
+<p>步骤1：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd $HIVE_HOME/bin</span><br><span class="line">vi hive</span><br></pre></td></tr></table></figure></p>
+<p>步骤2：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if [[ -n &quot;$SPARK_HOME&quot; ]]</span><br><span class="line">then</span><br><span class="line">  sparkAssemblyPath=`ls $&#123;SPARK_HOME&#125;/lib/spark-assembly-*.jar`</span><br><span class="line">  CLASSPATH=&quot;$&#123;CLASSPATH&#125;:$&#123;sparkAssemblyPath&#125;&quot;</span><br><span class="line">fi</span><br></pre></td></tr></table></figure></p>
+<h1 id="3-搭建环境启动Hive时报错Terminal-initialization-failed-falling-back-to-unsupported"><a href="#3-搭建环境启动Hive时报错Terminal-initialization-failed-falling-back-to-unsupported" class="headerlink" title="3.搭建环境启动Hive时报错Terminal initialization failed; falling back to unsupported"></a>3.搭建环境启动Hive时报错Terminal initialization failed; falling back to unsupported</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">[ERROR] Terminal initialization failed; falling back to unsupported</span><br><span class="line">java.lang.IncompatibleClassChangeError: Found class jline.Terminal, but interface was expected</span><br><span class="line">	at jline.TerminalFactory.create(TerminalFactory.java:101)</span><br><span class="line">	at jline.TerminalFactory.get(TerminalFactory.java:158)</span><br><span class="line">	at jline.console.ConsoleReader.&lt;init&gt;(ConsoleReader.java:229)</span><br><span class="line">	at jline.console.ConsoleReader.&lt;init&gt;(ConsoleReader.java:221)</span><br><span class="line">	at jline.console.ConsoleReader.&lt;init&gt;(ConsoleReader.java:209)</span><br><span class="line">	at org.apache.hadoop.hive.cli.CliDriver.setupConsoleReader(CliDriver.java:787)</span><br><span class="line">	at org.apache.hadoop.hive.cli.CliDriver.executeDriver(CliDriver.java:721)</span><br><span class="line">	at org.apache.hadoop.hive.cli.CliDriver.run(CliDriver.java:681)</span><br><span class="line">	at org.apache.hadoop.hive.cli.CliDriver.main(CliDriver.java:621)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</span><br><span class="line">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</span><br><span class="line">	at java.lang.reflect.Method.invoke(Method.java:497)</span><br><span class="line">	at org.apache.hadoop.util.RunJar.run(RunJar.java:221)</span><br><span class="line">	at org.apache.hadoop.util.RunJar.main(RunJar.java:136)</span><br><span class="line"></span><br><span class="line">Exception in thread &quot;main&quot; java.lang.IncompatibleClassChangeError: Found class jline.Terminal, but interface was expected</span><br><span class="line">	at jline.console.ConsoleReader.&lt;init&gt;(ConsoleReader.java:230)</span><br><span class="line">	at jline.console.ConsoleReader.&lt;init&gt;(ConsoleReader.java:221)</span><br><span class="line">	at jline.console.ConsoleReader.&lt;init&gt;(ConsoleReader.java:209)</span><br><span class="line">	at org.apache.hadoop.hive.cli.CliDriver.setupConsoleReader(CliDriver.java:787)</span><br><span class="line">	at org.apache.hadoop.hive.cli.CliDriver.executeDriver(CliDriver.java:721)</span><br><span class="line">	at org.apache.hadoop.hive.cli.CliDriver.run(CliDriver.java:681)</span><br><span class="line">	at org.apache.hadoop.hive.cli.CliDriver.main(CliDriver.java:621)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</span><br><span class="line">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</span><br><span class="line">	at java.lang.reflect.Method.invoke(Method.java:497)</span><br><span class="line">	at org.apache.hadoop.util.RunJar.run(RunJar.java:221)</span><br><span class="line">	at org.apache.hadoop.util.RunJar.main(RunJar.java:136)</span><br></pre></td></tr></table></figure>
+<p>解决方法：将Hive新版本的jline的包拷贝到Hadoop下面（原来的没有删除）<br>cp /usr/soft/hive1.2.1/lib/jline-2.12.jar ./usr/soft/hadoop-2.6.0/share/hadoop/yarn/lib</p>
+<h1 id="4-执行插入操作时异常"><a href="#4-执行插入操作时异常" class="headerlink" title="4.执行插入操作时异常"></a>4.执行插入操作时异常</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">hive&gt;   insert into table words select explode(split(line, &quot; &quot;)) as word from word_data;</span><br><span class="line">Query ID = hadoop_20180823200522_7a53339e-6923-4bfe-b5cf-25ac172ddcc2</span><br><span class="line">Total jobs = 3</span><br><span class="line">Launching Job 1 out of 3</span><br><span class="line">Number of reduce tasks is set to 0 since there&apos;s no reduce operator</span><br><span class="line">java.net.ConnectException: Call From master/192.168.52.128 to master:8032 failed on connection exception: java.net.ConnectException: Connection refused; F</span><br><span class="line">or more details see:  http://wiki.apache.org/hadoop/ConnectionRefused	at sun.reflect.GeneratedConstructorAccessor36.newInstance(Unknown Source)</span><br><span class="line">	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)</span><br><span class="line">	at java.lang.reflect.Constructor.newInstance(Constructor.java:422)</span><br><span class="line">	at org.apache.hadoop.net.NetUtils.wrapWithMessage(NetUtils.java:791)</span><br><span class="line">	at org.apache.hadoop.net.NetUtils.wrapException(NetUtils.java:731)</span><br><span class="line">	at org.apache.hadoop.ipc.Client.call(Client.java:1472)</span><br><span class="line">	at org.apache.hadoop.ipc.Client.call(Client.java:1399)</span><br><span class="line">	at org.apache.hadoop.ipc.ProtobufRpcEngine$Invoker.invoke(ProtobufRpcEngine.java:232)</span><br><span class="line">	at com.sun.proxy.$Proxy25.getNewApplication(Unknown Source)</span><br><span class="line">	at org.apache.hadoop.yarn.api.impl.pb.client.ApplicationClientProtocolPBClientImpl.getNewApplication(ApplicationClientProtocolPBClientImpl.java:21</span><br><span class="line">7)	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)</span><br><span class="line">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</span><br><span class="line">	at java.lang.reflect.Method.invoke(Method.java:497)</span><br><span class="line">	at org.apache.hadoop.io.retry.RetryInvocationHandler.invokeMethod(RetryInvocationHandler.java:187)</span><br><span class="line">	at org.apache.hadoop.io.retry.RetryInvocationHandler.invoke(RetryInvocationHandler.java:102)</span><br><span class="line">	at com.sun.proxy.$Proxy26.getNewApplication(Unknown Source)</span><br><span class="line">	at org.apache.hadoop.yarn.client.api.impl.YarnClientImpl.getNewApplication(YarnClientImpl.java:206)</span><br><span class="line">	at org.apache.hadoop.yarn.client.api.impl.YarnClientImpl.createApplication(YarnClientImpl.java:214)</span><br><span class="line">	at org.apache.hadoop.mapred.ResourceMgrDelegate.getNewJobID(ResourceMgrDelegate.java:187)</span><br><span class="line">	at org.apache.hadoop.mapred.YARNRunner.getNewJobID(YARNRunner.java:231)</span><br><span class="line">	at org.apache.hadoop.mapreduce.JobSubmitter.submitJobInternal(JobSubmitter.java:446)</span><br><span class="line">	at org.apache.hadoop.mapreduce.Job$10.run(Job.java:1296)</span><br><span class="line">	at org.apache.hadoop.mapreduce.Job$10.run(Job.java:1293)</span><br><span class="line">	at java.security.AccessController.doPrivileged(Native Method)</span><br><span class="line">	at javax.security.auth.Subject.doAs(Subject.java:422)</span><br><span class="line">	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1628)</span><br><span class="line">	at org.apache.hadoop.mapreduce.Job.submit(Job.java:1293)</span><br><span class="line">	at org.apache.hadoop.mapred.JobClient$1.run(JobClient.java:562)</span><br><span class="line">	at org.apache.hadoop.mapred.JobClient$1.run(JobClient.java:557)</span><br><span class="line">	at java.security.AccessController.doPrivileged(Native Method)</span><br><span class="line">	at javax.security.auth.Subject.doAs(Subject.java:422)</span><br><span class="line">	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1628)</span><br><span class="line">	at org.apache.hadoop.mapred.JobClient.submitJobInternal(JobClient.java:557)</span><br><span class="line">	at org.apache.hadoop.mapred.JobClient.submitJob(JobClient.java:548)</span><br><span class="line">	at org.apache.hadoop.hive.ql.exec.mr.ExecDriver.execute(ExecDriver.java:431)</span><br><span class="line">	at org.apache.hadoop.hive.ql.exec.mr.MapRedTask.execute(MapRedTask.java:137)</span><br><span class="line">	at org.apache.hadoop.hive.ql.exec.Task.executeTask(Task.java:160)</span><br><span class="line">	at org.apache.hadoop.hive.ql.exec.TaskRunner.runSequential(TaskRunner.java:88)</span><br><span class="line">	at org.apache.hadoop.hive.ql.Driver.launchTask(Driver.java:1653)</span><br><span class="line">	at org.apache.hadoop.hive.ql.Driver.execute(Driver.java:1412)</span><br><span class="line">	at org.apache.hadoop.hive.ql.Driver.runInternal(Driver.java:1195)</span><br><span class="line">	at org.apache.hadoop.hive.ql.Driver.run(Driver.java:1059)</span><br><span class="line">	at org.apache.hadoop.hive.ql.Driver.run(Driver.java:1049)</span><br><span class="line">	at org.apache.hadoop.hive.cli.CliDriver.processLocalCmd(CliDriver.java:213)</span><br><span class="line">	at org.apache.hadoop.hive.cli.CliDriver.processCmd(CliDriver.java:165)</span><br><span class="line">	at org.apache.hadoop.hive.cli.CliDriver.processLine(CliDriver.java:376)</span><br><span class="line">	at org.apache.hadoop.hive.cli.CliDriver.executeDriver(CliDriver.java:736)</span><br><span class="line">	at org.apache.hadoop.hive.cli.CliDriver.run(CliDriver.java:681)</span><br><span class="line">	at org.apache.hadoop.hive.cli.CliDriver.main(CliDriver.java:621)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</span><br><span class="line">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</span><br><span class="line">	at java.lang.reflect.Method.invoke(Method.java:497)</span><br><span class="line">	at org.apache.hadoop.util.RunJar.run(RunJar.java:221)</span><br><span class="line">	at org.apache.hadoop.util.RunJar.main(RunJar.java:136)</span><br><span class="line">Caused by: java.net.ConnectException: Connection refused</span><br><span class="line">	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)</span><br><span class="line">	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:717)</span><br><span class="line">	at org.apache.hadoop.net.SocketIOWithTimeout.connect(SocketIOWithTimeout.java:206)</span><br><span class="line">	at org.apache.hadoop.net.NetUtils.connect(NetUtils.java:530)</span><br><span class="line">	at org.apache.hadoop.net.NetUtils.connect(NetUtils.java:494)</span><br><span class="line">	at org.apache.hadoop.ipc.Client$Connection.setupConnection(Client.java:607)</span><br><span class="line">	at org.apache.hadoop.ipc.Client$Connection.setupIOstreams(Client.java:705)</span><br><span class="line">	at org.apache.hadoop.ipc.Client$Connection.access$2800(Client.java:368)</span><br><span class="line">	at org.apache.hadoop.ipc.Client.getConnection(Client.java:1521)</span><br><span class="line">	at org.apache.hadoop.ipc.Client.call(Client.java:1438)</span><br><span class="line">	... 49 more</span><br></pre></td></tr></table></figure>
+<p>解决方法：启动yarn</p>
 <blockquote>
-<p>$HADOOP_HOME/sbin/start-dfs.sh</p>
+<p>start-yarn.sh</p>
 </blockquote>
-<p>停止hdfs</p>
-<blockquote>
-<p>$HADOOP_HOME/sbin/stop-dfs.sh</p>
-</blockquote>
-<p>启动yarn</p>
-<blockquote>
-<p>$HADOOP_HOME/sbin/start-yarn.sh</p>
-</blockquote>
-<p>打开<br><a href="http://o1:50070/" target="_blank" rel="noopener">http://o1:50070/</a></p>
 
       
 
@@ -923,7 +890,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Hive</a>
         		</li>
       		
 		</ul>
@@ -935,7 +902,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/操作系统//" class="article-tag-list-link color5">操作系统</a>
+        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
         		</li>
       		
 		</ul>
@@ -944,7 +911,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/16/bigdata-hadoop-centos6-8/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/08/16/bigdata-hive-q1/">展开全文 >></a>
         </p>
       
 
@@ -1449,11 +1416,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">go</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">go</a>
+                <a href="javascript:void(0)" class="js-tag color2">ignite</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1509,10 +1480,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ignite</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">缓存</a>
               </li>
              
@@ -1525,11 +1492,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Kudu</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color5">Kudu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1553,11 +1520,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">azkaban</a>
+                <a href="javascript:void(0)" class="js-tag color1">自定义函数</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">自定义函数</a>
+                <a href="javascript:void(0)" class="js-tag color3">azkaban</a>
               </li>
              
               <li class="article-tag-list-item">
