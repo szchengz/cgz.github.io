@@ -40,7 +40,7 @@ tags:
 > echo "export PATH=$PATH:/usr/local/git/bin" >> /etc/profile
 > source /etc/profile
 
-## 1.安装Azkaban
+## 2.安装Azkaban
 
 - Azkaban有三种部署模式
 solo-server模式 单机模式
@@ -91,7 +91,7 @@ repositories {
 
 访问http://localhost:8081即可
 
-## 异常情况
+## 3.异常情况
 
 
 可能编译过程会报FAILURE: Build failed with an exception. 之类的错误，需要更新JDK的加密码类（我在不同环境安装过三次都报错了，所以估计都需要更新）
@@ -99,7 +99,7 @@ repositories {
 /usr/local/jdk1.8.0_74/jre/lib/security
 覆盖后重新编译
 
-## 参考文章
+## 4.参考文章
 https://blog.csdn.net/chenliyu0518/article/details/84786283
 
 执行./gradlew命令如何不去下载gradle
