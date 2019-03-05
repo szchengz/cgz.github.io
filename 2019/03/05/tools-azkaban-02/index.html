@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="https://szchengz.github.io">
   <title>azkaban单机模式安装使用 | 程序人生</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="0.前提这个安装教程是通过编译Azkaban源码的方案方式  需要安装git 无需安装gradle（会自动下载安装）  下载azkaban下载地址： https://github.com/azkaban/azkaban/releases使用的版本：azkaban-3.67.0   1.安装gitwget https://www.kernel.org/pub/software/scm/git/git">
+  <meta name="description" content="0.前提这个安装教程是通过编译Azkaban源码的方案方式  需要安装git 无需安装gradle（会自动下载安装）  下载azkaban下载地址： https://github.com/azkaban/azkaban/releases使用的版本：azkaban-3.67.0   1.安装git wget https://www.kernel.org/pub/software/scm/git/gi">
 <meta name="keywords" content="azkaban">
 <meta property="og:type" content="article">
 <meta property="og:title" content="azkaban单机模式安装使用">
 <meta property="og:url" content="https://szchengz.github.io/2019/03/05/tools-azkaban-02/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.前提这个安装教程是通过编译Azkaban源码的方案方式  需要安装git 无需安装gradle（会自动下载安装）  下载azkaban下载地址： https://github.com/azkaban/azkaban/releases使用的版本：azkaban-3.67.0   1.安装gitwget https://www.kernel.org/pub/software/scm/git/git">
+<meta property="og:description" content="0.前提这个安装教程是通过编译Azkaban源码的方案方式  需要安装git 无需安装gradle（会自动下载安装）  下载azkaban下载地址： https://github.com/azkaban/azkaban/releases使用的版本：azkaban-3.67.0   1.安装git wget https://www.kernel.org/pub/software/scm/git/gi">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-05T06:59:14.876Z">
+<meta property="og:updated_time" content="2019-03-05T07:02:59.330Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="azkaban单机模式安装使用">
-<meta name="twitter:description" content="0.前提这个安装教程是通过编译Azkaban源码的方案方式  需要安装git 无需安装gradle（会自动下载安装）  下载azkaban下载地址： https://github.com/azkaban/azkaban/releases使用的版本：azkaban-3.67.0   1.安装gitwget https://www.kernel.org/pub/software/scm/git/git">
+<meta name="twitter:description" content="0.前提这个安装教程是通过编译Azkaban源码的方案方式  需要安装git 无需安装gradle（会自动下载安装）  下载azkaban下载地址： https://github.com/azkaban/azkaban/releases使用的版本：azkaban-3.67.0   1.安装git wget https://www.kernel.org/pub/software/scm/git/gi">
   
     <link rel="alternative" href="/atom.xml" title="程序人生" type="application/atom+xml">
   
@@ -165,11 +165,21 @@
 <li><p>下载azkaban<br>下载地址： <a href="https://github.com/azkaban/azkaban/releases" target="_blank" rel="noopener">https://github.com/azkaban/azkaban/releases</a><br>使用的版本：azkaban-3.67.0</p>
 </li>
 </ul>
-<h2 id="1-安装git"><a href="#1-安装git" class="headerlink" title="1.安装git"></a>1.安装git</h2><p>wget <a href="https://www.kernel.org/pub/software/scm/git/git-2.7.2.tar.gz" target="_blank" rel="noopener">https://www.kernel.org/pub/software/scm/git/git-2.7.2.tar.gz</a><br>tar xzf git-2.7.2.tar.gz</p>
+<h2 id="1-安装git"><a href="#1-安装git" class="headerlink" title="1.安装git"></a>1.安装git</h2><blockquote>
+<p>wget <a href="https://www.kernel.org/pub/software/scm/git/git-2.7.2.tar.gz" target="_blank" rel="noopener">https://www.kernel.org/pub/software/scm/git/git-2.7.2.tar.gz</a><br>tar xzf git-2.7.2.tar.gz</p>
+</blockquote>
 <p>进入git目录编译执行</p>
+<blockquote>
 <p>cd git-2.7.2</p>
-<p>编译安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo make prefix=/usr/local/git all</span><br><span class="line">sudo make prefix=/usr/local/git install</span><br></pre></td></tr></table></figure></p>
-<p>把git加入到环境变量中<br>echo “export PATH=$PATH:/usr/local/git/bin” &gt;&gt; /etc/bashrc<br>source /etc/bashrc<br>或是<br>echo “export PATH=$PATH:/usr/local/git/bin” &gt;&gt; /etc/profile<br>source /etc/profile</p>
+</blockquote>
+<p>编译安装</p>
+<blockquote>
+<p>sudo make prefix=/usr/local/git all<br>sudo make prefix=/usr/local/git install</p>
+</blockquote>
+<p>把git加入到环境变量中</p>
+<blockquote>
+<p>echo “export PATH=$PATH:/usr/local/git/bin” &gt;&gt; /etc/bashrc<br>source /etc/bashrc<br>或是<br>echo “export PATH=$PATH:/usr/local/git/bin” &gt;&gt; /etc/profile<br>source /etc/profile</p>
+</blockquote>
 <h2 id="1-安装Azkaban"><a href="#1-安装Azkaban" class="headerlink" title="1.安装Azkaban"></a>1.安装Azkaban</h2><ul>
 <li>Azkaban有三种部署模式<br>solo-server模式 单机模式<blockquote>
 <p>DB使用的是一个内嵌的H2，Web Server和Executor Server运行在同一个进程里。这种模式包含Azkaban的所有特性，但一般用来学习和测试。</p>
@@ -185,16 +195,29 @@
 <p>DB使用的是MySQL，MySQL支持master-slave架构，Web Server和Executor Server运行在不同机器上，且有多个Executor Server。</p>
 </blockquote>
 <p>这里针对的是单机模式</p>
+<blockquote>
 <p>cd azkaban-3.67.0</p>
+</blockquote>
+<blockquote>
 <p>./gradlew build</p>
+</blockquote>
 <p>(<br>这里会自动下载gradle到用户目录.gradle下面。<br>建议修改azkaban-3.67.0目录下的build.gradle仓库为国内阿里云或是自己的私服nexus,不然下载时间会比较久<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">repositories &#123;</span><br><span class="line">    mavenLocal()</span><br><span class="line">    maven &#123; url &quot;http://10.10.203.93:8082/repository/maven-public/&quot; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>两个地方都有这个配置。都改了。<br>)</p>
+<blockquote>
 <p>./gradlew clean<br>./gradlew installDist<br>./gradlew test<br>./gradlew build -x test</p>
+</blockquote>
+<blockquote>
 <p>cd azkaban-solo-server/build/install/azkaban-solo-server;<br>bin/start-solo.sh</p>
-<p>停止<br>bin/shutdown-solo.sh</p>
+</blockquote>
+<p>停止</p>
+<blockquote>
+<p>bin/shutdown-solo.sh</p>
+</blockquote>
 <p>默认用户名和密码：azkaban和azkaban</p>
 <p>访问<a href="http://localhost:8081即可" target="_blank" rel="noopener">http://localhost:8081即可</a></p>
 <h2 id="异常情况"><a href="#异常情况" class="headerlink" title="异常情况"></a>异常情况</h2><p>可能编译过程会报FAILURE: Build failed with an exception. 之类的错误，需要更新JDK的加密码类（我在不同环境安装过三次都报错了，所以估计都需要更新）<br>解决方法：下载JCE<a href="https://www.oracle.com/technetwork/cn/java/javase/downloads/jce8-download-2133166-zhs.html我这边使用的JDK8，包含了JCE所需要的jre8解压搜下载好的文件，放置到java的以下目录：" target="_blank" rel="noopener">https://www.oracle.com/technetwork/cn/java/javase/downloads/jce8-download-2133166-zhs.html我这边使用的JDK8，包含了JCE所需要的jre8解压搜下载好的文件，放置到java的以下目录：</a><br>/usr/local/jdk1.8.0_74/jre/lib/security<br>覆盖后重新编译</p>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://blog.csdn.net/chenliyu0518/article/details/84786283" target="_blank" rel="noopener">https://blog.csdn.net/chenliyu0518/article/details/84786283</a></p>
+<p>执行./gradlew命令如何不去下载gradle<br><a href="https://blog.csdn.net/yzpbright/article/details/53492458" target="_blank" rel="noopener">https://blog.csdn.net/yzpbright/article/details/53492458</a></p>
 
       
 
@@ -374,15 +397,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">笔记</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">标签</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">概率</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -390,15 +405,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">笔记</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Kafka</a>
+                <a href="javascript:void(0)" class="js-tag color3">概率</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">集群</a>
+                <a href="javascript:void(0)" class="js-tag color5">centos6.5</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -406,7 +425,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ignite</a>
+                <a href="javascript:void(0)" class="js-tag color3">集群</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Kafka</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hive</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -422,11 +449,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hive</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">centos6.5</a>
+                <a href="javascript:void(0)" class="js-tag color2">ignite</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -438,10 +461,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">HDFS问题集</a>
               </li>
              
@@ -450,7 +469,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">MySql笔记-错误编号和SQLSTATE码</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -458,7 +477,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">沟通</a>
+                <a href="javascript:void(0)" class="js-tag color3">MySql笔记-错误编号和SQLSTATE码</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -466,15 +485,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">自定义函数</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">github</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">yilia</a>
+                <a href="javascript:void(0)" class="js-tag color3">沟通</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -486,7 +497,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">正则表达式</a>
+                <a href="javascript:void(0)" class="js-tag color1">自定义函数</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">github</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">yilia</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Gradle</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -498,7 +525,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">git</a>
+                <a href="javascript:void(0)" class="js-tag color1">正则表达式</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -507,10 +534,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">SQL</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Gradle</a>
               </li>
             
             <div class="clearfix"></div>
