@@ -62,9 +62,7 @@ Possible causes for this unexpected error include:<ul><li>Gradle's dependency ca
 把5.2.1的版本换成4.9的版本
 
 
-
-
-今天学习使用在IDEA下利用Gradle构建java项目，碰到一个小问题，构建好的项目没有src文件，自己创建后不能新建java文件，经过排查发现是自己新建的文件不是Source Dir 所以在 Project Settion 中的Module里面将该文件夹设置为Source文件夹后,可以新建java文件。而构建项目不带src文件则自己设置一个gradle的Task  
+今天学习使用在IDEA下利用Gradle构建java项目，碰到一个小问题，构建好的项目没有src文件，自己创建后不能新建java文件，经过排查发现是自己新建的文件不是Source Dir 所以在 Project Settion 中的Module里面将该文件夹设置为Source文件夹后,可以新建java文件。而构建项目不带src文件则自己设置一个gradle的Task
 task "create-dirs" << {
     sourceSets*.java.srcDirs*.each { it.mkdirs() }
     sourceSets*.resources.srcDirs*.each { it.mkdirs() }
@@ -85,3 +83,9 @@ idea 使用gradle 出现 Unindexed remote maven repositories found
 发现使用mavenLocal() 时Gradle默认会按以下顺序去查找本地的maven仓库：USER_HOME/.m2/settings.xml >> M2_HOME/conf/settings.xml >> USER_HOME/.m2/repository。注意，环境变量要加入M2_HOME， 我们配环境时很多时候都是使用MAVEN_HOME或者直接在path中输入bin路径了，导致mavenLocal无法生效。
 
 另外，如果本地没有相关jar包，gradle会在下载到USER_HOME/.gradle文件夹下，若想让gradle下载到指定文件夹，配置GRADLE_USER_HOME环境变量
+
+
+
+
+# 执行./gradlew命令如何不去下载gradle
+https://blog.csdn.net/yzpbright/article/details/53492458
