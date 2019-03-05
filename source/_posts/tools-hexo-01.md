@@ -11,6 +11,7 @@ description: hexo的安装摘要，使用笔记
 
 # 0.目录
 
+- 安装Nodejs
 - 安装hexo
 - 安装配置git
 - github设置
@@ -25,7 +26,7 @@ $ hexo init blog
 $ cd blog
 $ npm install
 $ hexo g # 或者hexo generate
-$ hexo s # 或者hexo server，可以在http://localhost:4000/ 查看 
+$ hexo s # 或者hexo server，可以在http://localhost:4000/ 查看
 ```
 
 hexo常用命令
@@ -93,6 +94,7 @@ ssh-keygen -t rsa -C "youname@xxxx.com"
 我本地成的位置在：C:\Users\ThinkPad\.ssh
 
 # 3.github设置
+（登录到GitHub）
 
 ### repositories设置
 必须是与用户名一致的repositories
