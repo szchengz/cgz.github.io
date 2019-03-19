@@ -8,6 +8,13 @@
     <artifactId>study</artifactId>
     <version>1.0</version>
 
+    <properties>
+        <appname>indexES</appname>
+        <quartz.version>2.2.2</quartz.version>
+        <springframework.version>4.2.4.RELEASE</springframework.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
     <dependencies>
 
         <dependency>
@@ -16,12 +23,53 @@
             <version>3.10.5.Final</version>
         </dependency>
 
+        <!-- Quartz framework -->
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>${quartz.version}</version>
+        </dependency>
+
+        <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>spring-context-support</artifactId>-->
+            <!--<version>4.0.2.RELEASE</version>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>spring-context</artifactId>-->
+            <!--<version>4.3.9.RELEASE</version>-->
+        <!--</dependency>-->
+
         <!--<dependency>-->
             <!--<groupId>io.netty</groupId>-->
             <!--<artifactId>netty-all</artifactId>-->
             <!--<version>4.1.6.Final</version>-->
         <!--</dependency>-->
 
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>4.3.7.RELEASE</version>
+            <!--<exclusions>-->
+                <!--&lt;!&ndash; Exclude Commons Logging in favor of SLF4j &ndash;&gt;-->
+                <!--<exclusion>-->
+                    <!--<groupId>commons-logging</groupId>-->
+                    <!--<artifactId>commons-logging</artifactId>-->
+                <!--</exclusion>-->
+            <!--</exclusions>-->
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>4.3.7.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>4.3.7.RELEASE</version>
+        </dependency>
 
     </dependencies>
 

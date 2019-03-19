@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="firstJob" class="spring.task.FirstJob"/>
+
+    <!--<bean id="esClientBeanUtil" class="com.cdcentral.util.EsClientBeanUtil">-->
+        <!--<property name="clusterName" value="big-data"/>-->
+        <!--<property name="clusterNodes" value="master:9306,node1:9306,node2:9306"/>-->
+    <!--</bean>-->
+
+    <!--<bean id="esDataService" class="com.cdcentral.service.impl.EsDataServiceImpl"/>-->
+
+    <!--<bean id="dataSourceToEsService" class="com.cdcentral.service.impl.DataSourceToEsServiceImpl">-->
+        <!--<property name="servers" value="node1:9092"/>-->
+    <!--</bean>-->
+
+
+</beans>
