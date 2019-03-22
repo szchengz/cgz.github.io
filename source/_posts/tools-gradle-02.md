@@ -18,7 +18,7 @@ GRADLE_HOME=D:\soft\gradle-5.2.1
 PATH 后加 ";%GRADLE_HOME%\bin"
 
 Jar下载后的本地存储目录
-GRADLE_USER_HOME=E:\repository\gradle
+GRADLE_USER_HOME=D:\repository\gradle
 
 配置国内镜像
 
