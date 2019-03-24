@@ -9,7 +9,7 @@
 
 	<appender name="debugLog"
 		class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="%{BDP_LOG_HOME}/netty4/debug-log.log" />
+		<param name="File" value="%{sys:HADOOP_HOME}/netty4/debug-log.log" />
 		<param name="MaxFileSize" value="10MB" />
 		<param name="MaxBackupIndex" value="10" />
 		<layout class="org.apache.log4j.PatternLayout">
@@ -23,7 +23,7 @@
 	
 	<appender name="infoLog"
 		class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="${BDP_LOG_HOME}/javademo/info-log.log" />
+		<param name="File" value="${sys:user.name}/javademo/info-log.log" />
 		<param name="MaxFileSize" value="10MB" />
 		<param name="MaxBackupIndex" value="10" />
 		<layout class="org.apache.log4j.PatternLayout">
@@ -37,7 +37,7 @@
 
 	<appender name="warnLog"
 		class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="${sys:BDP_LOG_HOME}/javademo/warn-log.log" />
+		<param name="File" value="${sys:user.name}/javademo/warn-log.log" />
 		<param name="MaxFileSize" value="10MB" />
 		<param name="MaxBackupIndex" value="10" />
 		<layout class="org.apache.log4j.PatternLayout">
@@ -51,7 +51,7 @@
 	
 	<appender name="errorLog"
 		class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="${sys:BDP_LOG_HOME}/javademo/error-log.log" />
+		<param name="File" value="${sys:user.name}/javademo/error-log.log" />
 		<param name="MaxFileSize" value="10MB" />
 		<param name="MaxBackupIndex" value="10" />
 		<layout class="org.apache.log4j.PatternLayout">
