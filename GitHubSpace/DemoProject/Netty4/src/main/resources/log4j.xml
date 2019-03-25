@@ -3,7 +3,7 @@
 <log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
 	<appender name="debugLog"
 		class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="${BDP_LOG_HOME}/netty4/debug-log.log" />
+		<param name="File" value="${env:LOG_HOME}/netty4/debug-log.log" />
 		<param name="MaxFileSize" value="10MB" />
 		<param name="MaxBackupIndex" value="10" />
 		<layout class="org.apache.log4j.PatternLayout">
