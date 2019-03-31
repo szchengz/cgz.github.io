@@ -22,10 +22,21 @@ public class MyClass {
         LOG.debug("debug...");
         LOG.warn("warn...");
         LOG.error("error...");
+
+        for(;;){
+            test1();
+        }
+
     }
 
     public static void main(String[] args) {
         new MyClass().method();
+        System.setProperty("Log4jContextSelector", "org.apache.logging.log4j.core.async.AsyncLoggerContextSelector");
+
+
+    }
+
+    public void test1(){
 
         System.out.println("========== System.getProperties() =========");
         Properties properties = System.getProperties();
@@ -34,7 +45,9 @@ public class MyClass {
             Map.Entry entry = (Map.Entry) i.next();
             Object key = entry.getKey();
             Object value = entry.getValue();
-            System.out.println(key + "=" + value);
+
+            LOG.warn("{}  === {}", key , value);
+
         }
 
         System.out.println("========== System.getenv() =========");
@@ -42,9 +55,7 @@ public class MyClass {
         Iterator it = map.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry entry = (Map.Entry) it.next();
-            System.out.print(entry.getKey() + "=");
-            System.out.println(entry.getValue());
+            LOG.info("{}  ====== {}", entry.getKey() , entry.getValue());
         }
-
     }
 }
