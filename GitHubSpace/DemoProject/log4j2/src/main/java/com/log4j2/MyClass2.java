@@ -22,5 +22,12 @@ public class MyClass2 {
 
     public static void main(String[] args) {
         new MyClass2().method();
+
+        String s = System.getenv("LOG_HOME");// 得到某个环境变量的值
+        System.out.println(s);
+
+
+
+
     }
 }

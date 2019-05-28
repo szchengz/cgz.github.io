@@ -3,7 +3,7 @@
 
     <!-- 常量引用 -->
     <properties>
-        <property name="service_name">test_log4j2</property>
+        <property name="APP_NAME">test_log4j2</property>
         <property name="LOG_HOME">${env:LOG_HOME}</property>
         <property name="FORMAT">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n
         </property>
@@ -17,12 +17,13 @@
             <patternLayout pattern="${FORMAT}"/>
         </Console>
 
-        <File name="testFile" fileName="${LOG_HOME}/test/${service_name}.log" append="false">
+        <File name="testFile" fileName="${LOG_HOME}/file.log" append="false">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n"/>
         </File>
 
-        <RollingFile name="rollingFile" fileName="${LOG_HOME}/${service_name}.log"
-                     filePattern="${LOG_HOME}/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+        <RollingFile name="RollingFileInfo" fileName="${LOG_HOME}/${APP_NAME}-info.log"
+                     filePattern="${LOG_HOME}/$${date:yyyy-MM}/info-%d{MM-dd-yyyy}-%i.log.gz">
+            <ThresholdFilter level="INFO"/>
             <PatternLayout pattern="${FORMAT}"/>
             <Policies>
                 <!-- interval，integer型，指定两次封存动作之间的时间间隔。单位:以日志的命名精度来确定单位，比如yyyy-MM-dd-HH 单位为小时，yyyy-MM-dd-HH-mm 单位为分钟。 -->
@@ -30,18 +31,28 @@
                 <!--设置每天打包日志一次-->
                 <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
                 <!--设置日志文件满10MB后打包-->
-                <SizeBasedTriggeringPolicy size="10 MB"/>
+                <SizeBasedTriggeringPolicy size="1 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="60"/>
         </RollingFile>
 
-        <RollingFile name="RollingFileError" fileName="${sys:user.home}/logs/error.log"
-                     filePattern="${sys:user.home}/logs/$${date:yyyy-MM}/error-%d{yyyy-MM-dd}-%i.log">
-            <ThresholdFilter level="ERROR"/>
+        <RollingFile name="RollingFileWarn" fileName="${LOG_HOME}/${APP_NAME}-warn.log"
+                     filePattern="${LOG_HOME}/$${date:yyyy-MM}/warn-%d{yyyy-MM-dd}-%i.log.gz">
+            <ThresholdFilter level="warn"/>
             <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
             <Policies>
                 <TimeBasedTriggeringPolicy/>
-                <SizeBasedTriggeringPolicy size="100 MB"/>
+                <SizeBasedTriggeringPolicy size="1 KB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="RollingFileError" fileName="${LOG_HOME}/${APP_NAME}-error.log"
+                     filePattern="${LOG_HOME}/$${date:yyyy-MM}/error-%d{yyyy-MM-dd}-%i.log">
+            <ThresholdFilter level="Error"/>
+            <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="1 KB"/>
             </Policies>
         </RollingFile>
 
@@ -50,7 +61,8 @@
     <Loggers>
         <Root level="info"> <!-- 定义Root Logger，其日志级别为error -->
             <AppenderRef ref="console"/> <!-- Root Logger的Appender引用上面定义的Console -->
-            <AppenderRef ref="testFile"/> <!-- Root Logger的Appender引用上面定义的Console -->
+            <AppenderRef ref="RollingFileWarn"/> <!-- Root Logger的Appender引用上面定义的Console -->
+            <AppenderRef ref="RollingFileInfo"/>
             <AppenderRef ref="RollingFileError"/>
         </Root>
 
@@ -72,10 +84,10 @@
         </logger>
         <!-- root logger,一般用于放置所有的appender -->
         <!-- 日志输出级别(>=INFO级别的日志都输出) -->
-        <asyncRoot level="INFO">
-            <appender-ref ref="console"/>
-            <appender-ref ref="rollingFile"/>
-            <!-- <appender-ref ref="testFile"/> -->
-        </asyncRoot>
+        <!--<asyncRoot level="INFO">-->
+            <!--<appender-ref ref="console"/>-->
+            <!--<appender-ref ref="rollingFile"/>-->
+            <!--&lt;!&ndash; <appender-ref ref="testFile"/> &ndash;&gt;-->
+        <!--</asyncRoot>-->
     </Loggers>
 </Configuration>
