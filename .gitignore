@@ -7,3 +7,7 @@ public/
 .deploy*/
 target/
 .idea/
+*/.settings/*
+*/.classpath
+*/.project
+*.iml

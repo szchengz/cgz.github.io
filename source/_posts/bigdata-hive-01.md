@@ -50,7 +50,7 @@ create database wordcount;
 
 ## 1.2 加载数据到表
 
-```
+```sql
 
 #把本地数据装载到数据表，也就是在metastore上创建信息
 load data local inpath '/testdata/sogouq1' into table sogouq1_1;
