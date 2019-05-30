@@ -1,7 +1,10 @@
 package com.bdp.controller;
 
 import com.bdp.entity.User;
+import com.bdp.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,15 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
  * 描述：
  */
 @RestController
-@EnableAutoConfiguration
 @RequestMapping("/user")
 public class UserController {
 
-    @RequestMapping("getuser")
-    public User getUser() {
-        User user = new User();
-        user.setName("test");
-        return user;
+    @Autowired
+    private UserService userService;
+
+    @RequestMapping("getUser/{id}")
+    public String GetUser(@PathVariable int id){
+        return userService.Sel(id).toString();
     }
 
 }
