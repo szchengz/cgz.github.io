@@ -8,11 +8,9 @@ import org.springframework.context.annotation.ComponentScan;
 /**
  *
  */
-//@ComponentScan(value = {"com.bdp"})
-@ComponentScan(value="com.bdp")
-
-//@MapperScan("com.bdp.mapper") //扫描的mapper
 @SpringBootApplication
+@ComponentScan(basePackages = {"com.bdp"})
+@MapperScan("com.bdp.mapper") //扫描的mapper
 public class BigdataApplication {
 
 	public static void main(String[] args) {

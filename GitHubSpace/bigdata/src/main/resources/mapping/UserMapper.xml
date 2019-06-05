@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.mapper.UserMapper">
+<mapper namespace="com.bdp.mapper.UserMapper">
 
     <resultMap id="BaseResultMap" type="com.bdp.entity.User">
         <result column="id" jdbcType="INTEGER" property="id" />
@@ -13,14 +13,14 @@
         select * from user where id = #{id}
     </select>
 
-    <!--<insert id="insert" parameterType="com.bdp.entity.User">
+    <!--<insert id="insert" parameterType="com.example.entity.User">
         insert into User (userId, userName, phone,
         sex)
         values (#{userid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
         #{sex,jdbcType=VARCHAR})
     </insert>
 
-    <insert id="insertSelective" parameterType="com.bdp.entity.User">
+    <insert id="insertSelective" parameterType="com.example.entity.User">
         insert into User
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="userid != null">
@@ -52,7 +52,7 @@
         </trim>
     </insert>
 
-    <select id="findAllUser" resultType="com.bdp.entity.User">
+    <select id="findAllUser" resultType="com.example.entity.User">
         select * from User
     </select>-->
 </mapper>
