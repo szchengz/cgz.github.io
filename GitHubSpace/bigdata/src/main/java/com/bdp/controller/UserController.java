@@ -21,7 +21,10 @@ public class UserController {
 
     @RequestMapping("getUser/{id}")
     public String GetUser(@PathVariable int id){
-        return userService.Sel(id).toString();
+        if(userService.Sel(id) == null)
+            return "NULL";
+        else
+            return userService.Sel(id).toString();
     }
 
 }
