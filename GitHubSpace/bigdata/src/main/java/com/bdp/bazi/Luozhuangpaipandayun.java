@@ -171,6 +171,6 @@ public class Luozhuangpaipandayun {
      */
     public static void main(String[] args) throws ParseException {
         Luozhuangpaipandayun my = new Luozhuangpaipandayun();
-        my.paipan("2000-3-13 11", luozhuanglvhehun.sex.man);
+        my.paipan("2013-7-13 16", luozhuanglvhehun.sex.woman);
     }
 }
