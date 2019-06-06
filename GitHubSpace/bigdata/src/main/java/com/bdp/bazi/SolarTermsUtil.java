@@ -543,6 +543,6 @@ public class SolarTermsUtil {
         //当前日期所在 阴历季度
         System.out.println(getSolarQuarter(DateFormatUtil.stringToDate("yyyy-MM-dd HH:mm:ss","2017-8-6 00:00:01")));*/
 
-        System.out.println(getSolarTermsOfMonth(2019, 5));
+        System.out.println(getSolarTermsOfMonth(2019, 6));
     }
 }

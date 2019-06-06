@@ -147,9 +147,11 @@ public class _24SolarTerms {
     }
 
     public static void main(String[] args) {
-        for (int year = 1901; year < 2050; year++) {
-            System.out.println(solarTermToString(year));
-        }
+//        for (int year = 1901; year < 2050; year++) {
+//            System.out.println(solarTermToString(year));
+//        }
+
+        System.out.println(solarTermToString(2019));
 
 //            int day = getSolarTermNum(2019, SolarTermsEnum.MANGZHONG.name());
 //            System.out.println(day);
