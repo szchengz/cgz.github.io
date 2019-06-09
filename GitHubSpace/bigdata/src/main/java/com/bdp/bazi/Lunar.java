@@ -43,9 +43,9 @@ public class Lunar {
         Date[] jieqi = jieqilist(2019);
         for (int i = 0; i < solarTerm.length; i++) {
             System.out.print(solarTerm[i]);
-            System.out.println(" " + jieqi[i].toLocaleString());
-//            System.out.print(jieqi[i].getMonth() + "月");
-//            System.out.println(jieqi[i].getDate());
+//            System.out.println(" " + jieqi[i].toLocaleString());
+            System.out.print(jieqi[i].getMonth()+1 + "月");
+            System.out.println(jieqi[i].getDate());
         }
     }
 
@@ -480,6 +480,7 @@ public class Lunar {
     private void init(long TimeInMillis) {
         this.solar = Calendar.getInstance();
         this.solar.setTimeInMillis(TimeInMillis);
+        solar.setTimeZone(TimeZone.getTimeZone("GMT"));
         Calendar baseDate = new GregorianCalendar(1900, 0, 31);
         long offset = (TimeInMillis - baseDate.getTimeInMillis()) / 86400000;
         // 按农历年递减每年的农历天数，确定农历年份

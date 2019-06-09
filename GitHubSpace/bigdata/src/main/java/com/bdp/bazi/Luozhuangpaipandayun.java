@@ -159,6 +159,7 @@ public class Luozhuangpaipandayun {
     }
 
     public static void pringst(String[] res) {
+        System.out.print("大运：");
         for (int i = 0; i < res.length; i++) {
             System.out.print(res[i]);
             System.out.print(" ");
@@ -171,6 +172,9 @@ public class Luozhuangpaipandayun {
      */
     public static void main(String[] args) throws ParseException {
         Luozhuangpaipandayun my = new Luozhuangpaipandayun();
-        my.paipan("2013-7-13 16", luozhuanglvhehun.sex.woman);
+//        my.paipan("1979-11-19 08", luozhuanglvhehun.sex.man);
+//        my.paipan("1981-05-24 06", luozhuanglvhehun.sex.man);
+//        my.paipan("2004-01-22 06", luozhuanglvhehun.sex.man);
+        my.paipan("2013-07-13 16", luozhuanglvhehun.sex.woman);
     }
 }

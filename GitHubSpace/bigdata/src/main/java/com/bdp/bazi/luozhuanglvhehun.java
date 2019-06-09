@@ -6,7 +6,6 @@ package com.bdp.bazi;
  */
 public class luozhuanglvhehun {
     enum sex {
-
         man,
         woman;
     }
