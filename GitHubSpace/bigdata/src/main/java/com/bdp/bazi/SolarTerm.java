@@ -1,6 +1,9 @@
 package com.bdp.bazi;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class SolarTerm {
     // ========角度变换===============
     private static final double rad = 180 * 3600 / Math.PI; // 每弧度的角秒数
@@ -693,6 +696,36 @@ public class SolarTerm {
             out += syn[i] + ":" + toStr() + "\r\n"; // 显示日月合朔
         }
         System.out.println(out);
+    }
+
+
+    public static Map<Integer, Integer> mapSolar = new HashMap<>();
+    static {
+        mapSolar.put(1, 15 * 19); //小寒
+        mapSolar.put(2, 15 * 21); //立春
+        mapSolar.put(3, 15 * 23); //惊蛰
+        mapSolar.put(4, 15 * 1); //清明
+        mapSolar.put(5, 15 * 3); //立夏
+        mapSolar.put(6, 15 * 5); //芒种
+        mapSolar.put(7, 15 * 7); //小暑
+        mapSolar.put(8, 15 * 9); //立秋
+        mapSolar.put(9, 15 * 11); //白露
+        mapSolar.put(10, 15 * 13); //白露
+        mapSolar.put(11, 15 * 15); //立冬
+        mapSolar.put(12, 15 * 17); //大雪
+    }
+
+    public void getMap(int year) {
+        double jd = 365.2422 * (year - 2000), q;
+        for (int i = 0; i < 12; i++) {
+            int jiao = mapSolar.get(i+1);
+            q = jiaoCal(jd + i * 15.2, jiao, 0);
+            q = q + J2000 + (double) 8 / 24; // 计算第i个节气(i=0是春风),结果转为北京时
+            setFromJD(q, true);
+            String s1 = toStr(); // 将儒略日转成世界时
+            System.out.println(s1);
+        }
+
     }
 
     public static void main(String []argv) {
