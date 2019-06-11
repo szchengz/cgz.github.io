@@ -755,7 +755,7 @@ public class SolarTerm {
 
         long t1 = Date4jUtil.toDateOnly(mydate).getTime();
         long t2 = Date4jUtil.toDateOnly(curr).getTime();
-        if(t1 == t1) {
+        if(t1 == t2) {
             //
             sdate = curr;
             edate = curr;
@@ -771,13 +771,13 @@ public class SolarTerm {
             if(month == 12) {
                 edate = Date4jUtil.toDate(getSolarDate(year + 1, 1));
             } else {
-                edate = Date4jUtil.toDate(getSolarDate(year, (month - 1)));
+                edate = Date4jUtil.toDate(getSolarDate(year, (month + 1)));
             }
         }
 
         if(isBack)
-            return edate;
-        return sdate;
+            return sdate;
+        return edate;
 
     }
 
@@ -792,6 +792,14 @@ public class SolarTerm {
 //            String s = st.getSolarDate(2019, i+1);
 //            System.out.println(s);
 //        }
+        System.out.print(st.getNextSorlarDate(Date4jUtil.toDate("2019-06-06 07:00:00"), true).toLocaleString());
+        System.out.println(" "+ st.getNextSorlarDate(Date4jUtil.toDate("2019-06-06 07:00:00"), false).toLocaleString());
+
+        System.out.print(st.getNextSorlarDate(Date4jUtil.toDate("2019-06-07 07:00:00"), true).toLocaleString());
+        System.out.println(" "+ st.getNextSorlarDate(Date4jUtil.toDate("2019-06-07 07:00:00"), false).toLocaleString());
+
+        System.out.print(st.getNextSorlarDate(Date4jUtil.toDate("2019-06-05 07:00:00"), true).toLocaleString());
+        System.out.println(" "+ st.getNextSorlarDate(Date4jUtil.toDate("2019-06-05 07:00:00"), false).toLocaleString());
 
     }
 
