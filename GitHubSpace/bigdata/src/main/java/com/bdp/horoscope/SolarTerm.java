@@ -1,8 +1,9 @@
-package com.bdp.bazi;
+package com.bdp.horoscope;
 
 
-import java.util.HashMap;
-import java.util.Map;
+import com.bdp.util.Date4jUtil;
+
+import java.util.*;
 
 public class SolarTerm {
     // ========角度变换===============
@@ -701,18 +702,29 @@ public class SolarTerm {
 
     public static Map<Integer, Integer> mapSolar = new HashMap<>();
     static {
-        mapSolar.put(1, 15 * 19); //小寒
-        mapSolar.put(2, 15 * 21); //立春
-        mapSolar.put(3, 15 * 23); //惊蛰
-        mapSolar.put(4, 15 * 1); //清明
-        mapSolar.put(5, 15 * 3); //立夏
-        mapSolar.put(6, 15 * 5); //芒种
-        mapSolar.put(7, 15 * 7); //小暑
-        mapSolar.put(8, 15 * 9); //立秋
-        mapSolar.put(9, 15 * 11); //白露
-        mapSolar.put(10, 15 * 13); //白露
-        mapSolar.put(11, 15 * 15); //立冬
-        mapSolar.put(12, 15 * 17); //大雪
+        mapSolar.put(1,  19); //小寒
+        mapSolar.put(2,  21); //立春
+        mapSolar.put(3,  23); //惊蛰
+        mapSolar.put(4,  1); //清明
+        mapSolar.put(5,  3); //立夏
+        mapSolar.put(6,  5); //芒种
+        mapSolar.put(7,  7); //小暑
+        mapSolar.put(8,  9); //立秋
+        mapSolar.put(9,  11); //白露
+        mapSolar.put(10,  13); //白露
+        mapSolar.put(11,  15); //立冬
+        mapSolar.put(12,  17); //大雪
+    }
+
+    public String getSolarDate(int year, int month) {
+
+        int index = mapSolar.get(month);
+
+        double jd = 365.2422 * (year - 2000), q;
+        q = jiaoCal(jd + index * 15.2, index * 15, 0);
+        q = q + J2000 + (double) 8 / 24; // 计算第i个节气(i=0是春风),结果转为北京时
+        setFromJD(q, true);
+        return toStr(); // 将儒略日转成世界时
     }
 
     public void getMap(int year) {
@@ -728,11 +740,58 @@ public class SolarTerm {
 
     }
 
+
+    /**上一个节，下一个节*/
+    public Date getNextSorlarDate(Date mydate, boolean isBack){
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(mydate);
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH) + 1;
+
+        Date sdate = null;
+        Date edate = null;
+        Date curr = Date4jUtil.toDate(getSolarDate(year, month));
+
+        long t1 = Date4jUtil.toDateOnly(mydate).getTime();
+        long t2 = Date4jUtil.toDateOnly(curr).getTime();
+        if(t1 == t1) {
+            //
+            sdate = curr;
+            edate = curr;
+        } else if(t1 < t2) {
+            if(month == 1)
+                sdate = Date4jUtil.toDate(getSolarDate(year-1, 12));
+            else
+                sdate = Date4jUtil.toDate(getSolarDate(year, (month - 1)));
+
+            edate = curr;
+        } else if(t1 > t2) {
+            sdate = curr;
+            if(month == 12) {
+                edate = Date4jUtil.toDate(getSolarDate(year + 1, 1));
+            } else {
+                edate = Date4jUtil.toDate(getSolarDate(year, (month - 1)));
+            }
+        }
+
+        if(isBack)
+            return edate;
+        return sdate;
+
+    }
+
+
     public static void main(String []argv) {
         SolarTerm  st = new SolarTerm();
 //        st.JQtest(2019);
 //        st.paiYue(2500);
-        st.paiYue(2019);
+//        st.paiYue(2019);
+
+//        for (int i = 0; i < 12; i++) {
+//            String s = st.getSolarDate(2019, i+1);
+//            System.out.println(s);
+//        }
 
     }
 

@@ -140,6 +140,18 @@ public class Date4jUtil {
         return toDate(dateStr, DEFAULT_DATA_FORMAT);
     }
 
+
+    public static Date toDateOnly(Date date) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+
+        return calendar.getTime();
+    }
+
     public static String getSequenceNumber() {
 //        Date d = new Date();
 //        SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");
@@ -246,9 +258,11 @@ public class Date4jUtil {
     }
 
     public static void main(String[] args) {
-        System.out.println(System.currentTimeMillis());
-        Date d = Date4jUtil.getPreMin(3);
-        System.out.println(Date4jUtil.formatDate(d));
+//        System.out.println(System.currentTimeMillis());
+//        Date d = Date4jUtil.getPreMin(3);
+//        System.out.println(Date4jUtil.formatDate(d));
+
+        System.out.println(Date4jUtil.toDateOnly(Date4jUtil.getPreMin(3)).toLocaleString());
 
     }
 }
