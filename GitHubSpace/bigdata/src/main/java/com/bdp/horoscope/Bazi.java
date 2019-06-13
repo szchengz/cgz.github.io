@@ -258,11 +258,12 @@ public class Bazi {
          * 更有戊癸何方觅，甲寅之上好追求。
          */
         int idxm = (idx + 1) * 2;
-        if(idxm==10)
-            idxm=0;
+        if(idxm == 10)
+            idxm = 0;
 
         //求的月份的干支
-        monthZhu = TIANGAN[(idxm + this.monthLunar-1) % 10] + DIZHI[(this.monthLunar + 2-1) % 12];
+        monthZhu = TIANGAN[(idxm + this.monthLunar - 1) % 10] + DIZHI[(this.monthLunar + 2-1) % 12];
+//        System.out.println(monthLunar + " = " + monthZhu);
         return monthZhu;
     }
 
@@ -447,6 +448,41 @@ public class Bazi {
     }
 
 
+    /**
+     * 月份地支
+     * @return
+     */
+    public String getMonthDizhi() {
+        SolarTerm solarTerm = new SolarTerm();
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH)+1;
+        Date curr = Date4jUtil.toDate(solarTerm.getSolarDate(year, month));
+        if(cal.getTime().getTime() < curr.getTime()) {
+            month --;
+        }
+        return SolarTerm.MAP_MONTH_DIZHI.get(month);
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getD() {
+        SolarTerm solarTerm = new SolarTerm();
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH)+1;
+        Date curr = Date4jUtil.toDate(solarTerm.getSolarDate(year, month));
+        if(cal.getTime().getTime() < curr.getTime()) {
+            month --;
+        }
+
+        int y = (year - 1900) % 5;
+        int ind = (y+1) * 12 + (month + 1);
+        String  s = _60JIAZI[ind % 60];
+
+        return s;
+    }
+
 
     public Map<String, Object> getInfo(){
         //https://www.jisuapi.com/api/bazi/
@@ -513,6 +549,22 @@ public class Bazi {
         return map;
     }
 
+    public static void test() {
+        Date s = Date4jUtil.toDate("1903-12-08", "yyyy-MM-dd");
+//        Date e = Date4jUtil.toDate("1979-11-19", "yyyy-MM-dd");
+        Date e = Date4jUtil.toDate("1981-05-19", "yyyy-MM-dd");
+
+        int day = (int)( (e.getTime() - s.getTime()) / (1000 * 60 * 60 * 24)) ;
+
+        int month = day / 30 + 36;
+        int ind = month % 60;
+        System.out.println(day + " = " + month + " = " + ind + " = " + _60JIAZI[ind]);
+
+//        System.out.println(Date4jUtil.getNextDay());
+
+//        _60JIAZI
+    }
+
     /**
      * 针对一个在西元 1983-01-10 中午12：30生的人的计算。
      * 这里12点半在中国的古代历书中算是午时
@@ -540,12 +592,23 @@ public class Bazi {
 //        }
 
 //        Date s1 = Date4jUtil.toDate("1981-05-24 06", "yyyy-MM-dd HH");
-        Date s1 = Date4jUtil.toDate("1979-11-19 08", "yyyy-MM-dd HH");
-        Bazi bazi = new Bazi(s1, 1);
-        Map<String, Object>  map = bazi.getInfo();
-        for (Map.Entry<String, Object> entry : map.entrySet()) {
-            System.out.println(entry.getKey() + " : " + entry.getValue());
-        }
+//        Date s1 = Date4jUtil.toDate("1979-11-19 08", "yyyy-MM-dd HH");
+//        Date s1 = Date4jUtil.toDate("1905-02-19 08", "yyyy-MM-dd HH");
+//        Bazi bazi = new Bazi(s1, 1);
+//        System.out.println(bazi.getD());
+
+//        System.out.println(new Bazi(Date4jUtil.toDate("1906-02-19 08", "yyyy-MM-dd HH"), 1).getD());
+//        System.out.println(new Bazi(Date4jUtil.toDate("1907-02-19 08", "yyyy-MM-dd HH"), 1).getD());
+//        System.out.println(new Bazi(Date4jUtil.toDate("1908-02-19 08", "yyyy-MM-dd HH"), 1).getD());
+        System.out.println(new Bazi(Date4jUtil.toDate("1980-11-19 08", "yyyy-MM-dd HH"), 1).getD());
+        System.out.println(new Bazi(Date4jUtil.toDate("1979-11-19 08", "yyyy-MM-dd HH"), 1).getD());
+//        System.out.println(new Bazi(Date4jUtil.toDate("1911-02-02 08", "yyyy-MM-dd HH"), 1).getD());
+
+//        Map<String, Object>  map = bazi.getInfo();
+//        for (Map.Entry<String, Object> entry : map.entrySet()) {
+//            System.out.println(entry.getKey() + " : " + entry.getValue());
+//        }
+//        test();
     }
 
 

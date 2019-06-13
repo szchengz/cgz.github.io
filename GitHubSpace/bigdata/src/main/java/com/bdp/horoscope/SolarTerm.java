@@ -701,6 +701,8 @@ public class SolarTerm {
 
 
     public static Map<Integer, Integer> mapSolar = new HashMap<>();
+    public static Map<Integer, String> MAP_MONTH_DIZHI = new HashMap<>();
+
     static {
         mapSolar.put(1,  19); //小寒
         mapSolar.put(2,  21); //立春
@@ -714,6 +716,18 @@ public class SolarTerm {
         mapSolar.put(10,  13); //白露
         mapSolar.put(11,  15); //立冬
         mapSolar.put(12,  17); //大雪
+        MAP_MONTH_DIZHI.put(1 , "丑");
+        MAP_MONTH_DIZHI.put(2 , "寅");
+        MAP_MONTH_DIZHI.put(3 , "卯");
+        MAP_MONTH_DIZHI.put(4 , "辰");
+        MAP_MONTH_DIZHI.put(5 , "巳");
+        MAP_MONTH_DIZHI.put(6 , "午");
+        MAP_MONTH_DIZHI.put(7 , "未");
+        MAP_MONTH_DIZHI.put(8 , "申");
+        MAP_MONTH_DIZHI.put(9 , "酉");
+        MAP_MONTH_DIZHI.put(10, "戌");
+        MAP_MONTH_DIZHI.put(11, "亥");
+        MAP_MONTH_DIZHI.put(12, "子");
     }
 
     public String getSolarDate(int year, int month) {
@@ -791,10 +805,10 @@ public class SolarTerm {
 //        st.paiYue(2500);
 //        st.paiYue(2019);
 
-//        for (int i = 0; i < 12; i++) {
-//            String s = st.getSolarDate(2019, i+1);
-//            System.out.println(s);
-//        }
+        for (int i = 0; i < 12; i++) {
+            String s = st.getSolarDate(2019, i+1);
+            System.out.println(s);
+        }
         System.out.print(st.getNextSorlarDate(Date4jUtil.toDate("2019-06-06 07:00:00"), true).toLocaleString());
         System.out.println(" "+ st.getNextSorlarDate(Date4jUtil.toDate("2019-06-06 07:00:00"), false).toLocaleString());
 
