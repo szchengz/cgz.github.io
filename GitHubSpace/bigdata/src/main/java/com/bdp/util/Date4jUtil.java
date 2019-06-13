@@ -264,5 +264,11 @@ public class Date4jUtil {
 
         System.out.println(Date4jUtil.toDateOnly(Date4jUtil.getPreMin(3)).toLocaleString());
 
+        Date dt = Date4jUtil.toDate("1964-01-06", "yyyy-MM-dd");
+        System.out.println(Date4jUtil.add(dt, 60*1).toLocaleString());
+        System.out.println(Date4jUtil.add(dt, 60*2).toLocaleString());
+        System.out.println(Date4jUtil.add(dt, 60*3).toLocaleString());
+        System.out.println(Date4jUtil.add(dt, 60*4).toLocaleString());
+
     }
 }

@@ -742,7 +742,13 @@ public class SolarTerm {
 
 
     /**上一个节，下一个节*/
-    public Date getNextSorlarDate(Date mydate, boolean isBack){
+    /**
+     *
+     * @param mydate
+     * @param yinYang
+     * @return
+     */
+    public Date getNextSorlarDate(Date mydate, boolean yinYang){
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(mydate);
@@ -775,10 +781,7 @@ public class SolarTerm {
             }
         }
 
-        if(isBack)
-            return sdate;
-        return edate;
-
+        return yinYang ? edate : sdate;
     }
 
 

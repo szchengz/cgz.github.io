@@ -344,7 +344,7 @@ public class BaZi {
             BaZi lunar = new BaZi(cal);
             System.out.println("此人农历的日期【"+lunar.toString()+"】");
             //此处是为了获取时间在中国的八字学说上的显示，此人是午时生的
-            System.out.println("此人八字【"+lunar.getYearGanZhi(7)+"】");
+            System.out.println("此人八字【"+lunar.getYearGanZhi(12)+"】");
             //获取生肖
             System.out.println("此人的农历生肖【"+lunar.animalsYear()+"】");
         }catch(Exception e){

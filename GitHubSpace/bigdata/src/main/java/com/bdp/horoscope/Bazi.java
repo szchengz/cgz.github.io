@@ -61,25 +61,35 @@ public class Bazi {
     final String[] ANIMALS = new String[]{"鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊", "猴", "鸡", "狗", "猪"};
 
     private String yearZhu = "";
-    private int yearZhuType = 0;
+    private int yearZhuType = 0; //年的阴0 阳1
+    private int sex = 0;  //性别 0女，1男
     private String monthZhu = "";
     private String dayZhu = "";
     private String hourZhu = "";
 
-    public Bazi(String birth) {
+//    public Bazi(String birth) {
+//        try {
+//            Calendar cal = Calendar.getInstance();
+//            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH");
+//            cal.setTime(sdf.parse(birth));
+//            init(cal);
+//        } catch (Exception e){
+//            e.printStackTrace();
+//        }
+//    }
+    public Bazi(){
 
-        Calendar cal = Calendar.getInstance();
-
+    }
+    public Bazi(Date birth, int sex) {
+        this.sex = sex;
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH");
-            cal.setTime(sdf.parse(birth));
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(birth);
             init(cal);
         } catch (Exception e){
             e.printStackTrace();
         }
-
     }
-
 
     /**
      * 传出y年m月d日对应的农历.
@@ -125,7 +135,7 @@ public class Bazi {
 
         //农历年份
         this.yearLunar = iYear;
-        int yearCyl = iYear - 1864;
+
 
         int leapMonth = leapMonth(iYear); //闰哪个月,1-12
         this.leap = false;
@@ -169,12 +179,15 @@ public class Bazi {
             --iMonth;
             --monCyl;
         }
-        monthLunar = iMonth;
-        dayLunar = offset + 1;
+        this.monthLunar = iMonth;
+        this.dayLunar = offset + 1;
 
 
-        // 年柱
-        yearZhu = getYearZhu(cal.get(Calendar.YEAR));
+        // 年柱 cal.get(Calendar.YEAR)
+        yearZhu = getYearZhu();
+        monthZhu = getMonthZhu();
+        dayZhu = getDayZhu();
+        hourZhu = getHourZhu();
 
         //判断阴阳年
         String tianGan = yearZhu.substring(0,1);
@@ -185,7 +198,7 @@ public class Bazi {
                 break;
             }
         }
-        yearZhuType = seq % 2;
+        yearZhuType = (seq+1) % 2;
     }
 
 
@@ -203,19 +216,7 @@ public class Bazi {
         return getYearStr(yearLunar);
     }
 
-    /**
-     * @return the year
-     */
-    public int getnumberYear() {
-        return yearLunar;
-    }
 
-    /**
-     * @return the year
-     */
-    public int getnumbermonth() {
-        return monthLunar;
-    }
     /**
      * @return the year 返回年的顺序，子0 丑2
      */
@@ -230,30 +231,21 @@ public class Bazi {
         return getChinaDayString(dayLunar);
     }
 
-
     //获取年份的天干地支(以立春为界线)
-    public String getYearZhu(int year) {
+    public String getYearZhu() {
         //1864年是甲子年，每隔六十年一个甲子
-
+        int year = this.yearLunar;
         Date lichun = SolarTermsUtil.getSolarTermDate(year, "LICHUN");
         int y = year;
         if(cal.getTime().getTime() < lichun.getTime())
             y = year -1;
 
         int idx = (y - 1864) % 60;
-        String yearGanZhi = this._60JIAZI[idx];
-        return yearGanZhi;
+        yearZhu = this._60JIAZI[idx];
+        return yearZhu;
     }
 
-    public String getBazi(){
-        return getYearGanZhi(cal.get(Calendar.HOUR));
-    }
-
-    /**
-     * @param hour 这里的时间范围是1-12，具体几点到几点是子时、丑时请参考相关文档
-     * 具体的选择如下 "子：1", "丑：2", "寅：3", "卯：4", "辰：5", "巳：6", "午：7", "未：8", "申：9", "酉：10", "戌：11", "亥：12"
-     */
-    public String getYearGanZhi(int hour) {
+    public String getMonthZhu(){
 
         //1864年是甲子年，每隔六十年一个甲子
         int idx = (this.yearLunar - 1864) % 60;
@@ -266,11 +258,15 @@ public class Bazi {
          * 更有戊癸何方觅，甲寅之上好追求。
          */
         int idxm = (idx + 1) * 2;
-        if(idxm==10) idxm=0;
+        if(idxm==10)
+            idxm=0;
 
         //求的月份的干支
-        String m = TIANGAN[(idxm + monthLunar-1) % 10] + DIZHI[(monthLunar + 2-1)%12];
+        monthZhu = TIANGAN[(idxm + this.monthLunar-1) % 10] + DIZHI[(this.monthLunar + 2-1) % 12];
+        return monthZhu;
+    }
 
+    public String getDayZhu() {
 
         /*求出和1900年1月31日甲辰日相差的天数
          * 甲辰日是第四十天
@@ -278,8 +274,20 @@ public class Bazi {
         int offset = (int) ((cal.getTime().getTime() - baseDate.getTime()) / 86400000L);
         offset=(offset + 40)%60;
         //求的日的干支
-        String d = _60JIAZI[offset];
+        dayZhu = _60JIAZI[offset];
+        return dayZhu;
+    }
 
+    public String getHourZhu() {
+
+        /*求出和1900年1月31日甲辰日相差的天数
+         * 甲辰日是第四十天
+         */
+        int offset = (int) ((cal.getTime().getTime() - baseDate.getTime()) / 86400000L);
+        offset=(offset + 40)%60;
+
+        int hour = cal.get(Calendar.HOUR_OF_DAY) - 1;
+        hour = to12Hour(hour);
         /**
          * 日上起时
          * 甲己还生甲，乙庚丙作初，
@@ -288,16 +296,21 @@ public class Bazi {
          */
         offset=(offset % 5 )*2;
         //求得时辰的干支
-        String h = TIANGAN[(offset+hour)%10] + DIZHI[hour];
-
-        //没有过春节的话那么年还算上一年的，此处求的年份的干支
-//        String y = this._60JIAZI[idx];
-        String y = getYearZhu(this.yearLunar);
-
-        //在此处输出我们的年月日时的天干地支
-        return y+","+m+","+d+","+h;
+        hourZhu = TIANGAN[ (offset+hour) %10 ] + DIZHI[hour];
+        return hourZhu;
     }
 
+    public String getBazi(){
+//        return getYearGanZhi(cal.get(Calendar.HOUR));
+        return yearZhu+"," + monthZhu + "," + dayZhu + "," + hourZhu;
+    }
+
+    public int to12Hour(int hour){
+
+        int ind = ((hour+1) % 24) / 2;
+
+        return ind;
+    }
 
     //====== 传回农历 y年的总天数
     final private static int yearDays(int y) {
@@ -344,17 +357,12 @@ public class Bazi {
         return ANIMALS[(this.yearLunar - 4) % 12];
     }
 
-    //====== 传入 月日的offset 传回干支, 0=甲子
-    final private static String cyclicalm(int num) {
-        return (TIANGAN[num % 10] + DIZHI[num % 12]);
-    }
 
-    //====== 传入 offset 传回干支, 0=甲子
-    final public String cyclical() {
-        int num = this.yearLunar - 1900 + 36;
-        return (cyclicalm(num));
-    }
-
+    /**
+     * 农历 日
+     * @param day
+     * @return
+     */
     public static String getChinaDayString(int day) {
 
         String chineseTen[] = {"初", "十", "廿", "卅"};
@@ -370,12 +378,21 @@ public class Bazi {
 
     }
 
-
+    /**
+     * 农历
+     * @return
+     */
     public String lunar(){
         return getYearStr(this.yearLunar) + "年" + (this.leap ? "闰" : "")
-                + LUNAR_MONTH_NUMBER[this.monthLunar - 1] + "月" + getChinaDayString(this.dayLunar);
+                + LUNAR_MONTH_NUMBER[this.monthLunar - 1]
+                + "月" + getChinaDayString(this.dayLunar);
     }
 
+    /**
+     * 农历年
+     * @param year
+     * @return
+     */
     public String getYearStr(int year) {
         String[] chineseword = {"零", "一", "二", "三", "四", "五", "六", "七", "八", "九"};
 
@@ -395,14 +412,41 @@ public class Bazi {
         return ys;
     }
 
-    public static String getSixtyDay() {
-        String temp = "";
-        for (int i = 0; i < 60; i++) {
-            temp += ",/" + cyclicalm(i) + "/";
+    /**
+     * 上运年
+     * @return
+     */
+    public int[] getQiyunYear() {
+        SolarTerm t = new SolarTerm();
+        int total = this.sex + this.yearZhuType;
+        Date birthDate = cal.getTime();
+        int hours = 0;
+        if(total == 0 || total == 2) {
+            Date thedate = t.getNextSorlarDate(birthDate, true);
+            hours = (int)(thedate.getTime() - birthDate.getTime()) / (1000 * 60 * 60 );
+
+        }
+        else {
+            Date thedate = t.getNextSorlarDate(cal.getTime(), false);
+            hours = (int)(birthDate.getTime() - thedate.getTime()) / (1000 * 60 * 60 );
+
         }
 
-        return temp;
+        int days = hours / 24;
+
+        int hour = hours % 24;
+
+        //经过几年几月几日几小时上运
+        //3日1岁 1日四个月 一个时辰5天计算
+        int year = days / 3;
+        int month = (days % 3) * 4;
+        int day = (hour/2) * 5;
+
+//        return year + "年" + (month * 4) + "月";
+        return new int[]{year, month, day, 0};
     }
+
+
 
     public Map<String, Object> getInfo(){
         //https://www.jisuapi.com/api/bazi/
@@ -413,6 +457,26 @@ public class Bazi {
         map.put("animal", animalsYear());
         map.put("bazi", getBazi());
         map.put("yearYinYang", yearZhuType == 0 ? "阴" : "阳");
+
+        String[] daYun = PaiDayun.dayun(yearZhuType, sex, monthZhu);
+
+        int[] qiyunDetail =  getQiyunYear();
+        Map<String, Integer> qiyun = new HashMap<>();
+        qiyun.put("year", qiyunDetail[0]);
+        qiyun.put("month", qiyunDetail[1]);
+        qiyun.put("day", qiyunDetail[2]);
+        qiyun.put("hour", qiyunDetail[3]);
+        map.put("qiyun", qiyun);
+        map.put("dayun", Arrays.toString(daYun));
+
+//        List l = new ArrayList();
+//        for(String s : daYun){
+//            Map<String, String> m = new HashMap<>();
+//            m.put("", s);
+//        }
+
+
+
 
 //        "year": "2009",
 //                "month": "10",
@@ -458,11 +522,31 @@ public class Bazi {
      * */
     public static void main(String[] args){
 
-        Bazi bazi = new Bazi("1983-02-04 06");
-        Map<String, Object>  map = bazi.getInfo();
 
+//        Date s = Date4jUtil.toDate("1902-02-04 12", "yyyy-MM-dd HH");
+//        for(int i = 0 ; i < 130;  i ++) {
+//            Date thedate = Date4jUtil.add(s, i);
+//            Bazi bazi = new Bazi(thedate, 1);
+//            Map<String, Object>  map = bazi.getInfo();
+//
+////            String ba = (String)map.get("bazi");
+////            String lunar = (String)map.get("lunar");
+////            System.out.println(thedate.toLocaleString() + "   ==  " + ba + " " + lunar);
+//
+//            for (Map.Entry<String, Object> entry : map.entrySet()) {
+//                System.out.println(entry.getKey() + " : " + entry.getValue());
+//            }
+//            System.out.println("*****************************************");
+//        }
+
+//        Date s1 = Date4jUtil.toDate("1981-05-24 06", "yyyy-MM-dd HH");
+        Date s1 = Date4jUtil.toDate("1979-11-19 08", "yyyy-MM-dd HH");
+        Bazi bazi = new Bazi(s1, 1);
+        Map<String, Object>  map = bazi.getInfo();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             System.out.println(entry.getKey() + " : " + entry.getValue());
         }
     }
+
+
 }
