@@ -246,9 +246,16 @@ public class Bazi {
     }
 
     public String getMonthZhu(){
+        //求的月份的干支
+        monthZhu = getMonthZhu(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1);
+//        System.out.println(monthLunar + " = " + monthZhu);
+        return monthZhu;
+    }
+
+    public String getMonthZhu(int year, int month){
 
         //1864年是甲子年，每隔六十年一个甲子
-        int idx = (this.yearLunar - 1864) % 60;
+        int idx = (year - 1864) % 60;
         idx = idx % 5;
 
         /**
@@ -262,10 +269,9 @@ public class Bazi {
             idxm = 0;
 
         //求的月份的干支
-        monthZhu = TIANGAN[(idxm + this.monthLunar - 1) % 10] + DIZHI[(this.monthLunar + 2-1) % 12];
-//        System.out.println(monthLunar + " = " + monthZhu);
-        return monthZhu;
+        return TIANGAN[(idxm + month - 2) % 10] + DIZHI[(month ) % 12];
     }
+
 
     public String getDayZhu() {
 
@@ -575,21 +581,22 @@ public class Bazi {
     public static void main(String[] args){
 
 
-//        Date s = Date4jUtil.toDate("1902-02-04 12", "yyyy-MM-dd HH");
-//        for(int i = 0 ; i < 130;  i ++) {
-//            Date thedate = Date4jUtil.add(s, i);
-//            Bazi bazi = new Bazi(thedate, 1);
-//            Map<String, Object>  map = bazi.getInfo();
-//
-////            String ba = (String)map.get("bazi");
-////            String lunar = (String)map.get("lunar");
-////            System.out.println(thedate.toLocaleString() + "   ==  " + ba + " " + lunar);
-//
-//            for (Map.Entry<String, Object> entry : map.entrySet()) {
-//                System.out.println(entry.getKey() + " : " + entry.getValue());
-//            }
-//            System.out.println("*****************************************");
-//        }
+//        Date s = Date4jUtil.toDate("1979-11-19 08", "yyyy-MM-dd HH");
+        Date s = Date4jUtil.toDate("1981-05-24 06", "yyyy-MM-dd HH");
+        for(int i = 0 ; i < 1;  i ++) {
+            Date thedate = Date4jUtil.add(s, i);
+            Bazi bazi = new Bazi(thedate, 1);
+            Map<String, Object>  map = bazi.getInfo();
+
+//            String ba = (String)map.get("bazi");
+//            String lunar = (String)map.get("lunar");
+//            System.out.println(thedate.toLocaleString() + "   ==  " + ba + " " + lunar);
+
+            for (Map.Entry<String, Object> entry : map.entrySet()) {
+                System.out.println(entry.getKey() + " : " + entry.getValue());
+            }
+            System.out.println("*****************************************");
+        }
 
 //        Date s1 = Date4jUtil.toDate("1981-05-24 06", "yyyy-MM-dd HH");
 //        Date s1 = Date4jUtil.toDate("1979-11-19 08", "yyyy-MM-dd HH");
@@ -600,8 +607,13 @@ public class Bazi {
 //        System.out.println(new Bazi(Date4jUtil.toDate("1906-02-19 08", "yyyy-MM-dd HH"), 1).getD());
 //        System.out.println(new Bazi(Date4jUtil.toDate("1907-02-19 08", "yyyy-MM-dd HH"), 1).getD());
 //        System.out.println(new Bazi(Date4jUtil.toDate("1908-02-19 08", "yyyy-MM-dd HH"), 1).getD());
-        System.out.println(new Bazi(Date4jUtil.toDate("1980-11-19 08", "yyyy-MM-dd HH"), 1).getD());
-        System.out.println(new Bazi(Date4jUtil.toDate("1979-11-19 08", "yyyy-MM-dd HH"), 1).getD());
+
+//        System.out.println(new Bazi(Date4jUtil.toDate("1980-11-19 08", "yyyy-MM-dd HH"), 1).getD());
+//        System.out.println(new Bazi(Date4jUtil.toDate("1979-11-19 08", "yyyy-MM-dd HH"), 1).getMonthZhu(1979, 11));
+//        System.out.println(new Bazi(Date4jUtil.toDate("1979-11-19 08", "yyyy-MM-dd HH"), 1).getMonthZhu(1964, 1));
+//        System.out.println(new Bazi(Date4jUtil.toDate("1979-11-19 08", "yyyy-MM-dd HH"), 1).getMonthZhu(1964, 2));
+//        System.out.println(new Bazi(Date4jUtil.toDate("1979-11-19 08", "yyyy-MM-dd HH"), 1).getMonthZhu(1964, 3));
+//        System.out.println(new Bazi(Date4jUtil.toDate("1979-11-19 08", "yyyy-MM-dd HH"), 1).getMonthZhu(1964, 4));
 //        System.out.println(new Bazi(Date4jUtil.toDate("1911-02-02 08", "yyyy-MM-dd HH"), 1).getD());
 
 //        Map<String, Object>  map = bazi.getInfo();
